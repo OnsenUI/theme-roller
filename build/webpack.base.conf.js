@@ -20,6 +20,9 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  node: {
+    fs: 'empty'
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -71,6 +74,11 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      // Remove sourcemaps from css parse bugged in browser
+      {
+        test: /source-map/,
+        loader: 'null-loader'
       }
     ]
   }
