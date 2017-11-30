@@ -40,6 +40,23 @@ module.exports = {
         'max': 1,
         'allowFirstLine': false
       }
-    }]
+    }],
+    'no-param-reassign': [
+      'error',
+      {
+        'props': true,
+        'ignorePropertyModificationsFor': [
+          'state',
+          'acc',
+          'e',
+          'ctx',
+          'req',
+          'request',
+          'res',
+          'response',
+          '$scope'
+        ]
+      }
+    ],
   }
 }
