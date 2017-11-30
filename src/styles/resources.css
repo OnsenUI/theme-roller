@@ -1,6 +1,7 @@
 :root {
   --variable-one: red;
   --variable-two: green;
+  --content-padding: 20px;
 
   @custom-media --smallscreen (max-width: 480px);
 }

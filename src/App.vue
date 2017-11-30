@@ -1,34 +1,37 @@
 <template>
-  <div id="app">
-    <div class="content">
-      <TRPreviewList :components="components" />
+  <div class="app">
+    <TRHeaderToolbar />
+    <div class="app__content">
+      <TRPreviewList :components="annotations" />
     </div>
   </div>
 </template>
 
 <script>
 import ancss from 'ancss';
-import axios from 'axios';
+import { mapState, mapMutations } from 'vuex';
+import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
+import api from '@/api';
 
 export default {
   name: 'App',
+
   components: {
+    TRHeaderToolbar,
     TRPreviewList,
   },
+
   data() {
     return {
       styleElement: document.createElement('style'),
     };
   },
+
   computed: {
-    components: {
-      get() {
-        return this.$store.state.components.map(c => c.annotation);
-      },
-      set(value) {
-        this.$store.commit('setComponents', value);
-      },
+    ...mapState(['components', 'versions']),
+    annotations() {
+      return this.components.map(c => c.annotation);
     },
     style: {
       get() {
@@ -39,31 +42,37 @@ export default {
       },
     },
   },
+
   created() {
     this.styleElement.type = 'text/css';
     document.head.insertBefore(this.styleElement, document.querySelector('style'));
 
-    axios
-      .get('https://unpkg.com/onsenui@2.8.2/css/onsen-css-components.css')
-      .then((response) => {
-        this.style = response.data;
-        const components = ancss.parse(response.data, { detect: line => line.match(/^~/) });
-        this.components = components;
-      });
+    api.getCSS().then((css) => {
+      this.style = css;
+      this.setComponents(ancss.parse(css, { detect: line => line.match(/^~/) }));
+    });
+
+    api.getVersions().then((versions) => {
+      this.setVersions(versions);
+    });
+  },
+
+  methods: {
+    ...mapMutations(['setComponents', 'setVersions']),
   },
 };
 </script>
 
-<style>
-#app {
+<style scoped>
+.app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
 
-.content {
-  padding: 20px;
+.app__content {
+  padding: var(--content-padding);
   margin: 10px 0 50vh;
 }
 </style>

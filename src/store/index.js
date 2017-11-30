@@ -6,10 +6,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     components: [],
+    versions: [],
   },
   mutations: {
-    setComponents(state, components) {
-      state.components = components;
+    setComponents(state, payload) {
+      state.components = payload;
+    },
+    setVersions(state, payload) {
+      state.versions = payload;
     },
   },
 });
