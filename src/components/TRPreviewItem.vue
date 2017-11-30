@@ -2,7 +2,10 @@
   <div class="tr-preview-item">
     <a class="tr-preview-item__title">{{ component.name }}</a>
 
-    <div class="page tr-preview-item__box">
+    <div
+      class="page tr-preview-item__box"
+      :class="component.name.toLowerCase().indexOf('material') !== -1 && 'page--material'"
+    >
       <div
         style="width: 100%;"
         v-html="component.markup"
@@ -15,7 +18,7 @@
 
 <script>
 export default {
-  name: 'PreviewItem',
+  name: 'TRPreviewItem',
   props: {
     component: {
       type: Object,
@@ -65,5 +68,14 @@ export default {
   border-radius: 3px;
   width: 350px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+
+
+  @media (--smallscreen) {
+    width: auto;
+    border-radius: 0;
+    margin-right: -10px;
+    margin-left: -10px;
+    box-shadow: none;
+  }
 }
 </style>

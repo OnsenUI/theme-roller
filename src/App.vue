@@ -1,18 +1,25 @@
 <template>
   <div id="app">
-    <PreviewList :components="components" />
+    <div class="content">
+      <TRPreviewList :components="components" />
+    </div>
   </div>
 </template>
 
 <script>
 import ancss from 'ancss';
 import axios from 'axios';
-import PreviewList from '@/components/PreviewList';
+import TRPreviewList from '@/components/TRPreviewList';
 
 export default {
   name: 'App',
   components: {
-    PreviewList,
+    TRPreviewList,
+  },
+  data() {
+    return {
+      styleElement: document.createElement('style'),
+    };
   },
   computed: {
     components: {
@@ -23,11 +30,23 @@ export default {
         this.$store.commit('setComponents', value);
       },
     },
+    style: {
+      get() {
+        return this.styleElement.textContent;
+      },
+      set(style) {
+        this.styleElement.textContent = style;
+      },
+    },
   },
-  mounted() {
+  created() {
+    this.styleElement.type = 'text/css';
+    document.head.insertBefore(this.styleElement, document.querySelector('style'));
+
     axios
       .get('https://unpkg.com/onsenui@2.8.2/css/onsen-css-components.css')
       .then((response) => {
+        this.style = response.data;
         const components = ancss.parse(response.data, { detect: line => line.match(/^~/) });
         this.components = components;
       });
@@ -40,8 +59,11 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.content {
+  padding: 20px;
+  margin: 10px 0 50vh;
 }
 </style>
