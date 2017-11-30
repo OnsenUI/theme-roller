@@ -38,6 +38,14 @@ exports.cssLoaders = function (options) {
           sourceMap: options.sourceMap
         })
       })
+    } else {
+      loaders.push({
+        // Can be used for any preprocessor, not only SASS
+        loader: 'sass-resources-loader',
+        options: {
+          resources: path.resolve(__dirname, '../src/styles/resources.css')
+        }
+      })
     }
 
     // Extract CSS when that option is specified
