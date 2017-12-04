@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <TRHeaderToolbar />
+    <TRHeaderToolbar @version="fetchContent" @theme="updateTheme" />
     <div class="app__content">
       <TRPreviewList :components="annotations" />
     </div>
@@ -49,22 +49,23 @@ export default {
 
     api.getVersions().then((versions) => {
       this.setVersions(versions);
-
-      const latest = versions[0];
-
-      api.getCSS(latest).then((css) => {
-        this.style = css;
-        this.setComponents(ancss.parse(css, { detect: line => line.match(/^~/) }));
-      });
-
-      api.getThemes(latest).then((themes) => {
-        this.setThemes(themes);
-      });
+      this.fetchContent(versions[0]);
     });
   },
 
   methods: {
     ...mapMutations(['setComponents', 'setVersions', 'setThemes']),
+    fetchContent(version) {
+      api.getCSS(version).then((css) => {
+        this.style = css;
+        this.setComponents(ancss.parse(css, { detect: line => line.match(/^~/) }));
+      });
+
+      api.getThemes(version).then(themes => this.setThemes(themes));
+    },
+    updateTheme(event) {
+      console.dir(event.name);
+    },
   },
 };
 </script>
