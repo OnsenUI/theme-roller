@@ -5,10 +5,12 @@
       <TRSelect
         label="Onsen UI Version"
         :options="versions"
+        @change="$emit('version', versions[$event.target.value])"
       />
       <TRSelect
         label="Theme Preset"
-        :options="themeNames"
+        :options="themes.map(t => t.label)"
+        @change="$emit('theme', themes[$event.target.value].theme)"
       />
     </div>
   </div>
@@ -27,13 +29,6 @@ export default {
 
   computed: {
     ...mapState(['versions', 'themes']),
-    themeNames() {
-      const makeName = n => n.replace('-', ' ').replace(/(^|\s)([a-z])/g, m => m.toUpperCase());
-      return this.themes.map((theme) => {
-        const name = theme.name.split('.')[0];
-        return name === 'theme' ? 'Default' : makeName(name);
-      });
-    },
   },
 };
 </script>

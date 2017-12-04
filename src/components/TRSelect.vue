@@ -2,19 +2,22 @@
   <label class="tr-select">
     <span class="tr-select__label">{{ label }}</span>
 
-    <select class="tr-select__input">
+    <select
+      class="tr-select__input"
+      v-on="$listeners"
+    >
       <option
         v-if="options.length === 0"
-        value=""
+        value="-1"
         selected
       >
         Choose
       </option>
 
       <option
-        v-for="option in options"
+        v-for="(option, $index) in options"
         :key="option"
-        :value="option"
+        :value="$index"
       >
         {{ option }}
       </option>

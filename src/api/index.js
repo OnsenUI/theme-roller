@@ -20,8 +20,19 @@ export default {
   getThemes(version) {
     const url = `https://api.github.com/repos/OnsenUI/OnsenUI-dist/contents/css-components-src/src?ref=${version}`;
     const filter = items => items
-      .filter(i => /theme.css$/.test(i.name))
-      .sort((a, b) => a.name.length > b.name.length);
+      .reduce((result, theme) => {
+        if (/theme.css$/.test(theme.name)) {
+          result.push({
+            theme,
+            label: theme.name === 'theme.css'
+              ? 'Default'
+              : theme.name.split('.')[0].replace('-', ' ').replace(/(^|\s)([a-z])/g, m => m.toUpperCase()),
+          });
+        }
+
+        return result;
+      }, [])
+      .sort((a, b) => a.theme.name.length > b.theme.name.length);
 
     return request(url, { filter });
   },
