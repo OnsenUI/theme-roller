@@ -8,7 +8,7 @@
       />
       <TRSelect
         label="Theme Preset"
-        :options="[]"
+        :options="themeNames"
       />
     </div>
   </div>
@@ -26,7 +26,14 @@ export default {
   },
 
   computed: {
-    ...mapState(['versions']),
+    ...mapState(['versions', 'themes']),
+    themeNames() {
+      const makeName = n => n.replace('-', ' ').replace(/(^|\s)([a-z])/g, m => m.toUpperCase());
+      return this.themes.map((theme) => {
+        const name = theme.name.split('.')[0];
+        return name === 'theme' ? 'Default' : makeName(name);
+      });
+    },
   },
 };
 </script>

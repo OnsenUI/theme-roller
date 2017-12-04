@@ -17,4 +17,12 @@ export default {
 
     return request(url, { filter });
   },
+  getThemes(version) {
+    const url = `https://api.github.com/repos/OnsenUI/OnsenUI-dist/contents/css-components-src/src?ref=${version}`;
+    const filter = items => items
+      .filter(i => /theme.css$/.test(i.name))
+      .sort((a, b) => a.name.length > b.name.length);
+
+    return request(url, { filter });
+  },
 };

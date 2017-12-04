@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     components: [],
     versions: [],
+    themes: [],
   },
   mutations: {
     setComponents(state, payload) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     setVersions(state, payload) {
       state.versions = payload;
+    },
+    setThemes(state, payload) {
+      state.themes = payload;
     },
   },
 });

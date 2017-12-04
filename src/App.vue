@@ -56,11 +56,15 @@ export default {
         this.style = css;
         this.setComponents(ancss.parse(css, { detect: line => line.match(/^~/) }));
       });
+
+      api.getThemes(latest).then((themes) => {
+        this.setThemes(themes);
+      });
     });
   },
 
   methods: {
-    ...mapMutations(['setComponents', 'setVersions']),
+    ...mapMutations(['setComponents', 'setVersions', 'setThemes']),
   },
 };
 </script>
