@@ -29,7 +29,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['components', 'versions']),
+    ...mapState(['components']),
     annotations() {
       return this.components.map(c => c.annotation);
     },
@@ -47,13 +47,15 @@ export default {
     this.styleElement.type = 'text/css';
     document.head.insertBefore(this.styleElement, document.querySelector('style'));
 
-    api.getCSS().then((css) => {
-      this.style = css;
-      this.setComponents(ancss.parse(css, { detect: line => line.match(/^~/) }));
-    });
-
     api.getVersions().then((versions) => {
       this.setVersions(versions);
+
+      const latest = versions[0];
+
+      api.getCSS(latest).then((css) => {
+        this.style = css;
+        this.setComponents(ancss.parse(css, { detect: line => line.match(/^~/) }));
+      });
     });
   },
 

@@ -1,26 +1,20 @@
-import axios from 'axios';
-import cache from '@/api/cache';
-
-const get = (uri, filter = res => res) => {
-  if (cache.get(uri)) {
-    return Promise.resolve(cache.get(uri));
-  }
-
-  return axios.get(uri)
-    .then(res => cache.set(uri, filter(res.data)));
-};
+import request from '@/api/request';
 
 export default {
-  getCSS(version = 'latest') {
+  getCSS(version) {
     const url = `https://unpkg.com/onsenui@${version}/css/onsen-css-components.css`;
-    return get(url);
+    const headers = { 'Content-Type': 'text/css' };
+
+    return request(url, { headers });
   },
   getVersions() {
     const url = 'https://api.github.com/repos/OnsenUI/OnsenUI-dist/releases';
-    return get(url, items => items
+    const filter = items => items
       .map(i => i.tag_name)
       .filter(i => i >= '2.2.0')
       .sort()
-      .reverse());
+      .reverse();
+
+    return request(url, { filter });
   },
 };
