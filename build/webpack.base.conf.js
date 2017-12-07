@@ -33,6 +33,8 @@ module.exports = {
     }
   },
   module: {
+    exprContextRegExp: /$^/,
+    exprContextCritical: false,
     rules: [
       ...(config.dev.useEslint? [{
         test: /\.(js|vue)$/,
