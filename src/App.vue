@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapMutationState } from '@/store';
 import ancss from 'ancss';
 import postcss from 'postcss';
 import postcssCssnext from 'postcss-cssnext';
@@ -37,9 +37,9 @@ export default {
   },
 
   computed: {
-    ...mapState(['components']),
+    ...mapMutationState(['cssComponents', 'versions', 'themes']),
     annotations() {
-      return this.components.map(c => c.annotation);
+      return this.cssComponents.map(c => c.annotation);
     },
     style: {
       get() {
@@ -73,9 +73,9 @@ export default {
       })
         .then((css) => {
           this.style = css;
-          this.setComponents(ancss.parse(css, {
+          this.cssComponents = ancss.parse(css, {
             detect: line => line.match(/^~/),
-          }));
+          });
         });
     },
   },
@@ -87,8 +87,8 @@ export default {
 
     Promise.all([api.getVersions(), api.getBrowserslist()])
       .then(([versions, browserslist]) => {
+        this.versions = versions;
         [this.version] = versions;
-        this.setVersions(versions);
         this.browserslist = browserslist;
         this.updateContent(this.version);
       });
@@ -100,7 +100,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setComponents', 'setVersions', 'setThemes']),
     fetchRootCSS(version) {
       return this.processCSS({
         from: api.urls.cssComponents(version),
@@ -113,7 +112,7 @@ export default {
     },
     fetchThemes(version) {
       return api.getThemes(version).then((themes) => {
-        this.setThemes(themes);
+        this.themes = themes;
         return this.fetchThemeCSS(version, themes[0].theme.name);
       });
     },

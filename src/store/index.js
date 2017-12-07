@@ -3,21 +3,37 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    components: [],
-    versions: [],
-    themes: [],
-  },
-  mutations: {
-    setComponents(state, payload) {
-      state.components = payload;
-    },
-    setVersions(state, payload) {
-      state.versions = payload;
-    },
-    setThemes(state, payload) {
-      state.themes = payload;
-    },
-  },
+const stateLike = {
+  cssComponents: [],
+  versions: [],
+  themes: [],
+};
+
+const createMutations = () =>
+  Object.keys(stateLike)
+    .reduce((mutations, key) => ({
+      ...mutations,
+      [key](state, payload) {
+        state[key] = payload;
+      },
+    }), { });
+
+const store = new Vuex.Store({
+  state: { ...stateLike },
+  mutations: createMutations(),
 });
+
+export const mapMutationState = states =>
+  states.reduce((computed, key) => ({
+    ...computed,
+    [key]: {
+      get() {
+        return store.state[key];
+      },
+      set(value) {
+        store.commit(key, value);
+      },
+    },
+  }), { });
+
+export default store;
