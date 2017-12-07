@@ -5,6 +5,7 @@ import router from './router';
 import './styles/global.css';
 
 Vue.config.productionTip = false;
+Vue.prototype.$log = (...args) => console.log(...args); // eslint-disable-line no-console
 
 /* eslint-disable no-new */
 new Vue({

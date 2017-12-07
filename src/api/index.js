@@ -1,8 +1,17 @@
 import request from '@/api/request';
 
 export default {
-  getCSS(version) {
-    const url = `https://unpkg.com/onsenui@${version}/css/onsen-css-components.css`;
+  get: request,
+
+  getRootCSS(version) {
+    const url = `https://unpkg.com/onsenui@${version}/css-components-src/src/onsen-css-components.css`;
+    const headers = { 'Content-Type': 'text/css' };
+
+    return request(url, { headers })
+      .then(css => ({ css, url }));
+  },
+  getThemeCSS(version, name) {
+    const url = `https://unpkg.com/onsenui@${version}/css-components-src/src/${name}`;
     const headers = { 'Content-Type': 'text/css' };
 
     return request(url, { headers });

@@ -1,11 +1,12 @@
 <template>
-  <div class="">
+  <div>
+    <span />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'placeholder',
+  name: 'Placeholder',
   components: {
   },
   props: {

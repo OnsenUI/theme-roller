@@ -1,7 +1,7 @@
 import axios from 'axios';
 import cache from '@/api/cache';
 
-function request(uri, {
+export default function request(uri, {
   filter = res => res,
   headers = { 'Content-Type': 'application/json' },
 } = {}) {
@@ -12,5 +12,3 @@ function request(uri, {
   return axios.get(uri, { headers })
     .then(res => cache.set(uri, filter(res.data)));
 }
-
-export default request;

@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <TRHeaderToolbar @version="fetchContent" @theme="updateTheme" />
+    <TRHeaderToolbar @version="updateContent" @theme="updateTheme" />
     <div class="app__content">
       <TRPreviewList :components="annotations" />
     </div>
@@ -8,8 +8,11 @@
 </template>
 
 <script>
-import ancss from 'ancss';
 import { mapState, mapMutations } from 'vuex';
+import ancss from 'ancss';
+import postcss from 'postcss';
+import cssnext from 'postcss-cssnext';
+import urlResolver from 'postcss-url-resolver';
 import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
@@ -25,6 +28,8 @@ export default {
   data() {
     return {
       styleElement: document.createElement('style'),
+      rootCSS: '',
+      theme: '',
     };
   },
 
@@ -41,6 +46,21 @@ export default {
         this.styleElement.textContent = style;
       },
     },
+    preCompiledCSS() {
+      return this.rootCSS.replace(/^(\s*@import.+theme\.css.+\n)/m, this.theme);
+    },
+  },
+
+  watch: {
+    preCompiledCSS(precss) {
+      postcss([cssnext])
+        .process(precss)
+        .then((result) => {
+          this.style = result.css;
+          this.setComponents(ancss.parse(result.css, { detect: line => line.match(/^~/) }));
+          return result.css;
+        });
+    },
   },
 
   created() {
@@ -48,23 +68,57 @@ export default {
     document.head.insertBefore(this.styleElement, document.querySelector('style'));
 
     api.getVersions().then((versions) => {
+      [this.version] = versions;
       this.setVersions(versions);
-      this.fetchContent(versions[0]);
+      this.updateContent(this.version);
     });
+  },
+
+  beforeDestroy() {
+    this.styleElement.remove();
+    this.styleElement = null;
   },
 
   methods: {
     ...mapMutations(['setComponents', 'setVersions', 'setThemes']),
-    fetchContent(version) {
-      api.getCSS(version).then((css) => {
-        this.style = css;
-        this.setComponents(ancss.parse(css, { detect: line => line.match(/^~/) }));
+    fetchThemes(version) {
+      return api.getThemes(version).then((themes) => {
+        this.setThemes(themes);
+        return this.fetchThemeCSS(version, themes[0].theme.name);
       });
-
-      api.getThemes(version).then(themes => this.setThemes(themes));
     },
-    updateTheme(event) {
-      console.dir(event.name);
+    fetchRootCSS(version) {
+      const url = `https://unpkg.com/onsenui@${version}/css-components-src/src/onsen-css-components.css`;
+      const css = `@import url('${url}');`;
+
+      return postcss([
+        urlResolver({
+          request: opt => api.get(opt.href),
+          base64: true,
+          exclude: /theme.css$/,
+        }),
+      ])
+        .process(css, { from: url })
+        .then(res => res.css);
+    },
+    fetchThemeCSS(version, name) {
+      return api.getThemeCSS(version, name);
+    },
+    updateContent(version) {
+      Promise.all([
+        this.fetchRootCSS(version),
+        this.fetchThemes(version),
+      ])
+        .then((result) => {
+          this.version = version;
+          [this.rootCSS, this.theme] = result;
+        });
+    },
+    updateTheme(name) {
+      this.fetchThemeCSS(this.version, name)
+        .then((theme) => {
+          this.theme = theme;
+        });
     },
   },
 };

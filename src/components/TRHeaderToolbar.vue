@@ -10,7 +10,7 @@
       <TRSelect
         label="Theme Preset"
         :options="themes.map(t => t.label)"
-        @change="$emit('theme', themes[$event.target.value].theme)"
+        @change="$emit('theme', themes[$event.target.value].theme.name)"
       />
     </div>
   </div>
