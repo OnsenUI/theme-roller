@@ -8,10 +8,17 @@ export default {
 
   urls: {
     cssComponents: version => `${cdn}@${version}/css-components-src/src/onsen-css-components.css`,
+    componentsIndex: version => `${cdn}@${version}/css-components-src/src/components/index.css`,
   },
 
   getThemeCSS(version, name) {
     const url = `${cdn}@${version}/css-components-src/src/${name}`;
+    const headers = { 'Content-Type': 'text/css' };
+
+    return request(url, { headers });
+  },
+  getComponentsIndex(version) {
+    const url = this.urls.componentsIndex(version);
     const headers = { 'Content-Type': 'text/css' };
 
     return request(url, { headers });

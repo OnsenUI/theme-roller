@@ -11,8 +11,8 @@
 import { mapState, mapMutations } from 'vuex';
 import ancss from 'ancss';
 import postcss from 'postcss';
-import cssnext from 'postcss-cssnext';
-import urlResolver from 'postcss-url-resolver';
+import postcssCssnext from 'postcss-cssnext';
+import postcssUrlResolver from 'postcss-url-resolver';
 import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
@@ -30,6 +30,7 @@ export default {
       styleElement: document.createElement('style'),
       rootCSS: '',
       theme: '',
+      componentsIndex: '',
       browserslist: [],
     };
   },
@@ -48,13 +49,20 @@ export default {
       },
     },
     preCompiledCSS() {
-      return this.rootCSS.replace(/^(\s*@import.+theme\.css.+\n)/m, this.theme);
+      return this.rootCSS
+        .replace(/^(\s*@import.+theme\.css.+\n)/m, this.theme)
+        .replace(/^(\s*@import.+components\/index\.css.+\n)/m, this.componentsIndex);
     },
   },
 
   watch: {
     preCompiledCSS(precss) {
-      this.processCSS(precss)
+      this.processCSS({
+        css: precss,
+        cssnext: true,
+        from: api.urls.componentsIndex(this.version),
+        base64: true,
+      })
         .then((css) => {
           this.style = css;
           this.setComponents(ancss.parse(css, {
@@ -86,9 +94,10 @@ export default {
   methods: {
     ...mapMutations(['setComponents', 'setVersions', 'setThemes']),
     fetchRootCSS(version) {
-      return this.getRemoteCSS(api.urls.cssComponents(version), {
+      return this.processCSS({
+        from: api.urls.cssComponents(version),
         base64: true,
-        exclude: /theme.css$/,
+        exclude: /(theme|components\/index).css$/,
       });
     },
     fetchThemeCSS(version, name) {
@@ -100,8 +109,17 @@ export default {
         return this.fetchThemeCSS(version, themes[0].theme.name);
       });
     },
+    fetchComponentsIndex(version) {
+      return api.getComponentsIndex(version).then((index) => {
+        this.componentsIndex = index;
+      });
+    },
     updateContent(version) {
-      Promise.all([this.fetchRootCSS(version), this.fetchThemes(version)])
+      Promise.all([
+        this.fetchRootCSS(version),
+        this.fetchThemes(version),
+        this.fetchComponentsIndex(version),
+      ])
         .then((result) => {
           this.version = version;
           [this.rootCSS, this.theme] = result;
@@ -113,17 +131,29 @@ export default {
           this.theme = theme;
         });
     },
-    processCSS(css) {
-      return postcss([cssnext({ browsers: this.browserslist })])
-        .process(css)
-        .then(result => result.css);
-    },
-    getRemoteCSS(url, options = {}) {
-      return postcss([urlResolver({
-        request: opt => api.get(opt.href),
-        ...options,
-      })])
-        .process(`@import url('${url}');`)
+    processCSS({
+      from = '',
+      base64 = false,
+      exclude = null,
+      css = `@import url('${from}');`,
+      cssnext = false,
+    } = {}) {
+      const plugins = [];
+
+      if (from) {
+        plugins.push(postcssUrlResolver({
+          request: opt => api.get(opt.href),
+          base64,
+          exclude,
+        }));
+      }
+
+      if (cssnext) {
+        plugins.push(postcssCssnext({ browsers: this.browserslist }));
+      }
+
+      return postcss(plugins)
+        .process(css, { from })
         .then(result => result.css);
     },
   },
