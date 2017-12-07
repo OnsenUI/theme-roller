@@ -1,4 +1,5 @@
 import request from '@/api/request';
+import util from '@/util';
 
 const cdn = 'https://unpkg.com/onsenui';
 const repo = 'https://api.github.com/repos/OnsenUI/OnsenUI-dist/';
@@ -42,7 +43,7 @@ export default {
             theme,
             label: theme.name === 'theme.css'
               ? 'Default'
-              : theme.name.split('.')[0].replace('-', ' ').replace(/(^|\s)([a-z])/g, m => m.toUpperCase()),
+              : util.toLabel(theme.name.split('.')[0]),
           });
         }
 

@@ -16,6 +16,7 @@ import postcssUrlResolver from 'postcss-url-resolver';
 import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
+import util from '@/util';
 
 export default {
   name: 'App',
@@ -52,6 +53,13 @@ export default {
       return this.rootCSS
         .replace(/^(\s*@import.+theme\.css.+\n)/m, this.theme)
         .replace(/^(\s*@import.+components\/index\.css.+\n)/m, this.componentsIndex);
+    },
+    componentsList() {
+      return this.componentsIndex
+        .match(/'([./-\w]+)\.css'/img)
+        .filter(m => !/(global|util|combination)/i.test(m))
+        .map(m => util.toLabel(m.slice(3, -5)))
+        .sort();
     },
   },
 
