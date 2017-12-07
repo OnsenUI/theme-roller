@@ -3,14 +3,17 @@
     <h1>Theme Roller</h1>
     <div class="tr-toolbar">
       <TRSelect
+        width="80px"
         label="Onsen UI Version"
         :options="versions"
-        @change="$emit('version', versions[$event.target.value])"
+        @change="versionChange"
       />
       <TRSelect
+        width="120px"
         label="Theme Preset"
         :options="themes.map(t => t.label)"
-        @change="$emit('theme', themes[$event.target.value].theme.name)"
+        :key-prefix="version"
+        @change="themeChange"
       />
     </div>
   </div>
@@ -27,8 +30,24 @@ export default {
     TRSelect,
   },
 
+  data() {
+    return {
+      version: '',
+    };
+  },
+
   computed: {
     ...mapState(['versions', 'themes']),
+  },
+
+  methods: {
+    versionChange(event) {
+      this.version = this.versions[event.target.value] || '';
+      this.$emit('version', this.version);
+    },
+    themeChange(event) {
+      this.$emit('theme', this.themes[event.target.value].theme.name);
+    },
   },
 };
 </script>

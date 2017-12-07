@@ -5,18 +5,19 @@
     <select
       class="tr-select__input"
       v-on="$listeners"
+      :style="{ width }"
     >
       <option
         v-if="options.length === 0"
         value="-1"
         selected
       >
-        Choose
+        Loading
       </option>
 
       <option
         v-for="(option, $index) in options"
-        :key="option"
+        :key="keyPrefix + option"
         :value="$index"
       >
         {{ option }}
@@ -39,6 +40,14 @@ export default {
       default() {
         return [];
       },
+    },
+    keyPrefix: {
+      type: String,
+      default: '',
+    },
+    width: {
+      type: String,
+      default: '',
     },
   },
 };
@@ -70,7 +79,7 @@ export default {
   line-height: 25px;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  padding: 0 20px 0 4px;
+  padding: 0 20px 0 8px;
   color: #222;
   position: relative;
   background-repeat: no-repeat;
