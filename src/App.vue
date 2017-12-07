@@ -30,6 +30,7 @@ export default {
       styleElement: document.createElement('style'),
       rootCSS: '',
       theme: '',
+      browserslist: [],
     };
   },
 
@@ -53,7 +54,7 @@ export default {
 
   watch: {
     preCompiledCSS(precss) {
-      postcss([cssnext])
+      postcss([cssnext({ browsers: this.browserslist })])
         .process(precss)
         .then((result) => {
           this.style = result.css;
@@ -64,14 +65,17 @@ export default {
   },
 
   created() {
+    this.styleElement.id = 'onsen-css-components';
     this.styleElement.type = 'text/css';
     document.head.insertBefore(this.styleElement, document.querySelector('style'));
 
-    api.getVersions().then((versions) => {
-      [this.version] = versions;
-      this.setVersions(versions);
-      this.updateContent(this.version);
-    });
+    Promise.all([api.getVersions(), api.getBrowserslist()])
+      .then(([versions, browserslist]) => {
+        [this.version] = versions;
+        this.setVersions(versions);
+        this.browserslist = browserslist;
+        this.updateContent(this.version);
+      });
   },
 
   beforeDestroy() {
@@ -88,7 +92,7 @@ export default {
       });
     },
     fetchRootCSS(version) {
-      const url = `https://unpkg.com/onsenui@${version}/css-components-src/src/onsen-css-components.css`;
+      const url = api.urls.cssComponents(version);
       const css = `@import url('${url}');`;
 
       return postcss([
