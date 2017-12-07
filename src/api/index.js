@@ -7,7 +7,7 @@ export default {
   get: request,
 
   urls: {
-    cssComponents: version =>  `${cdn}@${version}/css-components-src/src/onsen-css-components.css`,
+    cssComponents: version => `${cdn}@${version}/css-components-src/src/onsen-css-components.css`,
   },
 
   getThemeCSS(version, name) {

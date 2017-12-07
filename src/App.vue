@@ -54,12 +54,12 @@ export default {
 
   watch: {
     preCompiledCSS(precss) {
-      postcss([cssnext({ browsers: this.browserslist })])
-        .process(precss)
-        .then((result) => {
-          this.style = result.css;
-          this.setComponents(ancss.parse(result.css, { detect: line => line.match(/^~/) }));
-          return result.css;
+      this.processCSS(precss)
+        .then((css) => {
+          this.style = css;
+          this.setComponents(ancss.parse(css, {
+            detect: line => line.match(/^~/),
+          }));
         });
     },
   },
@@ -67,7 +67,7 @@ export default {
   created() {
     this.styleElement.id = 'onsen-css-components';
     this.styleElement.type = 'text/css';
-    document.head.insertBefore(this.styleElement, document.querySelector('style'));
+    document.head.insertBefore(this.styleElement, document.head.querySelector('style'));
 
     Promise.all([api.getVersions(), api.getBrowserslist()])
       .then(([versions, browserslist]) => {
@@ -85,34 +85,23 @@ export default {
 
   methods: {
     ...mapMutations(['setComponents', 'setVersions', 'setThemes']),
+    fetchRootCSS(version) {
+      return this.getRemoteCSS(api.urls.cssComponents(version), {
+        base64: true,
+        exclude: /theme.css$/,
+      });
+    },
+    fetchThemeCSS(version, name) {
+      return api.getThemeCSS(version, name);
+    },
     fetchThemes(version) {
       return api.getThemes(version).then((themes) => {
         this.setThemes(themes);
         return this.fetchThemeCSS(version, themes[0].theme.name);
       });
     },
-    fetchRootCSS(version) {
-      const url = api.urls.cssComponents(version);
-      const css = `@import url('${url}');`;
-
-      return postcss([
-        urlResolver({
-          request: opt => api.get(opt.href),
-          base64: true,
-          exclude: /theme.css$/,
-        }),
-      ])
-        .process(css, { from: url })
-        .then(res => res.css);
-    },
-    fetchThemeCSS(version, name) {
-      return api.getThemeCSS(version, name);
-    },
     updateContent(version) {
-      Promise.all([
-        this.fetchRootCSS(version),
-        this.fetchThemes(version),
-      ])
+      Promise.all([this.fetchRootCSS(version), this.fetchThemes(version)])
         .then((result) => {
           this.version = version;
           [this.rootCSS, this.theme] = result;
@@ -123,6 +112,19 @@ export default {
         .then((theme) => {
           this.theme = theme;
         });
+    },
+    processCSS(css) {
+      return postcss([cssnext({ browsers: this.browserslist })])
+        .process(css)
+        .then(result => result.css);
+    },
+    getRemoteCSS(url, options = {}) {
+      return postcss([urlResolver({
+        request: opt => api.get(opt.href),
+        ...options,
+      })])
+        .process(`@import url('${url}');`)
+        .then(result => result.css);
     },
   },
 };
