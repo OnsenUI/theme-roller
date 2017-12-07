@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path')
 const utils = require('./utils')
+const webpack = require('webpack')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
@@ -27,6 +28,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       '@': resolve('src'),
+      // FIX: pffsu is not browserifiable
+      'postcss-font-family-system-ui$': resolve('build/pffsu-monkeypatch.js'),
     }
   },
   module: {
@@ -49,7 +52,33 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('test')],
+      },
+      {
+        // FIX: Some modules must be transpiled
+        test: /\.m?js$/,
+        loader: 'babel-loader',
+        include: [
+          /ansi-styles/,
+          /chalk/,
+          /postcss-.*selector/,
+          /postcss-apply/,
+          /postcss-color-rebeccapurple/,
+          /postcss-cssnext/,
+          /postcss-custom-properties/,
+          /postcss-font-family-system-ui/,
+          /postcss-nesting/,
+          /postcss-replace-overflow-wrap/,
+          /postcss-pseudo/,
+          /rgb-hex/,
+        ],
+        query: {
+          // FIX: Babel can't resolve nested presets properly
+          presets: [
+            require.resolve('babel-preset-env'),
+            require.resolve('babel-preset-react'),
+          ]
+        }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -75,11 +104,14 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
-      // Remove sourcemaps from css parse bugged in browser
       {
+        // FIX: Remove sourcemaps from css parse bugged in browser
         test: /source-map/,
         loader: 'null-loader'
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.IgnorePlugin(/caniuse-lite\/data\/regions/),
+  ]
 }
