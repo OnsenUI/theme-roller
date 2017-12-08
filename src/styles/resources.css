@@ -1,6 +1,6 @@
 :root {
   --variable-one: red;
-  --variable-two: green;
+  --border-color: #dbdbdb;
   --content-padding: 20px;
 
   @custom-media --smallscreen (max-width: 480px);

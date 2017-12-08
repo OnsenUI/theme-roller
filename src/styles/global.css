@@ -1,3 +1,13 @@
 body {
   overflow: auto !important;
 }
+
+ol, ul {
+	list-style: none;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
