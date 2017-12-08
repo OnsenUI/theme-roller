@@ -2,7 +2,7 @@
   <div class="app">
     <TRSide class="app__side" />
     <div class="app__main">
-      <TRHeaderToolbar @version="updateContent" @theme="updateTheme" />
+      <TRHeaderToolbar @version="updateAllContent" @theme="updateOnlyTheme" />
       <div class="app__content">
         <TRPreviewList />
       </div>
@@ -59,24 +59,10 @@ export default {
     preCompiledCSS() {
       return this.rootCSS
         .replace(/^(\s*@import.+theme\.css.+\n)/m, this.theme)
-        .replace(/^(\s*@import.+components\/index\.css.+\n)/m, this.customComponentsIndex || this.fullComponentsIndex);
-    },
-  },
-
-  watch: {
-    preCompiledCSS(precss) {
-      this.processCSS({
-        css: precss,
-        cssnext: true,
-        from: api.urls.componentsIndex(this.version),
-        base64: true,
-      })
-        .then((css) => {
-          this.style = css;
-          this.cssComponents = ancss.parse(css, {
-            detect: line => line.match(/^~/),
-          });
-        });
+        .replace(
+          /^(\s*@import.+components\/index\.css.+)$/m,
+          this.customComponentsIndex || this.fullComponentsIndex,
+        );
     },
   },
 
@@ -88,9 +74,8 @@ export default {
     Promise.all([api.getVersions(), api.getBrowserslist()])
       .then(([versions, browserslist]) => {
         this.versions = versions;
-        [this.version] = versions;
         this.browserslist = browserslist;
-        this.updateContent(this.version);
+        this.updateAllContent(versions[0]);
       });
   },
 
@@ -107,21 +92,16 @@ export default {
         exclude: /(theme|components\/index).css$/,
       });
     },
-    fetchThemeCSS(version, name) {
-      return api.getThemeCSS(version, name);
-    },
     fetchThemes(version) {
       return api.getThemes(version).then((themes) => {
         this.themes = themes;
-        return this.fetchThemeCSS(version, themes[0].theme.name);
+        return api.getThemeCSS(version, themes[0].theme.name);
       });
     },
     fetchComponentsIndex(version) {
-      return api.getComponentsIndex(version).then((index) => {
-        this.fullComponentsIndex = index;
-      });
+      return api.getComponentsIndex(version);
     },
-    updateContent(version) {
+    updateAllContent(version) {
       Promise.all([
         this.fetchRootCSS(version),
         this.fetchThemes(version),
@@ -129,13 +109,20 @@ export default {
       ])
         .then((result) => {
           this.version = version;
-          [this.rootCSS, this.theme] = result;
+          [this.rootCSS, this.theme, this.fullComponentsIndex] = result;
+
+          this.compile().then((css) => {
+            this.cssComponents = ancss.parse(css, {
+              detect: line => line.match(/^~/),
+            });
+          });
         });
     },
-    updateTheme(name) {
-      this.fetchThemeCSS(this.version, name)
+    updateOnlyTheme(name) {
+      api.getThemeCSS(this.version, name)
         .then((theme) => {
           this.theme = theme;
+          this.compile();
         });
     },
     processCSS({
@@ -159,9 +146,26 @@ export default {
         plugins.push(postcssCssnext({ browsers: this.browserslist }));
       }
 
-      return postcss(plugins)
-        .process(css, { from })
-        .then(result => result.css);
+      // Postcss is synchronous...
+      return new Promise((resolve) => {
+        setTimeout(() =>
+          resolve(postcss(plugins)
+            .process(css, { from })
+            .then(result => result.css)));
+      });
+    },
+
+    compile() {
+      return this.processCSS({
+        css: this.preCompiledCSS,
+        cssnext: true,
+        from: api.urls.componentsIndex(this.version),
+        base64: true,
+      })
+        .then((css) => {
+          this.style = css;
+          return css;
+        });
     },
   },
 };

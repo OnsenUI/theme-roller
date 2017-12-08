@@ -28,7 +28,7 @@ export default {
     const url = `${repo}releases`;
     const filter = items => items
       .map(i => i.tag_name)
-      .filter(i => i >= '2.2.0')
+      .filter(i => i >= '2.6.0')
       .sort()
       .reverse();
 
