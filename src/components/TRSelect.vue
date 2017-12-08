@@ -2,27 +2,28 @@
   <label class="tr-select">
     <span class="tr-select__label">{{ label }}</span>
 
-    <select
-      class="tr-select__input"
-      v-on="$listeners"
-      :style="{ width }"
-    >
-      <option
-        v-if="options.length === 0"
-        value="-1"
-        selected
+    <span class="tr-select__input">
+      <select
+        v-on="$listeners"
+        :style="{ width }"
       >
-        Loading
-      </option>
+        <option
+          v-if="options.length === 0"
+          value="-1"
+          selected
+        >
+          Loading
+        </option>
 
-      <option
-        v-for="(option, $index) in options"
-        :key="keyPrefix + option"
-        :value="$index"
-      >
-        {{ option }}
-      </option>
-    </select>
+        <option
+          v-for="(option, $index) in options"
+          :key="keyPrefix + option"
+          :value="$index"
+        >
+          {{ option }}
+        </option>
+      </select>
+    </span>
   </label>
 </template>
 
@@ -54,7 +55,7 @@ export default {
 </script>
 
 <style scoped>
-.tr-select {
+.tr-select__input {
   position: relative;
 
   &:after {
@@ -64,7 +65,7 @@ export default {
     height: 6px;
     position: absolute;
     right: 7px;
-    bottom: 10px;
+    bottom: 7px;
     border-color: #666;
     border-style: solid;
     border-width: 0 1px 1px 0;
@@ -72,7 +73,7 @@ export default {
   }
 }
 
-.tr-select__input {
+.tr-select__input select {
   -webkit-appearance: none;
   appearance: none;
   height: 25px;
