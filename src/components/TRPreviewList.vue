@@ -1,7 +1,7 @@
 <template>
   <div class="tr-preview-list">
     <TRPreviewItem
-      v-for="component in components"
+      v-for="component in annotations"
       :key="component.name"
       :component="component"
     />
@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapMutationState } from '@/store';
 import TRPreviewItem from '@/components/TRPreviewItem';
 
 export default {
@@ -16,12 +17,10 @@ export default {
   components: {
     TRPreviewItem,
   },
-  props: {
-    components: {
-      type: Array,
-      default() {
-        return [];
-      },
+  computed: {
+    ...mapMutationState(['cssComponents']),
+    annotations() {
+      return this.cssComponents.map(c => c.annotation);
     },
   },
 };

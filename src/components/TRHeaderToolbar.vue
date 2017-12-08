@@ -21,7 +21,7 @@
 
 <script>
 import TRSelect from '@/components/TRSelect';
-import { mapState } from 'vuex';
+import { mapMutationState } from '@/store';
 
 export default {
   name: 'TRHeaderToolbar',
@@ -30,20 +30,13 @@ export default {
     TRSelect,
   },
 
-  data() {
-    return {
-      version: '',
-    };
-  },
-
   computed: {
-    ...mapState(['versions', 'themes']),
+    ...mapMutationState(['version', 'versions', 'themes']),
   },
 
   methods: {
     versionChange(event) {
-      this.version = this.versions[event.target.value] || '';
-      this.$emit('version', this.version);
+      this.$emit('version', this.versions[event.target.value] || '');
     },
     themeChange(event) {
       this.$emit('theme', this.themes[event.target.value].theme.name);

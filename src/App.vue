@@ -1,8 +1,11 @@
 <template>
   <div class="app">
-    <TRHeaderToolbar @version="updateContent" @theme="updateTheme" />
-    <div class="app__content">
-      <TRPreviewList :components="annotations" />
+    <TRSide class="app__side" />
+    <div class="app__main">
+      <TRHeaderToolbar @version="updateContent" @theme="updateTheme" />
+      <div class="app__content">
+        <TRPreviewList />
+      </div>
     </div>
   </div>
 </template>
@@ -13,15 +16,16 @@ import ancss from 'ancss';
 import postcss from 'postcss';
 import postcssCssnext from 'postcss-cssnext';
 import postcssUrlResolver from 'postcss-url-resolver';
+import TRSide from '@/components/TRSide';
 import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
-import util from '@/util';
 
 export default {
   name: 'App',
 
   components: {
+    TRSide,
     TRHeaderToolbar,
     TRPreviewList,
   },
@@ -31,16 +35,19 @@ export default {
       styleElement: document.createElement('style'),
       rootCSS: '',
       theme: '',
-      componentsIndex: '',
       browserslist: [],
     };
   },
 
   computed: {
-    ...mapMutationState(['cssComponents', 'versions', 'themes']),
-    annotations() {
-      return this.cssComponents.map(c => c.annotation);
-    },
+    ...mapMutationState([
+      'cssComponents',
+      'fullComponentsIndex',
+      'customComponentsIndex',
+      'versions',
+      'version',
+      'themes',
+    ]),
     style: {
       get() {
         return this.styleElement.textContent;
@@ -52,14 +59,7 @@ export default {
     preCompiledCSS() {
       return this.rootCSS
         .replace(/^(\s*@import.+theme\.css.+\n)/m, this.theme)
-        .replace(/^(\s*@import.+components\/index\.css.+\n)/m, this.componentsIndex);
-    },
-    componentsList() {
-      return this.componentsIndex
-        .match(/'([./-\w]+)\.css'/img)
-        .filter(m => !/(global|util|combination)/i.test(m))
-        .map(m => util.toLabel(m.slice(3, -5)))
-        .sort();
+        .replace(/^(\s*@import.+components\/index\.css.+\n)/m, this.customComponentsIndex || this.fullComponentsIndex);
     },
   },
 
@@ -118,7 +118,7 @@ export default {
     },
     fetchComponentsIndex(version) {
       return api.getComponentsIndex(version).then((index) => {
-        this.componentsIndex = index;
+        this.fullComponentsIndex = index;
       });
     },
     updateContent(version) {
@@ -173,6 +173,16 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+
+  display: flex;
+}
+
+.app__side {
+  min-width: 200px;
+}
+
+.app__main {
+
 }
 
 .app__content {

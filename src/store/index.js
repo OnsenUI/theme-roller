@@ -5,8 +5,11 @@ Vue.use(Vuex);
 
 const stateLike = {
   cssComponents: [],
+  version: '',
   versions: [],
   themes: [],
+  fullComponentsIndex: '',
+  customComponentsIndex: '',
 };
 
 const createMutations = () =>
