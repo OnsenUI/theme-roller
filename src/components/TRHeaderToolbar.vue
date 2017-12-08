@@ -47,14 +47,14 @@ export default {
 
 <style scoped>
 .tr-header {
-  margin: 10px var(--content-padding);
+  margin-left: 10px;
 }
 
 .tr-toolbar {
   display: flex;
 
   & > * {
-    margin-right: var(--content-padding);
+    margin-right: 20px;
   }
 }
 </style>

@@ -30,7 +30,7 @@ export default {
 .tr-preview-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 
   @media (--smallscreen) {
     display: block;
