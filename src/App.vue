@@ -13,9 +13,7 @@
 <script>
 import { mapMutationState } from '@/store';
 import ancss from 'ancss';
-import postcss from 'postcss';
-import postcssCssnext from 'postcss-cssnext';
-import postcssUrlResolver from 'postcss-url-resolver';
+import CSSProcessor from '@/css-processor';
 import TRSide from '@/components/TRSide';
 import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
@@ -33,20 +31,19 @@ export default {
   data() {
     return {
       styleElement: document.createElement('style'),
-      rootCSS: '',
-      theme: '',
-      browserslist: [],
     };
   },
 
   computed: {
     ...mapMutationState([
+      'browserslist',
       'cssComponents',
       'fullComponentsIndex',
-      'customComponentsIndex',
-      'versions',
-      'version',
+      'rootCSS',
+      'theme',
       'themes',
+      'version',
+      'versions',
     ]),
     style: {
       get() {
@@ -56,13 +53,9 @@ export default {
         this.styleElement.textContent = style;
       },
     },
-    preCompiledCSS() {
-      return this.rootCSS
-        .replace(/^(\s*@import.+theme\.css.+\n)/m, this.theme)
-        .replace(
-          /^(\s*@import.+components\/index\.css.+)$/m,
-          this.customComponentsIndex || this.fullComponentsIndex,
-        );
+    preCSS() {
+      return CSSProcessor
+        .replace(this.rootCSS, this.theme, this.fullComponentsIndex);
     },
   },
 
@@ -86,11 +79,8 @@ export default {
 
   methods: {
     fetchRootCSS(version) {
-      return this.processCSS({
-        from: api.urls.cssComponents(version),
-        base64: true,
-        exclude: /(theme|components\/index).css$/,
-      });
+      return CSSProcessor
+        .get(api.urls.cssComponents(version));
     },
     fetchThemes(version) {
       return api.getThemes(version).then((themes) => {
@@ -111,60 +101,26 @@ export default {
           this.version = version;
           [this.rootCSS, this.theme, this.fullComponentsIndex] = result;
 
-          this.compile().then((css) => {
-            this.cssComponents = ancss.parse(css, {
-              detect: line => line.match(/^~/),
+          CSSProcessor
+            .compile(this.preCSS)
+            .then((css) => {
+              this.style = css;
+              this.cssComponents = ancss.parse(css, {
+                detect: line => line.match(/^~/),
+              });
             });
-          });
         });
     },
     updateOnlyTheme(name) {
       api.getThemeCSS(this.version, name)
         .then((theme) => {
           this.theme = theme;
-          this.compile();
-        });
-    },
-    processCSS({
-      from = '',
-      base64 = false,
-      exclude = null,
-      css = `@import url('${from}');`,
-      cssnext = false,
-    } = {}) {
-      const plugins = [];
 
-      if (from) {
-        plugins.push(postcssUrlResolver({
-          request: opt => api.get(opt.href),
-          base64,
-          exclude,
-        }));
-      }
-
-      if (cssnext) {
-        plugins.push(postcssCssnext({ browsers: this.browserslist }));
-      }
-
-      // Postcss is synchronous...
-      return new Promise((resolve) => {
-        setTimeout(() =>
-          resolve(postcss(plugins)
-            .process(css, { from })
-            .then(result => result.css)));
-      });
-    },
-
-    compile() {
-      return this.processCSS({
-        css: this.preCompiledCSS,
-        cssnext: true,
-        from: api.urls.componentsIndex(this.version),
-        base64: true,
-      })
-        .then((css) => {
-          this.style = css;
-          return css;
+          CSSProcessor
+            .compile(this.preCSS)
+            .then((css) => {
+              this.style = css;
+            });
         });
     },
   },
@@ -182,15 +138,14 @@ export default {
 }
 
 .app__side {
-  min-width: 200px;
+  min-width: 290px;
 }
 
 .app__main {
-
+  padding: 0 var(--content-padding);
 }
 
 .app__content {
-  padding: var(--content-padding);
   margin: 10px 0 50vh;
 }
 </style>

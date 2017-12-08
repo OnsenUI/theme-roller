@@ -4,12 +4,14 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const stateLike = {
+  browserslist: [],
   cssComponents: [],
+  fullComponentsIndex: '',
+  rootCSS: '',
+  theme: '',
+  themes: [],
   version: '',
   versions: [],
-  themes: [],
-  fullComponentsIndex: '',
-  customComponentsIndex: '',
 };
 
 const createMutations = () =>
