@@ -18,9 +18,25 @@ export default {
     TRPreviewItem,
   },
   computed: {
-    ...mapMutationState(['cssComponents']),
+    ...mapMutationState([
+      'cssComponents',
+      'selectedCategory',
+      'selectedPlatform',
+    ]),
     annotations() {
-      return this.cssComponents.map(c => c.annotation);
+      return this.cssComponents
+        .map(c => c.annotation)
+        .filter(a => ['All', a.category]
+          .indexOf(this.selectedCategory) !== -1)
+        .filter((a) => {
+          if (this.selectedPlatform === 'Android') {
+            return /Material/i.test(a.name);
+          }
+          if (this.selectedPlatform === 'iOS') {
+            return !/Material/i.test(a.name);
+          }
+          return true;
+        });
     },
   },
 };
