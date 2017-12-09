@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import TRFilter from '@/components/TRFilter';
 import TRGenerator from '@/components/TRGenerator';
 
 export default {
@@ -40,7 +41,7 @@ export default {
       tabs: [
         {
           label: 'View',
-          component: null,
+          component: TRFilter,
         },
         {
           label: 'Editor',
@@ -108,5 +109,13 @@ export default {
   background-color: white;
   border-color: var(--border-color);
   border-bottom-color: transparent !important;
+}
+
+.tr-side__content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  height: calc(100% - 70px);
 }
 </style>

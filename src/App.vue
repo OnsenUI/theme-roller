@@ -135,13 +135,20 @@ export default {
   color: #2c3e50;
 
   display: flex;
+  overflow: hidden;
+  position: static;
 }
 
 .app__side {
   min-width: 290px;
+  max-width: 290px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
 }
 
 .app__main {
+  margin-left: 290px;
   padding: 0 var(--content-padding);
 }
 

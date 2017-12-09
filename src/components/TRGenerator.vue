@@ -50,7 +50,6 @@ export default {
   },
   computed: {
     ...mapMutationState([
-      'customComponentsIndex',
       'fullComponentsIndex',
       'rootCSS',
       'theme',
