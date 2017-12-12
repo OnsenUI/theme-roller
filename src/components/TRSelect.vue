@@ -1,11 +1,10 @@
 <template>
   <label class="tr-select">
-    <span class="tr-select__label">{{ label }}</span>
+    <div class="tr-select__label">{{ label }}</div>
 
-    <span class="tr-select__input">
+    <div class="tr-select__input">
       <select
         v-on="$listeners"
-        :style="{ width }"
       >
         <option
           v-if="options.length === 0"
@@ -23,7 +22,7 @@
           {{ option }}
         </option>
       </select>
-    </span>
+    </div>
   </label>
 </template>
 
@@ -46,10 +45,6 @@ export default {
       type: String,
       default: '',
     },
-    width: {
-      type: String,
-      default: '',
-    },
   },
 };
 </script>
@@ -57,6 +52,7 @@ export default {
 <style scoped>
 .tr-select__input {
   position: relative;
+  margin-top: 4px;
 
   &:after {
     content: ' ';
@@ -74,7 +70,7 @@ export default {
 }
 
 .tr-select__input select {
-  -webkit-appearance: none;
+  width: 100%;
   appearance: none;
   height: 25px;
   line-height: 25px;

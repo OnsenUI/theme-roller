@@ -4,23 +4,26 @@
     <div class="tr-toolbar">
       <TRSelect
         width="80px"
-        label="Onsen UI Version"
+        label="1. Onsen UI Version"
         :options="versions"
         @change="versionChange"
       />
       <TRSelect
         width="120px"
-        label="Theme Preset"
+        label="2. Theme Preset"
         :options="themes.map(t => t.label)"
         :key-prefix="version"
         @change="themeChange"
       />
+      <TRButton label="3. Customize" />
+      <TRButton label="4. Download" />
     </div>
   </div>
 </template>
 
 <script>
 import TRSelect from '@/components/TRSelect';
+import TRButton from '@/components/TRButton';
 import { mapMutationState } from '@/store';
 
 export default {
@@ -28,6 +31,7 @@ export default {
 
   components: {
     TRSelect,
+    TRButton,
   },
 
   computed: {
@@ -54,7 +58,7 @@ export default {
   display: flex;
 
   & > * {
-    margin-right: 20px;
+    margin-right: 30px;
   }
 }
 </style>
