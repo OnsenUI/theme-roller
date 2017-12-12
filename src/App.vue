@@ -2,7 +2,10 @@
   <div class="app">
     <TRSide class="app__side" />
     <div class="app__main">
-      <TRHeaderToolbar @version="updateAllContent" @theme="updateOnlyTheme" />
+      <TRHeaderToolbar
+        @version="updateAllContent"
+        @theme="updateOnlyTheme"
+      />
       <div class="app__content">
         <TRPreviewList />
       </div>
@@ -26,6 +29,7 @@ export default {
     TRSide,
     TRHeaderToolbar,
     TRPreviewList,
+    TRGenerator,
   },
 
   data() {
@@ -158,11 +162,13 @@ export default {
 
 .app__main {
   margin-left: 290px;
-  padding: 0 var(--content-padding);
+  padding: 0 0 0 var(--content-padding);
   z-index: 8;
 }
 
 .app__content {
-  margin: 10px 0 50vh;
+  margin: var(--toolbar-height) 0 50vh;
+  overflow: auto;
+  height: calc(100vh - var(--toolbar-height));
 }
 </style>

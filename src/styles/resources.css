@@ -2,6 +2,7 @@
   --variable-one: red;
   --border-color: #dbdbdb;
   --content-padding: 20px;
+  --toolbar-height: 150px;
 
   @custom-media --smallscreen (max-width: 480px);
 }

@@ -1,5 +1,5 @@
 body {
-  overflow: auto !important;
+  overflow: hidden;
 }
 
 ol, ul {

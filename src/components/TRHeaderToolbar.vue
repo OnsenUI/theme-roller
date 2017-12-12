@@ -51,7 +51,12 @@ export default {
 
 <style scoped>
 .tr-header {
-  margin-left: 10px;
+  width: 100%;
+  height: var(--toolbar-height);
+  padding-left: 10px;
+  position: fixed;
+  z-index: 10;
+  background-color: white;
 }
 
 .tr-toolbar {
