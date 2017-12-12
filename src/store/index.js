@@ -6,6 +6,7 @@ Vue.use(Vuex);
 const stateLike = {
   browserslist: [],
   cssComponents: [],
+  customVariables: {},
   fullComponentsIndex: '',
   rootCSS: '',
   selectedCategory: 'All',

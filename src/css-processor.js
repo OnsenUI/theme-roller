@@ -46,7 +46,14 @@ export default {
     return run({
       css,
       base64: true,
-      cssnext: { browsers: store.state.browserslist },
+      cssnext: {
+        browsers: store.state.browserslist,
+        features: {
+          customProperties: {
+            variables: store.state.customVariables,
+          },
+        },
+      },
       from: api.urls.componentsIndex(store.state.version),
     });
   },

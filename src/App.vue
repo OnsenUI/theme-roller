@@ -38,6 +38,7 @@ export default {
     ...mapMutationState([
       'browserslist',
       'cssComponents',
+      'customVariables',
       'fullComponentsIndex',
       'rootCSS',
       'theme',
@@ -56,6 +57,12 @@ export default {
     preCSS() {
       return CSSProcessor
         .replace(this.rootCSS, this.theme, this.fullComponentsIndex);
+    },
+  },
+
+  watch: {
+    customVariables() {
+      this.updateStyle();
     },
   },
 
@@ -101,10 +108,8 @@ export default {
           this.version = version;
           [this.rootCSS, this.theme, this.fullComponentsIndex] = result;
 
-          CSSProcessor
-            .compile(this.preCSS)
+          this.updateStyle()
             .then((css) => {
-              this.style = css;
               this.cssComponents = ancss.parse(css, {
                 detect: line => line.match(/^~/),
               });
@@ -115,12 +120,15 @@ export default {
       api.getThemeCSS(this.version, name)
         .then((theme) => {
           this.theme = theme;
-
-          CSSProcessor
-            .compile(this.preCSS)
-            .then((css) => {
-              this.style = css;
-            });
+          this.updateStyle();
+        });
+    },
+    updateStyle() {
+      return CSSProcessor
+        .compile(this.preCSS)
+        .then((css) => {
+          this.style = css;
+          return css;
         });
     },
   },

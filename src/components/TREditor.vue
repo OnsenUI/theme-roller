@@ -60,10 +60,8 @@ export default {
   data() {
     return {
       currentVariable: '',
-      customVariables: { },
       customVariablesSource: { },
       compiledTheme: '',
-
       colors: {
         hex: '#194d33',
       },
@@ -73,6 +71,7 @@ export default {
   computed: {
     ...mapMutationState([
       'theme',
+      'customVariables',
       'selectedCategory',
       'selectedPlatform',
       'version',
