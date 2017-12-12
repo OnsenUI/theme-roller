@@ -206,7 +206,7 @@ export default {
   bottom: 0;
   right: 0;
   z-index: 10;
-  background-color: #fff;
+  background-color: var(--background-color);
 }
 
 .app__main {
