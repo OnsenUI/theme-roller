@@ -1,6 +1,7 @@
 <template>
   <div class="tr-header">
-    <h1>Theme Roller</h1>
+    <h1 class="tr-header__title">{{ title }}</h1>
+
     <div class="tr-toolbar">
       <TRSelect
         width="80px"
@@ -15,7 +16,10 @@
         :key-prefix="version"
         @change="themeChange"
       />
-      <TRButton label="3. Customize" />
+      <TRButton
+        label="3. Customize"
+        @click="$emit('customizer')"
+      />
       <TRButton
         label="4. Download"
         @click="$emit('generator')"
@@ -37,6 +41,13 @@ export default {
     TRButton,
   },
 
+  props: {
+    title: {
+      type: String,
+      default: 'Empty',
+    },
+  },
+
   computed: {
     ...mapMutationState(['version', 'versions', 'themes']),
   },
@@ -54,15 +65,28 @@ export default {
 
 <style scoped>
 .tr-header {
+  position: fixed;
   width: 100%;
   height: var(--toolbar-height);
-  padding-left: 10px;
   position: fixed;
+  align-items: center;
   z-index: 10;
-  background-color: white;
+  display: flex;
+
+  & > * {
+    padding-top: 10px;
+  }
+}
+
+.tr-header__title {
+  width: var(--left-side-width);
+  margin: 0;
+  padding-left: var(--content-padding);
+  box-sizing: border-box;
 }
 
 .tr-toolbar {
+  margin-left: 30px;
   display: flex;
 
   & > * {

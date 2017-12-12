@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Portal from 'portal-vue';
 import Modal from 'vue-js-modal';
 import Popover from 'vue-js-popover';
 import App from './App';
@@ -6,6 +7,7 @@ import store from './store';
 import router from './router';
 import './styles/global.css';
 
+Vue.use(Portal);
 Vue.use(Modal);
 Vue.use(Popover);
 Vue.config.productionTip = false;

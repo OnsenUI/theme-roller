@@ -1,6 +1,6 @@
 <template>
   <div class="tr-filter">
-    <div class="tr-filter__message">
+    <div class="tr-filter__subtitle">
       Platforms:
     </div>
 
@@ -22,7 +22,7 @@
       </li>
     </ul>
 
-    <div class="tr-filter__message">
+    <div class="tr-filter__subtitle">
       Categories:
     </div>
 
@@ -79,12 +79,13 @@ export default {
 
 <style scoped>
 .tr-filter {
-
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
 }
-.tr-filter__message {
-  margin-top: 10px;
-  padding: var(--content-padding);
-  padding-bottom: 0;
+
+.tr-filter__subtitle {
+  margin-top: 16px;
+  font-weight: 700;
 }
 
 .tr-filter__button {
@@ -97,7 +98,7 @@ export default {
 }
 
 .tr-filter__categories {
-  padding: 0 40px;
+  padding: 0;
 }
 
 .tr-filter__categories label {

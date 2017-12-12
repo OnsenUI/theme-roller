@@ -1,35 +1,34 @@
 <template>
-  <div class="tr-editor" @wheel="$refs.picker.visible = false">
-    <div class="tr-editor__message">
-      Variables:
-    </div>
+  <div class="tr-customizer" @wheel="$refs.picker.visible = false">
 
-    <popover
-      ref="picker"
-      name="picker"
-      style="width: inherit"
-    >
-      <color-picker
-        v-model="colors"
-        @input="changeColors"
-      />
-    </popover>
+    <portal to="picker">
+      <popover
+        ref="picker"
+        name="picker"
+        style="width: inherit"
+      >
+        <color-picker
+          v-model="colors"
+          @input="changeColors"
+        />
+      </popover>
+    </portal>
 
-    <ul class="tr-editor__categories">
+    <ul class="tr-customizer__categories">
       <li
         v-for="(value, key) in presetVariables"
         :key="`${version}-${key}`"
-        v-popover:picker.right
+        v-popover:picker.left
         @click="updateColorPicker(key)"
       >
         <label>
-          <span class="tr-editor__label">
-            {{ key | toLabel }}
-          </span>
           <span
-            class="tr-editor__color"
+            class="tr-customizer__color"
             :style="{ backgroundColor: customVariables[key] || value }"
           />
+          <span class="tr-customizer__label">
+            {{ key | toLabel }}
+          </span>
         </label>
       </li>
     </ul>
@@ -48,7 +47,7 @@ const reKey = /(--[-\w]+)\s*:/;
 const reVal = /:(.*);\n/;
 
 export default {
-  name: 'TREditor',
+  name: 'TRCustomizer',
   components: { colorPicker },
 
   filters: {
@@ -136,29 +135,24 @@ export default {
 </script>
 
 <style scoped>
-.tr-editor {
+.tr-customizer {
 
 }
-.tr-editor__message {
-  margin-top: 10px;
-  padding: var(--content-padding);
-  padding-bottom: 0;
-}
 
-.tr-editor__button {
+.tr-customizer__button {
   margin: 10px var(--content-padding);
 }
 
-.tr-editor__button button {
+.tr-customizer__button button {
   width: 100%;
   text-align: center;
 }
 
-.tr-editor__categories {
+.tr-customizer__categories {
   padding: 0 10px;
 }
 
-.tr-editor__categories label {
+.tr-customizer__categories label {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -167,19 +161,20 @@ export default {
   cursor: pointer;
 }
 
-.tr-editor__categories li:nth-child(even) {
+.tr-customizer__categories li:nth-child(even) {
   background-color: #f0f0f0;
 }
 
-.tr-editor__label {
+.tr-customizer__label {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: inline-block;
+  text-align: right;
 }
 
-.tr-editor__color {
+.tr-customizer__color {
   width: 25px;
   height: 25px;
   display: inline-block;
