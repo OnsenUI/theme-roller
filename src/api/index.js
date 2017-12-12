@@ -37,18 +37,15 @@ export default {
   getThemes(version) {
     const url = `${repo}contents/css-components-src/src?ref=${version}`;
     const filter = items => items
-      .reduce((result, theme) => {
-        if (/theme.css$/.test(theme.name)) {
-          result.push({
-            theme,
-            label: theme.name === 'theme.css'
-              ? 'Default'
-              : util.toLabel(theme.name.split('.')[0]),
-          });
-        }
-
-        return result;
-      }, [])
+      .filter(i => /theme.css$/.test(i.name)
+        && !/custom-theme.css$/.test(i.name)) // Fix for v2.8.2
+      .reduce((result, theme) => [
+        ...result, {
+          theme,
+          label: theme.name === 'theme.css'
+            ? 'Default'
+            : util.toLabel(theme.name.split('.')[0]),
+        }], [])
       .sort((a, b) => a.theme.name.length > b.theme.name.length);
 
     return request(url, { filter });
