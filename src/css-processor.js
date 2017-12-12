@@ -4,8 +4,6 @@ import postcssUrlResolver from 'postcss-url-resolver';
 import api from '@/api';
 import store from '@/store';
 
-const { browserslist } = store.state;
-
 const run = ({
   from = '',
   base64 = false,
@@ -24,7 +22,7 @@ const run = ({
   }
 
   if (cssnext) {
-    plugins.push(postcssCssnext({ browserslist }));
+    plugins.push(postcssCssnext(cssnext));
   }
 
   // Postcss is synchronous...
@@ -48,8 +46,20 @@ export default {
     return run({
       css,
       base64: true,
-      cssnext: true,
+      cssnext: { browsers: store.state.browserslist },
       from: api.urls.componentsIndex(store.state.version),
+    });
+  },
+  compileVariables(css) {
+    return run({
+      css,
+      cssnext: {
+        features: {
+          customProperties: {
+            preserve: 'computed',
+          },
+        },
+      },
     });
   },
   replace(css, theme, index) {

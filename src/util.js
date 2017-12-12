@@ -1,7 +1,10 @@
 export default {
   toLabel: string => string
-    .replace('-', ' ')
-    .replace(/(^|\s)([a-z])/g, m => m.toUpperCase()),
+    .replace(/-/g, ' ')
+    .toLowerCase()
+    .replace('color', '')
+    .trim()
+    .replace(/^([a-z])/, m => m.toUpperCase()),
 
   toId: string => string
     .replace(/\s+/, '-')

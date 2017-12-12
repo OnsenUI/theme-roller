@@ -21,16 +21,18 @@
       </ul>
     </div>
 
-    <div class="tr-side__content">
-      <keep-alive>
-        <component :is="tabs[tabActive].component" />
-      </keep-alive>
-    </div>
+    <keep-alive>
+      <component
+        :is="tabs[tabActive].component"
+        class="tr-side__content"
+      />
+    </keep-alive>
   </div>
 </template>
 
 <script>
 import TRFilter from '@/components/TRFilter';
+import TREditor from '@/components/TREditor';
 import TRGenerator from '@/components/TRGenerator';
 
 export default {
@@ -45,7 +47,7 @@ export default {
         },
         {
           label: 'Editor',
-          component: null,
+          component: TREditor,
         },
         {
           label: 'Download',

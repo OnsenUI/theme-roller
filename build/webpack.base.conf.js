@@ -73,8 +73,9 @@ module.exports = {
           /postcss-replace-overflow-wrap/,
           /postcss-pseudo/,
           /rgb-hex/,
+          /vue-color/,
         ],
-        query: {
+        options: {
           // FIX: Babel can't resolve nested presets properly
           presets: [
             require.resolve('babel-preset-env'),

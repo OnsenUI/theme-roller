@@ -32,7 +32,6 @@ export default {
 
 <style scoped>
 .tr-preview-item {
-  /* background-color: var(--variable-one); */
   display: block;
   width: 350px;
   box-sizing: border-box;
