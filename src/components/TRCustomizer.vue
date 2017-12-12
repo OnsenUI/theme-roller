@@ -1,6 +1,30 @@
 <template>
   <div class="tr-customizer" @wheel="$refs.picker.visible = false">
 
+    <ul class="tr-customizer__variables">
+      <li
+        v-for="(value, key, index) in presetVariables"
+        :key="`${version}-${key}`"
+      >
+        <label>
+          <input
+            type="radio"
+            class="tr-customizer__color--input"
+            v-popover="{ name: 'picker', position: index > 3 ? 'left' : 'bottom' }"
+            :value="key"
+            v-model="currentVariable"
+          >
+          <span
+            class="tr-customizer__color"
+            :style="{ backgroundColor: customVariables[key] || value }"
+          />
+          <span class="tr-customizer__label">
+            {{ key | toLabel }}
+          </span>
+        </label>
+      </li>
+    </ul>
+
     <portal to="picker">
       <popover
         ref="picker"
@@ -13,25 +37,6 @@
         />
       </popover>
     </portal>
-
-    <ul class="tr-customizer__categories">
-      <li
-        v-for="(value, key) in presetVariables"
-        :key="`${version}-${key}`"
-        v-popover:picker.left
-        @click="updateColorPicker(key)"
-      >
-        <label>
-          <span
-            class="tr-customizer__color"
-            :style="{ backgroundColor: customVariables[key] || value }"
-          />
-          <span class="tr-customizer__label">
-            {{ key | toLabel }}
-          </span>
-        </label>
-      </li>
-    </ul>
 
   </div>
 </template>
@@ -90,6 +95,10 @@ export default {
   },
 
   watch: {
+    currentVariable(variable) {
+      this.colors = this.customVariablesSource[variable]
+        || { hex: this.presetVariables[variable] };
+    },
     theme: {
       immediate: true,
       handler() {
@@ -103,11 +112,6 @@ export default {
   },
 
   methods: {
-    updateColorPicker(variable) {
-      this.currentVariable = variable;
-      this.colors = this.customVariablesSource[variable]
-        || { hex: this.presetVariables[variable] };
-    },
     changeColors(color) {
       this.customVariablesSource = {
         ...this.customVariablesSource,
@@ -148,20 +152,21 @@ export default {
   text-align: center;
 }
 
-.tr-customizer__categories {
+.tr-customizer__variables {
   padding: 0 10px;
 }
 
-.tr-customizer__categories label {
+.tr-customizer__variables label {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   line-height: 26px;
   cursor: pointer;
+  position: relative;
 }
 
-.tr-customizer__categories li:nth-child(even) {
+.tr-customizer__variables li:nth-child(even) {
   background-color: #f0f0f0;
 }
 
@@ -180,5 +185,12 @@ export default {
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
+}
+
+.tr-customizer__color--input {
+  visibility: hidden;
+  width: 23px;
+  height: 23px;
+  position: absolute;
 }
 </style>
