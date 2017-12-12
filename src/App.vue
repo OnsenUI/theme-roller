@@ -145,11 +145,13 @@ export default {
   position: fixed;
   top: 0;
   bottom: 0;
+  z-index: 10;
 }
 
 .app__main {
   margin-left: 290px;
   padding: 0 var(--content-padding);
+  z-index: 8;
 }
 
 .app__content {
