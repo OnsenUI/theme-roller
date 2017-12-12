@@ -33,7 +33,6 @@
 <script>
 import TRFilter from '@/components/TRFilter';
 import TREditor from '@/components/TREditor';
-import TRGenerator from '@/components/TRGenerator';
 
 export default {
   name: 'TRSide',
@@ -48,10 +47,6 @@ export default {
         {
           label: 'Editor',
           component: TREditor,
-        },
-        {
-          label: 'Download',
-          component: TRGenerator,
         },
       ],
     };

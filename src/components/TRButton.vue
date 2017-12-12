@@ -1,5 +1,5 @@
 <template>
-  <button class="tr-button">
+  <button class="tr-button" v-on="$listeners">
     <slot>{{ label }}</slot>
   </button>
 </template>

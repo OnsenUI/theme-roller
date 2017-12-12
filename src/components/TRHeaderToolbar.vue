@@ -16,7 +16,10 @@
         @change="themeChange"
       />
       <TRButton label="3. Customize" />
-      <TRButton label="4. Download" />
+      <TRButton
+        label="4. Download"
+        @click="$emit('generator')"
+      />
     </div>
   </div>
 </template>

@@ -101,16 +101,16 @@ export default {
 
 <style scoped>
 .tr-generator {
-
+  height: 100%;
+  padding: var(--content-padding) calc(var(--content-padding) * 2);
 }
 .tr-generator__message {
   margin-top: 10px;
-  padding: var(--content-padding);
   padding-bottom: 0;
 }
 
 .tr-generator__button {
-  margin: 10px var(--content-padding);
+  margin-top: 10px;
 }
 
 .tr-generator__button button {
@@ -119,7 +119,8 @@ export default {
 }
 
 .tr-generator__components {
-  padding: 0 40px;
+  padding: 0;
+  margin-bottom: 10vh;
 }
 
 .tr-generator__components label {

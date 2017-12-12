@@ -5,11 +5,18 @@
       <TRHeaderToolbar
         @version="updateAllContent"
         @theme="updateOnlyTheme"
+        @generator="$modal.show('generator');"
       />
       <div class="app__content">
         <TRPreviewList />
       </div>
     </div>
+
+    <modal name="generator">
+      <div class="app__modal">
+        <TRGenerator />
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -18,6 +25,7 @@ import { mapMutationState } from '@/store';
 import ancss from 'ancss';
 import CSSProcessor from '@/css-processor';
 import TRSide from '@/components/TRSide';
+import TRGenerator from '@/components/TRGenerator';
 import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
@@ -170,5 +178,11 @@ export default {
   margin: var(--toolbar-height) 0 50vh;
   overflow: auto;
   height: calc(100vh - var(--toolbar-height));
+}
+
+.app__modal {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 }
 </style>
