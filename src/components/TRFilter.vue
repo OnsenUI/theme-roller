@@ -65,10 +65,7 @@ export default {
       'version',
     ]),
     categories() {
-      return ['All'].concat(this.cssComponents
-        .map(c => c.annotation.category)
-        .sort()
-        .filter((el, i, arr) => el !== arr[i - 1]));
+      return ['All'].concat(this.$store.getters.categories);
     },
   },
 

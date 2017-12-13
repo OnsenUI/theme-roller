@@ -3,7 +3,7 @@
 
     <ul class="tr-customizer__variables">
       <li
-        v-for="(value, key, index) in presetVariables"
+        v-for="(key, index) in sortedVariables"
         :key="`${version}-${key}`"
       >
         <label>
@@ -16,7 +16,7 @@
           >
           <span
             class="tr-customizer__color"
-            :style="{ backgroundColor: customVariables[key] || value }"
+            :style="{ backgroundColor: customVariables[key] || presetVariables[key] }"
           />
           <span class="tr-customizer__label">
             {{ key | toLabel }}
@@ -57,7 +57,7 @@ export default {
 
   filters: {
     toLabel(string) {
-      return util.toLabel(string);
+      return util.toLabel(string).replace('Material', 'MD');
     },
   },
 
@@ -66,9 +66,7 @@ export default {
       currentVariable: '',
       customVariablesSource: { },
       compiledTheme: '',
-      colors: {
-        hex: '#194d33',
-      },
+      colors: { },
     };
   },
 
@@ -91,6 +89,38 @@ export default {
           [get(reKey, variable)]: get(reVal, variable),
           ...result,
         }), { });
+    },
+    categories() {
+      return this.$store.getters.categories
+        .map(c => c.toLowerCase()
+          .replace('search input', 'search')
+          .replace('select input', 'select')
+          .trim()
+          .replace(/\s+/, '-'));
+    },
+    sortedVariables() {
+      const shared = [];
+      const other = [];
+
+      Object.keys(this.presetVariables)
+        .forEach((v) => {
+          const isShared = !this.categories
+            .some(c => v.indexOf(c.toLowerCase()) !== -1);
+          (isShared ? shared : other).push(v);
+        });
+
+      const sort = (arr) => {
+        const raw = v => /material-/.test(v)
+          ? `${v.replace('material-', '')}-`
+          : v;
+
+        return arr
+          .map(v => [v, raw(v)])
+          .sort((a, b) => a[1].localeCompare(b[1]))
+          .map(i => i[0]);
+      };
+
+      return sort(shared).concat(sort(other));
     },
   },
 
@@ -133,6 +163,8 @@ export default {
         ...this.customVariables,
         [this.currentVariable]: value,
       };
+
+      this.$emit('variable');
     },
   },
 };

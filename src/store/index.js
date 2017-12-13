@@ -29,6 +29,14 @@ const createMutations = () =>
 const store = new Vuex.Store({
   state: { ...stateLike },
   mutations: createMutations(),
+  getters: {
+    categories(state) {
+      return state.cssComponents
+        .map(c => c.annotation.category)
+        .sort()
+        .filter((el, i, arr) => el !== arr[i - 1]);
+    },
+  },
 });
 
 export const mapMutationState = states =>
