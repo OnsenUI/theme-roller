@@ -138,8 +138,19 @@ export default {
             || v.indexOf(`--material-${c}`) !== -1));
     },
 
+    filteredVariables() {
+      return this.selectedPlatform === 'All'
+        ? this.categoryFilteredVariables
+        : this.categoryFilteredVariables
+          .filter((v) => {
+            const md = v.indexOf('material') !== -1;
+            return (md && this.selectedPlatform === 'Android')
+              || (!md && this.selectedPlatform === 'iOS');
+          });
+    },
+
     visibleVariables() {
-      return this.commonVariables.concat(this.categoryFilteredVariables);
+      return this.commonVariables.concat(this.filteredVariables);
     },
 
     splitVariables() {
