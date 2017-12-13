@@ -19,7 +19,10 @@
     </div>
 
     <div class="app__side-right" v-show="customizer">
-      <TRCustomizer class="app__scrollable" />
+      <TRCustomizer
+        class="app__scrollable"
+        @variable="updateStyle"
+      />
     </div>
 
     <modal name="generator">
@@ -65,7 +68,6 @@ export default {
     ...mapMutationState([
       'browserslist',
       'cssComponents',
-      'customVariables',
       'fullComponentsIndex',
       'rootCSS',
       'theme',
@@ -84,12 +86,6 @@ export default {
     preCSS() {
       return CSSProcessor
         .replace(this.rootCSS, this.theme, this.fullComponentsIndex);
-    },
-  },
-
-  watch: {
-    customVariables() {
-      this.updateStyle();
     },
   },
 
