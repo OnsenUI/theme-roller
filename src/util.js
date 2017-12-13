@@ -3,10 +3,12 @@ export default {
     .replace(/-/g, ' ')
     .toLowerCase()
     .replace('color', '')
-    .trim()
-    .replace(/^([a-z])/, m => m.toUpperCase()),
+    .trim(),
 
   toId: string => string
     .replace(/\s+/, '-')
     .toLowerCase(),
+
+  capitalize: string => string
+    .replace(/^([a-z])/, m => m.toUpperCase()),
 };

@@ -44,7 +44,7 @@ export default {
           theme,
           label: theme.name === 'theme.css'
             ? 'Default'
-            : util.toLabel(theme.name.split('.')[0]),
+            : util.capitalize(util.toLabel(theme.name.split('.')[0])),
         }], [])
       .sort((a, b) => a.theme.name.length > b.theme.name.length);
 

@@ -1,10 +1,17 @@
 <template>
-  <div class="tr-customizer" @wheel="$refs.picker.visible = false">
+  <div
+    class="tr-customizer"
+    @wheel="$refs.picker && ($refs.picker.visible = false)"
+  >
 
     <ul class="tr-customizer__variables">
       <li
-        v-for="(key, index) in sortedVariables"
+        v-for="(key, index) in visibleVariables"
         :key="`${version}-${key}`"
+        :class="{
+          'separator-first': index === 0,
+          'separator-components': index === commonVariables.length
+        }"
       >
         <label>
           <input
@@ -57,12 +64,15 @@ export default {
 
   filters: {
     toLabel(string) {
-      return util.toLabel(string).replace('Material', 'MD');
+      return util.toLabel(string)
+        .replace('material', 'MD');
     },
   },
 
   data() {
     return {
+      componentsVariables: [],
+      commonVariables: [],
       currentVariable: '',
       customVariablesSource: { },
       compiledTheme: '',
@@ -78,10 +88,12 @@ export default {
       'selectedPlatform',
       'version',
     ]),
+
     fixedTheme() {
       // Fix for a wrong Onsen UI CSS variable in <= 2.8.2
       return this.theme.replace('var(--input-border-color)', 'var(--border-color)');
     },
+
     presetVariables() {
       return (this.compiledTheme
         .match(/\s*--([-\w]+):\s+(.*);\n/img) || [])
@@ -90,6 +102,7 @@ export default {
           ...result,
         }), { });
     },
+
     categories() {
       return this.$store.getters.categories
         .map(c => c.toLowerCase()
@@ -98,15 +111,59 @@ export default {
           .trim()
           .replace(/\s+/, '-'));
     },
-    sortedVariables() {
-      const shared = [];
+
+    categoryFilteredVariables() {
+      if (this.selectedCategory === 'All') {
+        return this.componentsVariables;
+      }
+
+      let category = this.selectedCategory
+        .trim().toLowerCase().replace(/\s+/, '-');
+
+      // Fix: search-input and select-input variables
+      if (category.indexOf('-input') !== -1 && category !== 'text-input') {
+        [category] = category.split('-');
+      }
+
+      const categorySet = [category];
+
+      // Fix: add button-bar to segment category
+      if (category === 'segment') {
+        categorySet.push('button-bar');
+      }
+
+      return this.componentsVariables
+        .filter(v => categorySet
+          .some(c => v.indexOf(`--${c}`) !== -1
+            || v.indexOf(`--material-${c}`) !== -1));
+    },
+
+    visibleVariables() {
+      return this.commonVariables.concat(this.categoryFilteredVariables);
+    },
+
+    splitVariables() {
+      return Object.keys(this.presetVariables).length > 0
+        && this.categories.length > 0;
+    },
+  },
+
+  watch: {
+    splitVariables(flag) {
+      if (!flag) {
+        return;
+      }
+
+      const common = [];
       const other = [];
 
       Object.keys(this.presetVariables)
         .forEach((v) => {
           const isShared = !this.categories
             .some(c => v.indexOf(c.toLowerCase()) !== -1);
-          (isShared ? shared : other).push(v);
+
+          (isShared ? common : other)
+            .push(v);
         });
 
       const sort = (arr) => {
@@ -120,15 +177,15 @@ export default {
           .map(i => i[0]);
       };
 
-      return sort(shared).concat(sort(other));
+      this.commonVariables = sort(common);
+      this.componentsVariables = sort(other);
     },
-  },
 
-  watch: {
     currentVariable(variable) {
       this.colors = this.customVariablesSource[variable]
         || { hex: this.presetVariables[variable] };
     },
+
     theme: {
       immediate: true,
       handler() {
@@ -186,6 +243,26 @@ export default {
 
 .tr-customizer__variables {
   padding: 0 10px;
+
+  & .separator-first,
+  & .separator-components {
+    margin-top: 60px;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      top: -36px;
+      font-weight: 700;
+    }
+  }
+
+  & .separator-first:before {
+    content: 'General variables:';
+  }
+
+  & .separator-components:before {
+    content: 'Component variables:';
+  }
 }
 
 .tr-customizer__variables label {
