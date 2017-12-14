@@ -50,7 +50,7 @@ export default {
         browsers: store.state.browserslist,
         features: {
           customProperties: {
-            variables: store.state.customVariables,
+            variables: store.state.customVars,
           },
         },
       },

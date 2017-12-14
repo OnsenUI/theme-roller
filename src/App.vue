@@ -20,8 +20,9 @@
 
     <div class="tr-app__side-right" v-show="customizer">
       <TRCustomizer
-        class="tr-app__scrollable"
+        xclass="tr-app__scrollable"
         @variable="updateStyle"
+        @customizer="customizer = !customizer"
       />
     </div>
 
@@ -185,15 +186,6 @@ export default {
   z-index: 10;
 }
 
-.tr-app__scrollable {
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  height: calc(100% - 20vh);
-  padding-bottom: 20vh;
-}
-
 .tr-app__side-right {
   min-width: var(--right-side-width);
   max-width: var(--right-side-width);
@@ -218,5 +210,16 @@ export default {
 .tr-app__content {
   margin-top: var(--toolbar-height);
   height: calc(100vh - var(--toolbar-height));
+}
+</style>
+
+<style>
+.tr-app__scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  height: calc(100% - 20vh);
+  padding-bottom: 20vh;
 }
 </style>

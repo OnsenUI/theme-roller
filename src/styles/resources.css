@@ -3,8 +3,8 @@
   --border-color: #dbdbdb;
   --content-padding: 20px;
   --toolbar-height: 80px;
-  --left-side-width: 290px;
-  --right-side-width: 340px;
+  --left-side-width: 250px;
+  --right-side-width: 300px;
 
   @custom-media --smallscreen (max-width: 480px);
 }
