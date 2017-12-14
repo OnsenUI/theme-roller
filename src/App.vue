@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="tr-app">
     <TRHeaderToolbar
       title="Theme Roller"
       @version="updateAllContent"
@@ -8,25 +8,25 @@
       @customizer="customizer = !customizer"
     />
 
-    <div class="app__side-left">
-      <TRFilter class="app__scrollable" />
+    <div class="tr-app__side-left">
+      <TRFilter class="tr-app__scrollable" />
     </div>
 
-    <div class="app__main" :class="{ customizer }">
-      <div class="app__content">
-        <TRPreviewList class="app__scrollable" />
+    <div class="tr-app__main" :class="{ customizer }">
+      <div class="tr-app__content">
+        <TRPreviewList class="tr-app__scrollable" />
       </div>
     </div>
 
-    <div class="app__side-right" v-show="customizer">
+    <div class="tr-app__side-right" v-show="customizer">
       <TRCustomizer
-        class="app__scrollable"
+        class="tr-app__scrollable"
         @variable="updateStyle"
       />
     </div>
 
     <modal name="generator">
-      <div class="app__scrollable">
+      <div class="tr-app__scrollable">
         <TRGenerator />
       </div>
     </modal>
@@ -159,7 +159,7 @@ export default {
 </script>
 
 <style scoped>
-.app {
+.tr-app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -170,12 +170,12 @@ export default {
   position: static;
 }
 
-.app__title {
+.tr-app__title {
   position: fixed;
   margin: var(--content-padding);
 }
 
-.app__side-left {
+.tr-app__side-left {
   min-width: var(--left-side-width);
   max-width: var(--left-side-width);
   margin-top: var(--toolbar-height);
@@ -185,7 +185,7 @@ export default {
   z-index: 10;
 }
 
-.app__scrollable {
+.tr-app__scrollable {
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -194,7 +194,7 @@ export default {
   padding-bottom: 20vh;
 }
 
-.app__side-right {
+.tr-app__side-right {
   min-width: var(--right-side-width);
   max-width: var(--right-side-width);
   position: fixed;
@@ -205,7 +205,7 @@ export default {
   background-color: var(--background-color);
 }
 
-.app__main {
+.tr-app__main {
   margin-left: var(--left-side-width);
   padding: 0 0 0 var(--content-padding);
   z-index: 8;
@@ -215,7 +215,7 @@ export default {
   }
 }
 
-.app__content {
+.tr-app__content {
   margin-top: var(--toolbar-height);
   height: calc(100vh - var(--toolbar-height));
 }
