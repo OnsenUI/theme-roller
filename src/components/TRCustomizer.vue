@@ -438,6 +438,16 @@ export default {
   padding-left: 10px;
   padding-right: 10px;
 
+  & label {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 26px;
+    cursor: pointer;
+    position: relative;
+  }
+
   & .separator-first,
   & .separator-components {
     margin-top: 60px;
@@ -445,9 +455,13 @@ export default {
 
     &:before {
       position: absolute;
-      top: -36px;
-      font-weight: 700;
+      top: -30px;
+      @apply --list-title;
     }
+  }
+
+  & .separator-first {
+    margin-top: 30px;
   }
 
   & .separator-first:before {
@@ -459,33 +473,22 @@ export default {
   }
 }
 
-.tr-customizer__variables label {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  line-height: 26px;
-  cursor: pointer;
-  position: relative;
-}
-
-.tr-customizer__variables li:nth-child(even) {
-  background-color: #f0f0f0;
-}
-
 .tr-customizer__label {
+  @apply --list-item;
+
   width: calc(100% - 40px);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: inline-block;
-  text-align: right;
+  padding: 0 var(--content-padding);
+  box-sizing: border-box;
 }
 
 .tr-customizer__indicator {
-  width: 6px;
-  height: 26px;
-  margin-left: 6px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
 }
 
 .tr-customizer__color {
@@ -493,6 +496,7 @@ export default {
   height: 25px;
   display: inline-block;
   border: 1px solid #ccc;
+  border-radius: 3px;
   box-sizing: border-box;
 
   & input {
@@ -504,6 +508,7 @@ export default {
     width: 23px;
     height: 23px;
     position: absolute;
+    border-radius: 3px;
 
     &:nth-child(2) {
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMElEQVQ4T2N89uzZfwY8QFJSEp80A+OoAcMiDP7//483HTx//hx/Ohg1gIFx6IcBALl+VXknOCvFAAAAAElFTkSuQmCC");
@@ -545,7 +550,7 @@ export default {
 }
 [data-tooltip]:before {
   position: absolute;
-  bottom: -10px;
+  bottom: -16px;
   left: -95px;
   padding: 7px;
   width: 74px;
@@ -561,7 +566,7 @@ export default {
 
 [data-tooltip]:after {
   position: absolute;
-  bottom: 10px;
+  bottom: 4px;
   left: -10px;
   width: 0;
   border-top: 5px solid #000;
