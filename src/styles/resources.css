@@ -3,8 +3,31 @@
   --border-color: #dbdbdb;
   --content-padding: 20px;
   --toolbar-height: 80px;
-  --left-side-width: 250px;
+  --left-side-width: 230px;
   --right-side-width: 300px;
+  --list-item-color: #777;
+  --list-item-padding: 6px 4px 6px 16px;
+  --red: #FE253C;
+
+  --list-title: {
+    color: #333;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: 0 0 5px 0;
+  }
+
+  --list-item: {
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--list-item-padding);
+    color: var(--list-item-color);
+    font-weight: 400;
+    box-sizing: border-box;
+    line-height: 16px;
+    font-size: 14px;
+  }
 
   @custom-media --smallscreen (max-width: 480px);
 }

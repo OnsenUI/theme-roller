@@ -1,28 +1,25 @@
 <template>
   <div class="tr-app">
-    <TRHeaderToolbar
-      title="Theme Roller"
-      @version="updateAllContent"
-      @theme="updateOnlyTheme"
-      @generator="$modal.show('generator')"
-      @customizer="customizer = !customizer"
-    />
 
     <div class="tr-app__side-left">
-      <TRFilter class="tr-app__scrollable" />
+      <TRMenu
+        class="tr-app__scrollable"
+        @version="updateAllContent"
+        @theme="updateOnlyTheme"
+      />
     </div>
 
-    <div class="tr-app__main" :class="{ customizer }">
+    <div class="tr-app__main" :class="{ customizer: showCustomizer }">
       <div class="tr-app__content">
         <TRPreviewList class="tr-app__scrollable" />
       </div>
     </div>
 
-    <div class="tr-app__side-right" v-show="customizer">
+    <div class="tr-app__side-right" v-show="showCustomizer">
       <TRCustomizer
         xclass="tr-app__scrollable"
         @variable="updateStyle"
-        @customizer="customizer = !customizer"
+        @generator="$modal.show('generator')"
       />
     </div>
 
@@ -41,9 +38,8 @@ import { mapMutationState } from '@/store';
 import ancss from 'ancss';
 import CSSProcessor from '@/css-processor';
 import TRCustomizer from '@/components/TRCustomizer';
-import TRFilter from '@/components/TRFilter';
+import TRMenu from '@/components/TRMenu';
 import TRGenerator from '@/components/TRGenerator';
-import TRHeaderToolbar from '@/components/TRHeaderToolbar';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
 
@@ -52,16 +48,14 @@ export default {
 
   components: {
     TRCustomizer,
-    TRHeaderToolbar,
     TRPreviewList,
-    TRFilter,
+    TRMenu,
     TRGenerator,
   },
 
   data() {
     return {
       styleElement: document.createElement('style'),
-      customizer: false,
     };
   },
 
@@ -71,6 +65,7 @@ export default {
       'cssComponents',
       'fullComponentsIndex',
       'rootCSS',
+      'showCustomizer',
       'theme',
       'themes',
       'version',
@@ -179,7 +174,6 @@ export default {
 .tr-app__side-left {
   min-width: var(--left-side-width);
   max-width: var(--left-side-width);
-  margin-top: var(--toolbar-height);
   position: fixed;
   top: 0;
   bottom: 0;
@@ -198,9 +192,9 @@ export default {
 }
 
 .tr-app__main {
-  margin-left: var(--left-side-width);
-  padding: 0 0 0 var(--content-padding);
-  z-index: 8;
+  margin-left: calc(var(--left-side-width) - 20px);
+  background-color: var(--background-color);
+  z-index: 15;
 
   &.customizer {
     margin-right: var(--right-side-width);
@@ -208,8 +202,7 @@ export default {
 }
 
 .tr-app__content {
-  margin-top: var(--toolbar-height);
-  height: calc(100vh - var(--toolbar-height));
+  height: 100vh;
 }
 </style>
 

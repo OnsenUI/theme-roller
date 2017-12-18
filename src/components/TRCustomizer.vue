@@ -6,7 +6,7 @@
     <div class="tr-customizer__toolbar">
       <TRButton
         label=">>"
-        @click="$emit('customizer')"
+        @click="showCustomizer = false"
       />
 
       <TRButton
@@ -109,6 +109,12 @@
       </popover>
     </portal>
 
+
+    <TRButton
+      label="Download"
+      @click="$emit('generator')"
+    />
+
   </div>
 </template>
 
@@ -172,6 +178,7 @@ export default {
       'customVars',
       'selectedCategory',
       'selectedPlatform',
+      'showCustomizer',
       'version',
     ]),
 

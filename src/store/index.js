@@ -11,6 +11,7 @@ const stateLike = {
   rootCSS: '',
   selectedCategory: 'All',
   selectedPlatform: 'All',
+  showCustomizer: false,
   theme: '',
   themes: [],
   version: '',
