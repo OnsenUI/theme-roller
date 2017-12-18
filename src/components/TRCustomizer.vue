@@ -50,51 +50,62 @@
       </div>
     </modal>
 
-    <ul class="tr-customizer__variables" :class="xclass">
-      <li
-        v-for="(key, index) in visibleVars"
-        :key="`${version}-${key}`"
-        :class="{
-          'separator-first': index === 0,
-          'separator-components': index === commonVars.length
-        }"
-      >
-        <label>
-          <span
-            class="tr-customizer__color"
-          >
-            <input
-              type="radio"
-              v-popover.left="{ name: 'picker' }"
-              :value="key"
-              v-model="currentVar"
-            >
-            <span />
+    <div class="tr-customizer__scrollable" :class="xclass">
+
+      <ul class="tr-customizer__variables">
+        <li
+          v-for="(key, index) in visibleVars"
+          :key="`${version}-${key}`"
+          :class="{
+            'separator-first': index === 0,
+            'separator-components': index === commonVars.length
+          }"
+        >
+          <label>
             <span
+              class="tr-customizer__color"
+            >
+              <input
+                type="radio"
+                v-popover.left="{ name: 'picker' }"
+                :value="key"
+                v-model="currentVar"
+              >
+
+              <span />
+
+              <span
+                :style="{
+                  backgroundColor: compiledCustomVars[key]
+                    || compiledOriginalVars[key]
+                }"
+              />
+            </span>
+
+            <span class="tr-customizer__label">
+              {{ key | toLabel }}
+            </span>
+
+            <span
+              class="tr-customizer__indicator"
               :style="{
-                backgroundColor: compiledCustomVars[key]
-                  || compiledOriginalVars[key]
+                backgroundColor: isLinkedVar(key) ? '#ccc' : '#666'
               }"
+              :data-tooltip="isLinkedVar(key)
+                ? 'Normal variable'
+                : 'Reference variable'
+              "
             />
-          </span>
+          </label>
+        </li>
+      </ul>
 
-          <span class="tr-customizer__label">
-            {{ key | toLabel }}
-          </span>
 
-          <span
-            class="tr-customizer__indicator"
-            :style="{
-              backgroundColor: isLinkedVar(key) ? '#ccc' : '#666'
-            }"
-            :data-tooltip="isLinkedVar(key)
-              ? 'Normal variable'
-              : 'Reference variable'
-            "
-          />
-        </label>
-      </li>
-    </ul>
+      <TRButton
+        label="Download"
+        @click="$emit('generator')"
+      />
+    </div>
 
     <portal to="picker">
       <popover
@@ -108,12 +119,6 @@
         />
       </popover>
     </portal>
-
-
-    <TRButton
-      label="Download"
-      @click="$emit('generator')"
-    />
 
   </div>
 </template>
@@ -422,6 +427,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
+}
+
+.tr-customizer__scrollable {
+  height: calc(100% - 20vh - var(--toolbar-height));
 }
 
 .tr-customizer__variables {
