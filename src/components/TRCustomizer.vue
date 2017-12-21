@@ -5,19 +5,18 @@
   >
     <div class="tr-customizer__toolbar">
       <TRButton
-        label=">>"
-        @click="showCustomizer = false"
+        icon="pencil"
+        label="Bulk Edit"
+        @click="$modal.show('bulk')"
       />
 
       <TRButton
         label="Clear"
+        inverted
         @click="saveVars(null, null); currentVar = ''"
       />
 
-      <TRButton
-        label="Bulk Edit"
-        @click="$modal.show('bulk')"
-      />
+      <TRCloseButton @click="showCustomizer = false" />
     </div>
 
     <modal
@@ -99,10 +98,15 @@
           </label>
         </li>
       </ul>
+    </div>
 
 
+    <div class="tr-customizer__toolbar">
       <TRButton
+
+        icon="download"
         label="Download"
+        class="tr-customizer__download"
         @click="$emit('generator')"
       />
     </div>
@@ -126,6 +130,7 @@
 <script>
 import { mapMutationState } from '@/store';
 import TRButton from '@/components/TRButton';
+import TRCloseButton from '@/components/TRCloseButton';
 import colorPicker from 'vue-color/src/components/Chrome';
 import CSSProcessor from '@/css-processor';
 import util from '@/util';
@@ -147,6 +152,7 @@ export default {
   components: {
     colorPicker,
     TRButton,
+    TRCloseButton,
   },
 
   filters: {
@@ -426,17 +432,23 @@ export default {
   height: var(--toolbar-height);
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  box-sizing: border-box;
+  padding: 0 var(--content-padding);
+  & > a:not(:first-child) {
+    margin-left: 20px;
+  }
 }
 
 .tr-customizer__scrollable {
-  height: calc(100% - 20vh - var(--toolbar-height));
+  height: calc(100% - var(--toolbar-height) * 2);
+  padding-bottom: 0;
 }
 
 .tr-customizer__variables {
-  margin-top: 0;
-  padding-left: 10px;
-  padding-right: 10px;
+  margin: 0;
+  padding: 22px 10px 6px;
 
   & label {
     margin-top: 10px;
@@ -514,6 +526,12 @@ export default {
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMElEQVQ4T2N89uzZfwY8QFJSEp80A+OoAcMiDP7//483HTx//hx/Ohg1gIFx6IcBALl+VXknOCvFAAAAAElFTkSuQmCC");
     }
   }
+}
+
+.tr-customizer__download {
+  width: 100%;
+  display: block;
+  text-align: center;
 }
 
 .tr-customizer__bulk {
