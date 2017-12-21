@@ -3,7 +3,7 @@
     class="tr-customizer"
     @wheel="$refs.picker && ($refs.picker.visible = false)"
   >
-    <div class="tr-customizer__toolbar">
+    <div class="tr-customizer__toolbar top">
       <TRButton
         icon="pencil"
         label="Bulk Edit"
@@ -26,26 +26,32 @@
       width="800px"
     >
       <div class="tr-customizer__bulk">
-        <div class="tr-customizer__bulk--toolbar">
-          <TRButton
-            label="Restore"
-            @click="restoreBulk"
-          />
-          <TRButton
-            style="margin-left: 12px;"
-            label="Save changes"
-            @click="saveBulk"
-          />
-          <span style="float: right">
-            Any <a href="http://cssnext.io/features/" target="_blank">cssnext</a> color feature can be used here.
-          </span>
-        </div>
+        <TRCloseButton @click="$modal.hide('bulk')" />
 
         <textarea
           id="bulkEditor"
           class="tr-customizer__bulk--editor"
           v-model="bulkContent"
         />
+
+        <div class="tr-customizer__toolbar">
+          <span>
+            Any <a href="http://cssnext.io/features/" target="_blank">cssnext</a> color feature can be used here.
+          </span>
+
+          <TRButton
+            label="Restore"
+            inverted
+            @click="restoreBulk"
+          />
+
+          <TRButton
+            style="margin-left: 12px;"
+            label="Save changes"
+            @click="saveBulk"
+          />
+        </div>
+
       </div>
     </modal>
 
@@ -101,7 +107,7 @@
     </div>
 
 
-    <div class="tr-customizer__toolbar">
+    <div class="tr-customizer__toolbar bottom">
       <TRButton
 
         icon="download"
@@ -432,12 +438,18 @@ export default {
   height: var(--toolbar-height);
   display: flex;
   align-items: center;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
   box-sizing: border-box;
   padding: 0 var(--content-padding);
   & > a:not(:first-child) {
     margin-left: 20px;
+  }
+
+  /* Modifiers */
+  &.top {
+    border-bottom: 1px solid var(--border-color);
+  }
+  &.bottom {
+    border-top: 1px solid var(--border-color);
   }
 }
 
@@ -536,11 +548,24 @@ export default {
 
 .tr-customizer__bulk {
   height: 100%;
-  padding: var(--content-padding);
-}
+  padding-top: calc(var(--content-padding) * 2);
 
-.tr-customizer__bulk--toolbar {
-  margin-bottom: var(--content-padding);
+  & > a {
+    top: 10px;
+    right: 12px;
+  }
+
+  & .tr-customizer__toolbar {
+    justify-content: flex-end;
+    padding: 0;
+    height: auto;
+    padding: var(--content-padding);
+
+    & span {
+      position: absolute;
+      left: var(--content-padding);
+    }
+  }
 }
 
 .tr-customizer__bulk--editor {
@@ -551,6 +576,11 @@ export default {
   line-height: 22px;
   font-family: monospace;
   white-space: nowrap;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* TOOLTIP */

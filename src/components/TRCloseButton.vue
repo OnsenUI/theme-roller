@@ -16,8 +16,8 @@ export default {
 
 <style scoped>
 .tr-close-button {
-  width: 26px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   position: absolute;
   right: var(--content-padding);
 
