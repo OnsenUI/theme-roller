@@ -177,7 +177,7 @@ export default {
   position: fixed;
   top: 0;
   bottom: 0;
-  z-index: 10;
+  z-index: 8;
 }
 
 .tr-app__side-right {
@@ -194,7 +194,7 @@ export default {
 .tr-app__main {
   margin-left: calc(var(--left-side-width) - 20px);
   background-color: var(--background-color);
-  z-index: 15;
+  z-index: 10;
 
   &.customizer {
     margin-right: var(--right-side-width);
