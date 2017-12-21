@@ -69,12 +69,14 @@ export default {
   @apply --list-item;
   color: var(--red);
   background-color: transparent;
-  width: 100%;
   appearance: none;
   height: 25px;
   line-height: 25px;
   border: 0;
   padding: 0;
+  width: calc(100% + 4px);
+  padding-left: 4px;
+  margin-left: -4px;
   position: relative;
   background-repeat: no-repeat;
   background-position: right 6px center;
