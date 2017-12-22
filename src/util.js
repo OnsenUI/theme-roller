@@ -11,4 +11,8 @@ export default {
 
   capitalize: string => string
     .replace(/^([a-z])/, m => m.toUpperCase()),
+
+  capitalizeAll: string => string
+    .replace(/(^|\s)([a-z])/g, m => m.toUpperCase()),
+
 };

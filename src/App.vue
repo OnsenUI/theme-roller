@@ -23,9 +23,14 @@
       />
     </div>
 
-    <modal name="generator">
-      <div class="tr-app__scrollable">
-        <TRGenerator />
+    <modal
+      name="generator"
+      height="auto"
+      width="500px"
+    >
+      <div class="tr-app__generator">
+        <TRCloseButton @click="$modal.hide('generator')" />
+        <TRGenerator xclass="tr-app__scrollable" />
       </div>
     </modal>
 
@@ -40,6 +45,7 @@ import CSSProcessor from '@/css-processor';
 import TRCustomizer from '@/components/TRCustomizer';
 import TRMenu from '@/components/TRMenu';
 import TRGenerator from '@/components/TRGenerator';
+import TRCloseButton from '@/components/TRCloseButton';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
 
@@ -47,6 +53,7 @@ export default {
   name: 'App',
 
   components: {
+    TRCloseButton,
     TRCustomizer,
     TRPreviewList,
     TRMenu,
@@ -203,6 +210,11 @@ export default {
 
 .tr-app__content {
   height: 100vh;
+}
+
+.tr-app__generator {
+  height: 100%;
+  padding-top: var(--content-padding);
 }
 </style>
 

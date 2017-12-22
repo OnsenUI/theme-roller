@@ -1,20 +1,12 @@
 <template>
   <div class="tr-generator">
-    <div class="tr-generator__button">
-      <button
-        @click="generate"
-      >
-        Generate and download
-      </button>
-    </div>
-
     <div class="tr-generator__message">
       You can also remove the components you don't
       you need from your custom CSS stylesheet.
       What should be included?
     </div>
 
-    <ul class="tr-generator__components">
+    <ul class="tr-generator__components" :class="xclass">
       <li
         v-for="component in fullComponentsList"
         :key="`${version}-${component}`"
@@ -26,16 +18,26 @@
               :value="component"
               v-model="selectedComponents"
             >
-            <span>{{ component }}</span>
+            <span>{{ component | capitalizeAll }}</span>
           </a>
         </label>
       </li>
     </ul>
+
+    <div class="tr-generator__toolbar">
+      <TRButton
+        icon="download"
+        label="Generate and Download"
+        @click="generate"
+      />
+    </div>
+
   </div>
 </template>
 
 <script>
 import CSSProcessor from '@/css-processor';
+import TRButton from '@/components/TRButton';
 import { mapMutationState } from '@/store';
 import util from '@/util';
 
@@ -43,6 +45,18 @@ const re = /(global|util|combination)/i;
 
 export default {
   name: 'TRGenerator',
+  components: { TRButton },
+  filters: {
+    capitalizeAll(string) {
+      return util.capitalizeAll(string);
+    },
+  },
+  props: {
+    xclass: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       components: null,
@@ -101,38 +115,38 @@ export default {
 
 <style scoped>
 .tr-generator {
-  height: 100%;
-  padding: var(--content-padding) calc(var(--content-padding) * 2);
+
 }
 .tr-generator__message {
-  margin-top: 10px;
-  padding-bottom: 0;
+  padding: 6px 60px 0 var(--content-padding);
+  margin-bottom: calc(var(--content-padding) / 2);
 }
 
-.tr-generator__button {
-  margin-top: 10px;
-}
-
-.tr-generator__button button {
-  width: 100%;
-  text-align: center;
+.tr-generator__toolbar {
+  padding: var(--content-padding);
+  display: flex;
+  justify-content: flex-end;
 }
 
 .tr-generator__components {
   padding: 0;
-  margin-bottom: 10vh;
+  margin: 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: calc(var(--content-padding) / 2);
+  height: 300px;
+
+  & li:hover {
+    background-color: var(--list-item-hover);
+  }
 }
 
-.tr-generator__components label {
-  margin-top: 10px;
-  display: block;
-  width: 100%;
-  height: 26px;
-  line-height: 26px;
-  cursor: pointer;
-}
+.tr-generator__components a {
+  @apply --list-item;
+  justify-content: flex-start;
 
-.tr-generator__components li:nth-child(even) {
-  background-color: #f0f0f0;
+  & span {
+    padding-left: calc(var(--content-padding) / 2);
+  }
 }
 </style>
