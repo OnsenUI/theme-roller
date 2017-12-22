@@ -142,6 +142,10 @@ export default {
 .tr-menu {
   padding-left: var(--content-padding);
   padding-right: var(--content-padding);
+
+  & li:hover {
+    background-color: var(--list-item-hover);
+  }
 }
 
 .tr-menu__version {
@@ -174,6 +178,7 @@ export default {
 
   & a {
     @apply --list-item;
+    display: block;
 
     & input {
       float: right;

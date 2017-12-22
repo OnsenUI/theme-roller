@@ -67,40 +67,42 @@
           }"
         >
           <label>
-            <span
-              class="tr-customizer__color"
-            >
-              <input
-                type="radio"
-                v-popover.left="{ name: 'picker' }"
-                :value="key"
-                v-model="currentVar"
+            <a>
+              <span
+                class="tr-customizer__color"
               >
+                <input
+                  type="radio"
+                  v-popover.left="{ name: 'picker' }"
+                  :value="key"
+                  v-model="currentVar"
+                >
 
-              <span />
+                <span />
+
+                <span
+                  :style="{
+                    backgroundColor: compiledCustomVars[key]
+                      || compiledOriginalVars[key]
+                  }"
+                />
+              </span>
+
+              <span class="tr-customizer__label">
+                {{ key | toLabel }}
+              </span>
 
               <span
+                class="tr-customizer__indicator"
                 :style="{
-                  backgroundColor: compiledCustomVars[key]
-                    || compiledOriginalVars[key]
+                  backgroundColor: isLinkedVar(key) ? '#ccc' : '#666'
                 }"
+                :data-tooltip="isLinkedVar(key)
+                  ? 'Normal variable'
+                  : 'Reference variable'
+                "
               />
-            </span>
-
-            <span class="tr-customizer__label">
-              {{ key | toLabel }}
-            </span>
-
-            <span
-              class="tr-customizer__indicator"
-              :style="{
-                backgroundColor: isLinkedVar(key) ? '#ccc' : '#666'
-              }"
-              :data-tooltip="isLinkedVar(key)
-                ? 'Normal variable'
-                : 'Reference variable'
-              "
-            />
+            </a>
           </label>
         </li>
       </ul>
@@ -462,13 +464,13 @@ export default {
   margin: 0;
   padding: 22px 10px 6px;
 
-  & label {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  & li:hover {
+    background-color: var(--list-item-hover);
+  }
+
+  & a {
+    @apply --list-item;
     line-height: 26px;
-    cursor: pointer;
     position: relative;
   }
 

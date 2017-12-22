@@ -6,7 +6,8 @@
   --left-side-width: 230px;
   --right-side-width: 300px;
   --list-item-color: #777;
-  --list-item-padding: 6px 4px 6px 16px;
+  --list-item-padding: 6px 16px;
+  --list-item-hover: #f8f8f8;
   --red: #FF4C35;
 
   --list-title: {
@@ -18,7 +19,7 @@
   }
 
   --list-item: {
-    display: block;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--list-item-padding);
