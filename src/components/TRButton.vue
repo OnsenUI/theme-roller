@@ -53,7 +53,7 @@ export default {
 <style scoped>
 .tr-button {
   border-radius: 2px;
-  padding: 8px 10px;
+  padding: 8px 14px;
   white-space: nowrap;
   background-color: var(--red);
   color: #fff;
