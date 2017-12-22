@@ -15,7 +15,7 @@
     </div>
 
     <ul
-      class="tr-menu__categories"
+      class="tr-menu__list"
       @change="themeChange"
     >
       <li
@@ -34,9 +34,9 @@
         </label>
       </li>
 
-      <li class="tr-menu__customizer">
+      <li>
         <label>
-          <a>
+          <a class="tr-menu__customizer">
             <input
               type="checkbox"
               v-model="showCustomizer"
@@ -51,7 +51,7 @@
       Platforms:
     </div>
 
-    <ul class="tr-menu__categories">
+    <ul class="tr-menu__list">
       <li
         v-for="platform in platforms"
         :key="`${version}-${platform}`"
@@ -73,7 +73,7 @@
       Categories:
     </div>
 
-    <ul class="tr-menu__categories">
+    <ul class="tr-menu__list">
       <li
         v-for="category in categories"
         :key="`${version}-${category}`"
@@ -172,7 +172,7 @@ export default {
   text-align: center;
 }
 
-.tr-menu__categories {
+.tr-menu__list {
   padding: 0;
   margin: 0;
 
@@ -187,17 +187,19 @@ export default {
         color: var(--red);
       }
     }
-  }
 
-  & .tr-menu__customizer {
-    padding: 5px 0;
+    &.tr-menu__customizer {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: flex-start;
 
-    & input {
-      float: left;
-    }
+      & input {
+        float: left;
+      }
 
-    & span {
-      padding-left: 10px;
+      & span {
+        padding-left: 12px;
+      }
     }
   }
 }
