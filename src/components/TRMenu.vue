@@ -37,10 +37,10 @@
       <li>
         <label>
           <a class="tr-menu__customizer">
-            <input
-              type="checkbox"
+            <TRCheckbox
               v-model="showCustomizer"
-            >
+              class="input"
+            />
             <span>Customize</span>
           </a>
         </label>
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import TRCheckbox from '@/components/TRCheckbox';
 import TRRadio from '@/components/TRRadio';
 import TRSelect from '@/components/TRSelect';
 import { mapMutationState } from '@/store';
@@ -101,6 +102,7 @@ import { mapMutationState } from '@/store';
 export default {
   name: 'TRMenu',
   components: {
+    TRCheckbox,
     TRRadio,
     TRSelect,
   },
