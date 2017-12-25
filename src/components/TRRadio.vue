@@ -149,12 +149,12 @@ export default {
 :checked + .tr-radio__checkmark {
 
   &:before {
-    border-color: var(--red);
+    border-color: var(--primary);
   }
 
   &:after {
     opacity: 1;
-    background: var(--red);
+    background: var(--primary);
     transform: scale(1);
   }
 }

@@ -55,27 +55,27 @@ export default {
   border-radius: 2px;
   padding: 8px 14px;
   white-space: nowrap;
-  background-color: var(--red);
+  background-color: var(--primary);
   color: #fff;
   transition: all .15s ease;
 
   &:hover {
-    background-color: color(var(--red) shade(10%))
+    background-color: color(var(--primary) shade(10%))
   }
 
   &:active {
-    background-color: color(var(--red) shade(20%))
+    background-color: color(var(--primary) shade(20%))
   }
 
   &.inverted {
     background-color: #fff;
-    color: var(--red);
-    border: 1px solid var(--red);
+    color: var(--primary);
+    border: 1px solid var(--primary);
     &:hover {
-      background-color: color(var(--red) tint(95%))
+      background-color: color(var(--primary) tint(95%))
     }
     &:active {
-      background-color: color(var(--red) tint(80%));
+      background-color: color(var(--primary) tint(80%));
     }
   }
 }

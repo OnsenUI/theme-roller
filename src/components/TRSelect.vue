@@ -61,13 +61,13 @@ export default {
 
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-top: 6px solid var(--red);
+    border-top: 6px solid var(--primary);
   }
 }
 
 .tr-select__input select {
   @apply --list-item;
-  color: var(--red);
+  color: var(--primary);
   background-color: transparent;
   appearance: none;
   height: 25px;

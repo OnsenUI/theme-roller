@@ -195,8 +195,8 @@ export default {
 :checked + .tr-checkbox__checkmark {
 
   &:before {
-    border: 2px solid var(--red);
-    background-color: var(--red);
+    border: 2px solid var(--primary);
+    background-color: var(--primary);
     transition: background-color 0.1s linear, border-color 0.1s linear;
   }
 

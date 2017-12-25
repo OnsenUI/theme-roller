@@ -188,7 +188,7 @@ export default {
       float: right;
 
       &[checked] + span {
-        color: var(--red);
+        color: var(--primary);
       }
     }
 
