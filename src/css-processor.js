@@ -30,7 +30,7 @@ const run = ({
     setTimeout(() =>
       resolve(postcss(plugins)
         .process(css, { from })
-        .then(result => result.css)));
+        .then(result => result.css)), 1000 / 60);
   });
 };
 
