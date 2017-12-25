@@ -202,7 +202,7 @@ export default {
       }
 
       & span {
-        padding-left: 12px;
+        padding-left: var(--checkbox-padding);
       }
     }
   }

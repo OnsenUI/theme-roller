@@ -1,14 +1,15 @@
 <template>
   <label
     class="tr-checkbox"
-    :checked="model === true"
+    :checked="cachedValue"
   >
     <input
+      ref="input"
       type="checkbox"
       v-bind="$attrs"
-      @change="$emit('change', $event.target.checked)"
+      @change="onChange"
+      :value="value"
       class="tr-checkbox__input"
-      :checked="model"
     >
     <span class="tr-checkbox__checkmark"/>
   </label>
@@ -23,8 +24,64 @@ export default {
   },
   props: {
     model: {
-      type: Boolean,
+      type: [Boolean, Array],
       default: undefined,
+    },
+    value: {
+      type: [Number, String],
+      default: undefined,
+    },
+  },
+  data() {
+    return {
+      cachedValue: false,
+    };
+  },
+  watch: {
+    model() {
+      this.updateValue();
+    },
+  },
+  mounted() {
+    this.updateValue();
+  },
+  methods: {
+    updateValue() {
+      if (this.model instanceof Array) {
+        this.cachedValue = this.model.indexOf(this.value) >= 0;
+      } else {
+        this.cachedValue = this.model;
+      }
+      this.$refs.input.checked = this.cachedValue;
+    },
+    onChange(event) {
+      const { value, checked } = event.target;
+      let newValue;
+
+      if (this.model instanceof Array) {
+        // Is Array
+        const index = this.model.indexOf(value);
+        const included = index >= 0;
+
+        if (included && !checked) {
+          newValue = [
+            ...this.model.slice(0, index),
+            ...this.model.slice(index + 1, this.model.length),
+          ];
+        }
+
+        if (!included && checked) {
+          newValue = [...this.model, value];
+        }
+      } else {
+        // Is Boolean
+        newValue = checked;
+      }
+
+      // Emit if value changed
+      if (newValue !== undefined) {
+        this.$emit('change', newValue);
+      }
     },
   },
 };

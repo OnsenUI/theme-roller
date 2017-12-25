@@ -13,11 +13,10 @@
       >
         <label>
           <a>
-            <input
-              type="checkbox"
+            <TRCheckbox
               :value="component"
               v-model="selectedComponents"
-            >
+            />
             <span>{{ component | capitalizeAll }}</span>
           </a>
         </label>
@@ -38,6 +37,7 @@
 <script>
 import CSSProcessor from '@/css-processor';
 import TRButton from '@/components/TRButton';
+import TRCheckbox from '@/components/TRCheckbox';
 import { mapMutationState } from '@/store';
 import util from '@/util';
 
@@ -45,7 +45,10 @@ const re = /(global|util|combination)/i;
 
 export default {
   name: 'TRGenerator',
-  components: { TRButton },
+  components: {
+    TRButton,
+    TRCheckbox,
+  },
   filters: {
     capitalizeAll(string) {
       return util.capitalizeAll(string);
@@ -146,7 +149,7 @@ export default {
   justify-content: flex-start;
 
   & span {
-    padding-left: calc(var(--content-padding) / 2);
+    padding-left: var(--checkbox-padding);
   }
 }
 </style>
