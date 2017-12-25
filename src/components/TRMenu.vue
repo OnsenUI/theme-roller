@@ -24,11 +24,11 @@
       >
         <label>
           <a>
-            <input
-              type="radio"
+            <TRRadio
               :value="$index"
               v-model="selectedTheme"
-            >
+              class="input"
+            />
             <span>{{ label }}</span>
           </a>
         </label>
@@ -58,11 +58,11 @@
       >
         <label>
           <a>
-            <input
-              type="radio"
+            <TRRadio
               :value="platform"
               v-model="selectedPlatform"
-            >
+              class="input"
+            />
             <span>{{ platform }}</span>
           </a>
         </label>
@@ -80,11 +80,11 @@
       >
         <label>
           <a>
-            <input
-              type="radio"
+            <TRRadio
               :value="category"
               v-model="selectedCategory"
-            >
+              class="input"
+            />
             <span>{{ category }}</span>
           </a>
         </label>
@@ -94,12 +94,14 @@
 </template>
 
 <script>
+import TRRadio from '@/components/TRRadio';
 import TRSelect from '@/components/TRSelect';
 import { mapMutationState } from '@/store';
 
 export default {
   name: 'TRMenu',
   components: {
+    TRRadio,
     TRSelect,
   },
 
@@ -180,10 +182,10 @@ export default {
     @apply --list-item;
     display: block;
 
-    & input {
+    & .input {
       float: right;
 
-      &:checked + span {
+      &[checked] + span {
         color: var(--red);
       }
     }
@@ -193,7 +195,7 @@ export default {
       display: flex;
       justify-content: flex-start;
 
-      & input {
+      & .input {
         float: left;
       }
 
