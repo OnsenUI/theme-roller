@@ -53,7 +53,6 @@ export default {
   position: relative;
   display: inline-block;
   vertical-align: top;
-  cursor: pointer;
   user-select: none;
   position: relative;
   text-align: left;
@@ -62,6 +61,7 @@ export default {
 
 .tr-radio__input {
   position: absolute;
+  cursor: pointer;
   right: 0;
   top: 0;
   left: 0;
@@ -111,7 +111,6 @@ export default {
   background-clip: padding-box;
   display: inline-block;
   vertical-align: top;
-  cursor: pointer;
   user-select: none;
   position: relative;
   background: transparent;
