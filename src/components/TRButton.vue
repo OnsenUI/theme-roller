@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import pencilIcon from '@/assets/pencil.svg';
-import downloadIcon from '@/assets/download.svg';
+import pencilIcon from '@/assets/inline/pencil.svg';
+import downloadIcon from '@/assets/inline/download.svg';
 
 export default {
   name: 'TRButton',

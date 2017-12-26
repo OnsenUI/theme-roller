@@ -84,7 +84,8 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpe?g|gif)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        exclude: /inline\//,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -93,6 +94,7 @@ module.exports = {
       },
       {
         test: /\.(svg)(\?.*)?$/,
+        include: /inline\//,
         loader: 'svg-inline-loader'
       },
       {
