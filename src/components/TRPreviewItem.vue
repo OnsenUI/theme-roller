@@ -9,22 +9,46 @@
         v-html="component.markup"
         ontouchstart=" "
       />
+
+      <div class="tr-preview-item__links">
+        <a
+          v-for="(icon, framework) in icons.frameworks"
+          :key="framework"
+          :data-tooltip="tooltip[framework]"
+          :href="getLink(framework)"
+          target="_blank"
+        >
+          <i
+            :style="{ background: `url(${icon})` }"
+          />
+        </a>
+      </div>
     </div>
 
-    <a class="tr-preview-item__title">
+    <div class="tr-preview-item__title">
       {{ component.name }}
       <i
-        class="tr-preview-item__icon"
-        v-html="icons[/material/i.test(component.name) ? 'android' : 'apple']"
+        :style="{
+          background: `url(${
+            icons.platforms[/material/i.test(component.name) ? 'android' : 'apple']
+          })`
+        }"
       />
-    </a>
+    </div>
   </div>
 
 </template>
 
 <script>
-import appleIcon from '@/assets/apple.svg';
-import androidIcon from '@/assets/android.svg';
+import util from '@/util';
+import appleIcon from '@/assets/logos/apple.svg';
+import androidIcon from '@/assets/logos/android.svg';
+import jsIcon from '@/assets/logos/js.svg';
+import vueIcon from '@/assets/logos/vue.svg';
+import reactIcon from '@/assets/logos/react.svg';
+import angular1Icon from '@/assets/logos/angular1.svg';
+import angular2Icon from '@/assets/logos/angular2.svg';
+import cssIcon from '@/assets/logos/css.svg';
 
 export default {
   name: 'TRPreviewItem',
@@ -40,10 +64,75 @@ export default {
   data() {
     return {
       icons: {
-        apple: appleIcon,
-        android: androidIcon,
+        platforms: {
+          apple: appleIcon,
+          android: androidIcon,
+        },
+        frameworks: {
+          js: jsIcon,
+          vue: vueIcon,
+          react: reactIcon,
+          angular1: angular1Icon,
+          angular2: angular2Icon,
+          css: cssIcon,
+        },
+      },
+      tooltip: {
+        js: 'Web Components',
+        vue: 'Vue.js',
+        react: 'React',
+        angular1: 'AngularJS',
+        angular2: 'Angular 2+',
+        css: 'HTML + CSS',
       },
     };
+  },
+
+  methods: {
+    getLink(framework) {
+      const prefix = 'https://onsen.io/v2/api';
+      const link = el => `${prefix}/${framework}/${el}.html`;
+      const { category } = this.component;
+
+      if (framework === 'css') {
+        return `${prefix}/css.html#${util.toId(category)}-category`;
+      }
+
+      let element;
+
+      if (['textarea', 'notification'].indexOf(category.toLowerCase()) === -1
+        && this.component.name !== 'Button Bar') {
+        let fixedName;
+        switch (category.toLowerCase()) {
+          case 'radio button':
+            fixedName = 'radio';
+            break;
+          case 'select input':
+            fixedName = 'select';
+            break;
+          case 'text input':
+            fixedName = 'input';
+            break;
+          default:
+            fixedName = category;
+        }
+
+        const name = `${util.toId(fixedName)}`;
+
+        switch (framework) {
+          case 'react':
+            element = util.capitalizeAll(util.toLabel(name)).replace(/\s+/, '');
+            break;
+          case 'vue':
+            element = `v-ons-${name}`;
+            break;
+          default:
+            element = `ons-${name}`;
+        }
+      }
+
+      return element ? link(element) : '#';
+    },
   },
 };
 </script>
@@ -76,11 +165,9 @@ export default {
 
   & i {
     float: right;
+    width: 21px;
+    height: 17px;
   }
-}
-
-.tr-preview-item__icon {
-  width: 16px;
 }
 
 .tr-preview-item__box {
@@ -105,6 +192,43 @@ export default {
     margin-right: -10px;
     margin-left: -10px;
     box-shadow: none;
+  }
+
+
+  & .tr-preview-item__links {
+    opacity: 0;
+    transition: opacity .2s ease;
+    z-index: 2147483647; /* Maximum */
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    height: 30px;
+
+    & a[href="#"] {
+      display: none;
+    }
+
+    & i {
+      margin: 0 6px;
+      display: block;
+      width: 26px;
+      height: 20px;
+      opacity: .8;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:hover .tr-preview-item__links {
+    opacity: 1;
   }
 }
 </style>
