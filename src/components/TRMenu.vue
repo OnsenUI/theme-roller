@@ -48,7 +48,7 @@
     </ul>
 
     <div class="tr-menu__subtitle">
-      Platforms:
+      Platforms
     </div>
 
     <ul class="tr-menu__list">
@@ -70,7 +70,7 @@
     </ul>
 
     <div class="tr-menu__subtitle">
-      Categories:
+      Categories
     </div>
 
     <ul class="tr-menu__list">

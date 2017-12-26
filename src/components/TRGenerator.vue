@@ -1,8 +1,8 @@
 <template>
   <div class="tr-generator">
     <div class="tr-generator__message">
-      You can also remove the components you don't
-      you need from your custom CSS stylesheet.
+      You can also remove components you don't
+      need from your custom CSS stylesheet.
       What should be included?
     </div>
 
