@@ -1,7 +1,5 @@
 <template>
   <div class="tr-preview-item">
-    <a class="tr-preview-item__title">{{ component.name }}</a>
-
     <div
       class="page tr-preview-item__box"
       :class="component.name.toLowerCase().indexOf('material') !== -1 && 'page--material'"
@@ -12,11 +10,22 @@
         ontouchstart=" "
       />
     </div>
+
+    <a class="tr-preview-item__title">
+      {{ component.name }}
+      <i
+        class="tr-preview-item__icon"
+        v-html="icons[/material/i.test(component.name) ? 'android' : 'apple']"
+      />
+    </a>
   </div>
 
 </template>
 
 <script>
+import appleIcon from '@/assets/apple.svg';
+import androidIcon from '@/assets/android.svg';
+
 export default {
   name: 'TRPreviewItem',
   props: {
@@ -27,6 +36,15 @@ export default {
       },
     },
   },
+
+  data() {
+    return {
+      icons: {
+        apple: appleIcon,
+        android: androidIcon,
+      },
+    };
+  },
 };
 </script>
 
@@ -35,7 +53,7 @@ export default {
   display: block;
   width: 350px;
   box-sizing: border-box;
-  margin: 0px 10px 6px 10px;
+  margin: 0px 16px 26px;
 
   @media (--smallscreen) {
     width: auto;
@@ -46,13 +64,23 @@ export default {
 
 .tr-preview-item__title {
   color: #999;
-  font-size: 12px;
+  font-size: 14px;
   color: #444;
   font-weight: 500;
   line-height: 1.4;
   text-decoration: none;
   margin: 12px 0 4px 0;
   display: inline-block;
+  padding: 0 10px;
+  display: block;
+
+  & i {
+    float: right;
+  }
+}
+
+.tr-preview-item__icon {
+  width: 16px;
 }
 
 .tr-preview-item__box {
@@ -67,6 +95,8 @@ export default {
   border-radius: 3px;
   width: 350px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.18);
 
 
   @media (--smallscreen) {
