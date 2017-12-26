@@ -93,7 +93,7 @@
               </span>
 
               <span
-                class="tr-customizer__indicator"
+                class="tr-customizer__indicator tooltip-left"
                 :style="{
                   backgroundColor: isLinkedVar(key) ? '#ccc' : '#666'
                 }"
@@ -583,56 +583,5 @@ export default {
   border: 0;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-}
-
-/* TOOLTIP */
-[data-tooltip] {
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-}
-[data-tooltip]:before,
-[data-tooltip]:after {
-  visibility: hidden;
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  pointer-events: none;
-}
-[data-tooltip]:before {
-  position: absolute;
-  bottom: -16px;
-  left: -95px;
-  padding: 7px;
-  width: 74px;
-  border-radius: 3px;
-  background-color: #000;
-  background-color: hsla(0, 0%, 20%, 0.9);
-  color: #fff;
-  content: attr(data-tooltip);
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.2;
-}
-
-[data-tooltip]:after {
-  position: absolute;
-  bottom: 4px;
-  left: -10px;
-  width: 0;
-  border-top: 5px solid #000;
-  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-  content: " ";
-  font-size: 0;
-  line-height: 0;
-  transform: rotate(-90deg);
-}
-
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after {
-  visibility: visible;
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
-  opacity: 1;
 }
 </style>
