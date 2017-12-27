@@ -55,7 +55,7 @@ module.exports = {
           'request',
           'res',
           'response',
-          '$scope'
+          'result',
         ]
       }
     ],
