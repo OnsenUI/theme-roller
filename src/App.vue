@@ -11,7 +11,10 @@
 
     <div class="tr-app__main" :class="{ customizer: showCustomizer }">
       <div class="tr-app__content">
-        <TRPreviewList class="tr-app__scrollable" />
+        <TRPreviewList
+          ref="main"
+          class="tr-app__scrollable"
+        />
       </div>
     </div>
 
@@ -101,8 +104,9 @@ export default {
       .then(([versions, browserslist]) => {
         this.versions = versions;
         this.browserslist = browserslist;
-        this.updateAllContent(versions[0]);
-      });
+        return this.updateAllContent(versions[0]);
+      })
+      .then(() => this.$refs.main.onScroll());
   },
 
   beforeDestroy() {
@@ -125,7 +129,7 @@ export default {
       return api.getComponentsIndex(version);
     },
     updateAllContent(version) {
-      Promise.all([
+      return Promise.all([
         this.fetchRootCSS(version),
         this.fetchThemes(version),
         this.fetchComponentsIndex(version),
@@ -134,7 +138,7 @@ export default {
           this.version = version;
           [this.rootCSS, this.theme, this.fullComponentsIndex] = result;
 
-          this.updateStyle()
+          return this.updateStyle()
             .then((css) => {
               this.cssComponents = ancss.parse(css, {
                 detect: line => line.match(/^~/),

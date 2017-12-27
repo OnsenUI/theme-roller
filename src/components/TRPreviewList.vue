@@ -1,5 +1,5 @@
 <template>
-  <div class="tr-preview-list">
+  <div class="tr-preview-list" @scroll="onScroll">
     <section
       v-for="category in sortedCategories"
       :key="category"
@@ -12,6 +12,7 @@
         <h3
           class="tr-preview-list__title"
           :id="categoryId[category]"
+          :ref="`title.${categoryId[category]}`"
         >
           <span>
             {{ category }}
@@ -80,6 +81,25 @@ export default {
         ...result,
         [category]: util.toId(category),
       }), {});
+    },
+  },
+
+  methods: {
+    onScroll() {
+      if (!this.lock) {
+        this.lock = true;
+        setTimeout(() => { this.lock = false; }, 100);
+
+        const offset = 150;
+        const categories = this.sortedCategories;
+        for (let i = categories.length - 1; i >= 0; i -= 1) {
+          const id = this.categoryId[categories[i]];
+          if (this.$el.scrollTop > this.$refs[`title.${id}`][0].offsetTop - offset) {
+            this.selectedCategory = this.sortedCategories[i];
+            return;
+          }
+        }
+      }
     },
   },
 };

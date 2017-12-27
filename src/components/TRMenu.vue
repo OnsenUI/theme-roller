@@ -15,7 +15,7 @@
     </div>
 
     <ul
-      class="tr-menu__list"
+      class="tr-menu__list themes"
       @change="themeChange"
     >
       <li
@@ -51,7 +51,7 @@
       Platforms
     </div>
 
-    <ul class="tr-menu__list">
+    <ul class="tr-menu__list platforms">
       <li
         v-for="platform in platforms"
         :key="`${version}-${platform}`"
@@ -73,18 +73,17 @@
       Categories
     </div>
 
-    <ul class="tr-menu__list">
+    <ul class="tr-menu__list categories">
       <li
         v-for="category in categories"
         :key="`${version}-${category}`"
       >
         <label>
-          <a>
-            <TRRadio
-              :value="category"
-              v-model="selectedCategory"
-              class="input"
-            />
+          <a
+            :href="`#${toId(category)}`"
+            @click="selectedCategory = category"
+            :class="category === selectedCategory ? 'current' : ''"
+          >
             <span>{{ category }}</span>
           </a>
         </label>
@@ -94,6 +93,7 @@
 </template>
 
 <script>
+import util from '@/util';
 import TRCheckbox from '@/components/TRCheckbox';
 import TRRadio from '@/components/TRRadio';
 import TRSelect from '@/components/TRSelect';
@@ -124,7 +124,7 @@ export default {
       'themes',
     ]),
     categories() {
-      return ['All'].concat(this.$store.getters.categories);
+      return this.$store.getters.categories;
     },
   },
 
@@ -137,6 +137,9 @@ export default {
       if (event.target.type === 'radio') {
         this.$emit('theme', this.themes[event.target.value].theme.name);
       }
+    },
+    toId(string) {
+      return util.toId(string);
     },
   },
 };
@@ -183,6 +186,7 @@ export default {
   & a {
     @apply --list-item;
     display: block;
+    position: relative;
 
     & .input {
       float: right;
@@ -204,6 +208,24 @@ export default {
       & span {
         padding-left: var(--checkbox-padding);
       }
+    }
+  }
+
+  &.categories a:after {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 3px solid #ff1a33;
+    border-radius: 100%;
+    right: 20px;
+    top: 50%;
+    transform: translate3d(0,-50%,0);
+  }
+  &.categories a.current {
+    color: var(--primary);
+
+    &:after {
+      content: '';
     }
   }
 }

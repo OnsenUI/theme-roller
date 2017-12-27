@@ -9,7 +9,7 @@ const stateLike = {
   customVars: {},
   fullComponentsIndex: '',
   rootCSS: '',
-  selectedCategory: 'All',
+  selectedCategory: '',
   selectedPlatform: 'All',
   showCustomizer: false,
   theme: '',
