@@ -106,7 +106,15 @@ export default {
         this.browserslist = browserslist;
         return this.updateAllContent(versions[0]);
       })
-      .then(() => this.$refs.main.onScroll());
+      .then(() => {
+        if (window.location.hash) {
+          const tmp = window.location.hash;
+          window.location.hash = '';
+          window.location.hash = tmp;
+        }
+
+        this.$refs.main.onScroll();
+      });
   },
 
   beforeDestroy() {
