@@ -4,7 +4,6 @@ import Modal from 'vue-js-modal';
 import Popover from 'vue-js-popover';
 import App from './App';
 import store from './store';
-import router from './router';
 import './styles/global.css';
 
 Vue.use(Portal);
@@ -17,6 +16,5 @@ Vue.prototype.$log = (...args) => console.log(...args); // eslint-disable-line n
 new Vue({
   el: '#app',
   store,
-  router,
   render: h => h(App),
 });
