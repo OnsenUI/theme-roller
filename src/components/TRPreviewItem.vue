@@ -198,6 +198,7 @@ export default {
   & .tr-preview-item__links {
     opacity: 0;
     transition: opacity .2s ease;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
     z-index: 2147483647; /* Maximum */
 
     position: absolute;
