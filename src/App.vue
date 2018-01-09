@@ -238,5 +238,19 @@ export default {
   -ms-overflow-style: none;
   height: calc(100% - 20vh);
   padding-bottom: 20vh;
+  margin-right: 2px;
+}
+
+*:hover::-webkit-scrollbar-track {
+  background-color: #FAFAFA;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background-color: #AAA;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar{
+  width: 10px;
 }
 </style>
