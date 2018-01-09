@@ -491,11 +491,11 @@ export default {
   }
 
   & .separator-first:before {
-    content: 'General variables:';
+    content: 'General variables';
   }
 
   & .separator-components:before {
-    content: 'Component variables:';
+    content: 'Component variables';
   }
 }
 
