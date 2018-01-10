@@ -50,6 +50,7 @@ module.exports = {
           'state',
           'acc',
           'e',
+          'error',
           'ctx',
           'req',
           'request',
