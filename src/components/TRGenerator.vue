@@ -29,7 +29,8 @@
       <TRButton
         icon="download"
         label="Generate and Download"
-        @click="generate"
+        :loading="loading === 6"
+        @click="loading = 6; generate()"
       />
     </div>
 
@@ -64,6 +65,7 @@ export default {
   computed: {
     ...mapMutationState([
       'fullComponentsIndex',
+      'loading',
       'rootCSS',
       'theme',
       'version',
@@ -105,6 +107,7 @@ export default {
         .compile(precss)
         .then((css) => {
           this.$log(css);
+          this.loading = 0;
           alert('Check the console logs.'); // eslint-disable-line
         });
     },

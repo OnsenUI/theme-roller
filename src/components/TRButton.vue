@@ -1,18 +1,23 @@
 <template>
   <a
     class="tr-button"
-    :class="{ inverted }"
+    :class="{
+      inverted,
+      loader: loading,
+    }"
     v-on="$listeners"
   >
-    <i
-      v-if="icon && icons[icon]"
-      class="tr-button__icon"
-      :class="icon"
-      v-html="icons[icon]"
-    />
-    <span class="tr-button__label">
-      <slot>{{ label }}</slot>
-    </span>
+    <div :style="{ opacity: Number(!loading) }">
+      <i
+        v-if="icon && icons[icon]"
+        class="tr-button__icon"
+        :class="icon"
+        v-html="icons[icon]"
+      />
+      <span class="tr-button__label">
+        <slot>{{ label }}</slot>
+      </span>
+    </div>
   </a>
 </template>
 
@@ -33,6 +38,10 @@ export default {
       default: '',
     },
     inverted: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
     },
@@ -58,6 +67,7 @@ export default {
   background-color: var(--primary);
   color: #fff;
   transition: all .15s ease;
+  position: relative;
 
   &:hover {
     background-color: color(var(--primary) shade(10%))
@@ -77,6 +87,12 @@ export default {
     &:active {
       background-color: color(var(--primary) tint(80%));
     }
+  }
+
+  &:after {
+    position: absolute;
+    top: calc(50% - var(--loader-size) / 2 - 1px);
+    left: calc(50% - var(--loader-size) / 2 - 1px);
   }
 }
 

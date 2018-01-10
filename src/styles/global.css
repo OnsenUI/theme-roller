@@ -32,6 +32,30 @@ a {
   width: 6px;
 }
 
+/* LOADER */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loader:after {
+  content: '';
+  display: inline-block;
+  border-radius: 50%;
+  width: var(--loader-size);
+  height: var(--loader-size);
+  border: .15rem solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  animation: spin 750ms infinite linear;
+}
+.loader.inverted:after {
+  border: .15rem solid color(var(--primary) tint(95%));
+  border-top-color: var(--primary);
+}
+
 /* TOOLTIP */
 [data-tooltip] {
   position: relative;

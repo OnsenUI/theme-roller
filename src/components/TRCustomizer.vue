@@ -49,7 +49,8 @@
           <TRButton
             style="margin-left: 12px;"
             label="Save changes"
-            @click="saveBulk"
+            :loading="loading === 4"
+            @click="saveBulk()"
           />
         </div>
 
@@ -187,11 +188,12 @@ export default {
 
   computed: {
     ...mapMutationState([
-      'theme',
       'customVars',
+      'loading',
       'selectedCategory',
       'selectedPlatform',
       'showCustomizer',
+      'theme',
       'version',
     ]),
 
@@ -397,6 +399,7 @@ export default {
     // Extract changed variables and compile
     saveBulk() {
       if (this.bulkContent !== this.customTheme) {
+        this.loading = 4;
         CSSProcessor
           .compileVariables(this.bulkContent)
           .then((theme) => {
@@ -404,10 +407,12 @@ export default {
             this.compiledCustomVars = themeToVars(theme);
             this.customVars = themeToVars(this.bulkContent);
             this.customTheme = this.bulkContent;
+            this.$modal.hide('bulk');
             this.$emit('variable');
           });
+      } else {
+        this.$modal.hide('bulk');
       }
-      this.$modal.hide('bulk');
     },
 
     isLinkedVar(key) {

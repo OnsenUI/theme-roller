@@ -1,6 +1,6 @@
 <template>
   <div class="tr-menu">
-    <div class="tr-menu__subtitle" :class="{ 'tr-menu__loader': loading === 1 }">
+    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 1 }">
       <span>Onsen UI</span> version
     </div>
 
@@ -10,7 +10,7 @@
       class="tr-menu__version"
     />
 
-    <div class="tr-menu__subtitle" :class="{ 'tr-menu__loader': loading === 2 }">
+    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 2 }">
       Theme Preset
     </div>
 
@@ -47,7 +47,7 @@
       </li>
     </ul>
 
-    <div class="tr-menu__subtitle" :class="{ 'tr-menu__loader': loading === 3 }">
+    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 3 }">
       Platforms
     </div>
 
@@ -171,6 +171,11 @@ export default {
     text-transform: none;
     font-style: italic;
   }
+
+  &.loader:after {
+    float: right;
+    margin-right: 16px;
+  }
 }
 
 .tr-menu__button {
@@ -232,27 +237,4 @@ export default {
     }
   }
 }
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.tr-menu__loader:after {
-  content: '';
-  display: inline-block;
-  float: right;
-  margin-right: 16px;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  border: .15rem solid color(var(--primary) tint(95%));
-  border-top-color: var(--primary);
-  animation: spin 750ms infinite linear;
-}
-
 </style>
