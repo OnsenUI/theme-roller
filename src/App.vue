@@ -3,7 +3,7 @@
 
     <div class="tr-app__side-left">
       <TRMenu
-        class="tr-app__scrollable"
+        class="scrollable"
         @version="updateAllContent"
         @theme="updateOnlyTheme"
       />
@@ -13,14 +13,13 @@
       <div class="tr-app__content">
         <TRPreviewList
           ref="main"
-          class="tr-app__scrollable"
+          class="scrollable"
         />
       </div>
     </div>
 
     <div class="tr-app__side-right" v-show="showCustomizer">
       <TRCustomizer
-        xclass="tr-app__scrollable"
         @variable="updateStyle"
         @generator="$modal.show('generator')"
       />
@@ -33,7 +32,7 @@
     >
       <div class="tr-app__generator">
         <TRCloseButton @click="$modal.hide('generator')" />
-        <TRGenerator xclass="tr-app__scrollable" />
+        <TRGenerator />
       </div>
     </modal>
 
@@ -211,7 +210,7 @@ export default {
 }
 
 .tr-app__main {
-  margin-left: calc(var(--left-side-width) - 20px);
+  margin-left: var(--left-side-width);
   background-color: var(--background-color);
   z-index: 10;
 
@@ -227,30 +226,5 @@ export default {
 .tr-app__generator {
   height: 100%;
   padding-top: var(--content-padding);
-}
-</style>
-
-<style>
-.tr-app__scrollable {
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  height: calc(100% - 20vh);
-  padding-bottom: 20vh;
-  margin-right: 2px;
-}
-
-*:hover::-webkit-scrollbar-track {
-  background-color: #FAFAFA;
-}
-
-*:hover::-webkit-scrollbar-thumb {
-  background-color: #AAA;
-  border-radius: 10px;
-}
-
-*::-webkit-scrollbar{
-  width: 10px;
 }
 </style>

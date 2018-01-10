@@ -28,11 +28,12 @@
       <div class="tr-customizer__bulk">
         <TRCloseButton @click="$modal.hide('bulk')" />
 
-        <textarea
-          id="bulkEditor"
-          class="tr-customizer__bulk--editor"
-          v-model="bulkContent"
-        />
+        <div class="tr-customizer__bulk--editor">
+          <textarea
+            id="bulkEditor"
+            v-model="bulkContent"
+          />
+        </div>
 
         <div class="tr-customizer__toolbar">
           <span>
@@ -55,7 +56,7 @@
       </div>
     </modal>
 
-    <div class="tr-customizer__scrollable" :class="xclass">
+    <div class="tr-customizer__scrollable scrollable">
 
       <ul class="tr-customizer__variables">
         <li
@@ -167,13 +168,6 @@ export default {
     toLabel(string) {
       return util.toLabel(string)
         .replace('material', 'MD');
-    },
-  },
-
-  props: {
-    xclass: {
-      type: String,
-      default: '',
     },
   },
 
@@ -571,17 +565,22 @@ export default {
 }
 
 .tr-customizer__bulk--editor {
-  width: 100%;
-  max-width: 100%;
+  padding: var(--scroll-margin);
   height: 400px;
-  color: #333;
-  line-height: 22px;
-  font-family: monospace;
-  white-space: nowrap;
-  padding: 12px;
-  box-sizing: border-box;
-  border: 0;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
+
+  & textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    color: #333;
+    line-height: 22px;
+    font-family: monospace;
+    white-space: nowrap;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 0;
+  }
 }
 </style>

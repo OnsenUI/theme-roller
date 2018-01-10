@@ -6,22 +6,24 @@
       What should be included?
     </div>
 
-    <ul class="tr-generator__components" :class="xclass">
-      <li
-        v-for="component in fullComponentsList"
-        :key="`${version}-${component}`"
-      >
-        <label>
-          <a>
-            <TRCheckbox
-              :value="component"
-              v-model="selectedComponents"
-            />
-            <span>{{ component | capitalizeAll }}</span>
-          </a>
-        </label>
-      </li>
-    </ul>
+    <div class="tr-generator__components">
+      <ul class="scrollable">
+        <li
+          v-for="component in fullComponentsList"
+          :key="`${version}-${component}`"
+        >
+          <label>
+            <a>
+              <TRCheckbox
+                :value="component"
+                v-model="selectedComponents"
+              />
+              <span>{{ component | capitalizeAll }}</span>
+            </a>
+          </label>
+        </li>
+      </ul>
+    </div>
 
     <div class="tr-generator__toolbar">
       <TRButton
@@ -52,12 +54,6 @@ export default {
   filters: {
     capitalizeAll(string) {
       return util.capitalizeAll(string);
-    },
-  },
-  props: {
-    xclass: {
-      type: String,
-      default: '',
     },
   },
   data() {
@@ -132,15 +128,21 @@ export default {
 }
 
 .tr-generator__components {
-  padding: 0;
-  margin: 0;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-  padding: calc(var(--content-padding) / 2);
+  padding: var(--scroll-margin);
   height: 300px;
 
-  & li:hover {
-    background-color: var(--list-item-hover);
+  & ul {
+    padding: 0;
+    margin: 0;
+    padding: calc(var(--content-padding) / 2);
+    height: 100%;
+    box-sizing: border-box;
+
+    & li:hover {
+      background-color: var(--list-item-hover);
+    }
   }
 }
 
