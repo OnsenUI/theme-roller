@@ -1,7 +1,7 @@
 <template>
   <div class="tr-menu">
     <div class="tr-menu__subtitle">
-      <span>Onsen UI</span> version:
+      <span>Onsen UI</span> version
     </div>
 
     <TRSelect
