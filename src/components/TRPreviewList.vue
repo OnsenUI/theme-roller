@@ -56,9 +56,6 @@ export default {
       'selectedCategory',
       'selectedPlatform',
     ]),
-    annotationChange() {
-      return this.selectedPlatform && this.cssComponents;
-    },
     sortedCategories() {
       return Object.keys(this.groupedAnnotations).sort(); // eslint-disable-line
     },
@@ -71,35 +68,42 @@ export default {
   },
 
   watch: {
-    annotationChange: {
+    selectedPlatform() {
+      this.updateAnnotations();
+    },
+    cssComponents: {
       immediate: true,
       handler() {
-        setTimeout(() => {
-          const p = this.selectedPlatform;
-          this.groupedAnnotations = this.cssComponents
-            .reduce((result, component) => {
-              const { annotation } = component;
-              const md = /Material/i.test(annotation.name);
-
-              if (p === 'All'
-                || (p === 'Android' && md)
-                || (p === 'iOS' && !md)
-              ) {
-                const { category } = annotation;
-                if (!Object.hasOwnProperty.call(result, category)) {
-                  result[category] = [];
-                }
-                result[category].push(annotation);
-              }
-
-              return result;
-            }, {});
-        }, 100);
+        this.updateAnnotations();
       },
     },
   },
 
   methods: {
+    updateAnnotations() {
+      setTimeout(() => {
+        const p = this.selectedPlatform;
+        this.groupedAnnotations = this.cssComponents
+          .reduce((result, component) => {
+            const { annotation } = component;
+            const md = /Material/i.test(annotation.name);
+
+            if (p === 'All'
+              || (p === 'Android' && md)
+              || (p === 'iOS' && !md)
+            ) {
+              const { category } = annotation;
+              if (!Object.hasOwnProperty.call(result, category)) {
+                result[category] = [];
+              }
+              result[category].push(annotation);
+            }
+
+            return result;
+          }, {});
+      }, 100);
+    },
+
     onScroll() {
       if (!this.lock) {
         this.lock = true;
