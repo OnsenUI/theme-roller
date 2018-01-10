@@ -98,13 +98,8 @@
 
               <span
                 class="tr-customizer__indicator tooltip-left"
-                :style="{
-                  backgroundColor: isLinkedVar(key) ? '#ccc' : '#666'
-                }"
-                :data-tooltip="isLinkedVar(key)
-                  ? 'Normal variable'
-                  : 'Reference variable'
-                "
+                :style="{ backgroundColor: getVariableTypeColor(key) }"
+                :data-tooltip="`${getVariableType(key)} variable`"
               />
             </a>
           </label>
@@ -422,9 +417,15 @@ export default {
       }
     },
 
-    isLinkedVar(key) {
-      return (this.customVars[key] || this.originalVars[key] || '')
-        .indexOf('var') === -1;
+    getVariableType(key) {
+      if ((this.customVars[key] || this.originalVars[key] || '').indexOf('var') !== -1) {
+        return 'Reference';
+      }
+      return this.customVars[key] ? 'Modified' : 'Normal';
+    },
+    getVariableTypeColor(key) {
+      const type = this.getVariableType(key);
+      return type === 'Normal' ? '#ebebeb' : (type === 'Modified' ? '#999' : '#ccc');
     },
   },
 };
