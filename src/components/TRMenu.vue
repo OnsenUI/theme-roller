@@ -1,22 +1,22 @@
 <template>
   <div class="tr-menu">
-    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 1 }">
+    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'version' }">
       <span>Onsen UI</span> version
     </div>
 
     <TRSelect
       :options="versions"
-      @change="loading = 1; versionChange($event)"
+      @change="loading = 'version'; versionChange($event)"
       class="tr-menu__version"
     />
 
-    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 2 }">
+    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'theme' }">
       Theme Preset
     </div>
 
     <ul
       class="tr-menu__list themes"
-      @change="loading = 2; themeChange($event)"
+      @change="loading = 'theme'; themeChange($event)"
     >
       <li
         v-for="(label, $index) in themes.map(t => t.label)"
@@ -47,7 +47,7 @@
       </li>
     </ul>
 
-    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 3 }">
+    <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'platform' }">
       Platforms
     </div>
 
@@ -55,7 +55,7 @@
       <li
         v-for="platform in platforms"
         :key="`${version}-${platform}`"
-        @change="loading = 3"
+        @change="loading = 'platform'"
       >
         <label>
           <a>

@@ -166,7 +166,7 @@ export default {
         .compile(this.preCSS)
         .then((css) => {
           this.style = css;
-          this.loading = 0;
+          this.loading = false;
           if (callback instanceof Function) {
             callback();
           }

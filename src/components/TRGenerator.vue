@@ -29,8 +29,8 @@
       <TRButton
         icon="download"
         label="Generate and Download"
-        :loading="loading === 6"
-        @click="loading = 6; generate()"
+        :loading="loading === 'generator'"
+        @click="loading = 'generator'; generate()"
       />
     </div>
 
@@ -107,7 +107,7 @@ export default {
         .compile(precss)
         .then((css) => {
           this.$log(css);
-          this.loading = 0;
+          this.loading = false;
           alert('Check the console logs.'); // eslint-disable-line
         });
     },

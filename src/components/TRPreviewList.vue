@@ -103,7 +103,7 @@ export default {
             return result;
           }, {});
 
-        this.loading = 0;
+        this.loading = false;
       }, 100);
     },
 
