@@ -11,6 +11,7 @@
   --primary: #FF4C35;
   --checkbox-padding: 16px;
   --scroll-margin: 2px;
+  --scroll-extra: 10vh;
 
   --list-title: {
     color: #333;

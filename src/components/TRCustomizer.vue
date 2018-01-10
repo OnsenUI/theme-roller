@@ -450,8 +450,7 @@ export default {
 }
 
 .tr-customizer__scrollable {
-  height: calc(100% - var(--toolbar-height) * 2);
-  padding-bottom: 0;
+  height: calc(100% - var(--toolbar-height) * 2 - var(--scroll-extra));
 }
 
 .tr-customizer__variables {

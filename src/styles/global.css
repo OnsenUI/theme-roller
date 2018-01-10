@@ -17,8 +17,8 @@ a {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
-  height: calc(100% - 20vh);
-  padding-bottom: 20vh;
+  height: calc(100% - var(--scroll-extra));
+  padding-bottom: var(--scroll-extra);
   margin: var(--scroll-margin);
 }
 *::-webkit-scrollbar-track {
