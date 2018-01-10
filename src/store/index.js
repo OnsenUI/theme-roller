@@ -8,6 +8,7 @@ const stateLike = {
   cssComponents: [],
   customVars: {},
   fullComponentsIndex: '',
+  loading: 0,
   rootCSS: '',
   selectedCategory: '',
   selectedPlatform: 'All',

@@ -1,22 +1,22 @@
 <template>
   <div class="tr-menu">
-    <div class="tr-menu__subtitle">
+    <div class="tr-menu__subtitle" :class="{ 'tr-menu__loader': loading === 1 }">
       <span>Onsen UI</span> version
     </div>
 
     <TRSelect
       :options="versions"
-      @change="versionChange"
+      @change="loading = 1; versionChange($event)"
       class="tr-menu__version"
     />
 
-    <div class="tr-menu__subtitle">
+    <div class="tr-menu__subtitle" :class="{ 'tr-menu__loader': loading === 2 }">
       Theme Preset
     </div>
 
     <ul
       class="tr-menu__list themes"
-      @change="themeChange"
+      @change="loading = 2; themeChange($event)"
     >
       <li
         v-for="(label, $index) in themes.map(t => t.label)"
@@ -34,7 +34,7 @@
         </label>
       </li>
 
-      <li>
+      <li @change.stop>
         <label>
           <a class="tr-menu__customizer">
             <TRCheckbox
@@ -47,7 +47,7 @@
       </li>
     </ul>
 
-    <div class="tr-menu__subtitle">
+    <div class="tr-menu__subtitle" :class="{ 'tr-menu__loader': loading === 3 }">
       Platforms
     </div>
 
@@ -55,6 +55,7 @@
       <li
         v-for="platform in platforms"
         :key="`${version}-${platform}`"
+        @change="loading = 3"
       >
         <label>
           <a>
@@ -116,6 +117,7 @@ export default {
   computed: {
     ...mapMutationState([
       'cssComponents',
+      'loading',
       'selectedCategory',
       'selectedPlatform',
       'showCustomizer',
@@ -228,6 +230,28 @@ export default {
       content: '';
     }
   }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.tr-menu__loader:after {
+  content: '';
+  display: inline-block;
+  float: right;
+  margin-right: 16px;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  border: .15rem solid color(var(--primary) tint(95%));
+  border-top-color: var(--primary);
+  animation: spin 750ms infinite linear;
 }
 
 </style>

@@ -53,6 +53,7 @@ export default {
   computed: {
     ...mapMutationState([
       'cssComponents',
+      'loading',
       'selectedCategory',
       'selectedPlatform',
     ]),
@@ -101,6 +102,8 @@ export default {
 
             return result;
           }, {});
+
+        this.loading = 0;
       }, 100);
     },
 

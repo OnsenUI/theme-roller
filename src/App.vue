@@ -72,6 +72,7 @@ export default {
     ...mapMutationState([
       'browserslist',
       'cssComponents',
+      'loading',
       'fullComponentsIndex',
       'rootCSS',
       'showCustomizer',
@@ -165,6 +166,7 @@ export default {
         .compile(this.preCSS)
         .then((css) => {
           this.style = css;
+          this.loading = 0;
           return css;
         });
     },
