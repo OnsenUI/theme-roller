@@ -43,35 +43,21 @@ export default {
   components: {
     TRPreviewItem,
   },
+
+  data() {
+    return {
+      groupedAnnotations: [],
+    };
+  },
+
   computed: {
     ...mapMutationState([
       'cssComponents',
       'selectedCategory',
       'selectedPlatform',
     ]),
-    filteredAnnotations() {
-      return this.cssComponents
-        .map(c => c.annotation)
-        // Disable category filter, only scroll
-        // .filter(a => ['All', a.category]
-        //   .indexOf(this.selectedCategory) !== -1)
-        .filter((a) => {
-          if (this.selectedPlatform === 'Android') {
-            return /Material/i.test(a.name);
-          }
-          if (this.selectedPlatform === 'iOS') {
-            return !/Material/i.test(a.name);
-          }
-          return true;
-        });
-    },
-    groupedAnnotations() {
-      return this.filteredAnnotations
-        .reduce((result, annotation) => {
-          const { category } = annotation;
-          result[category] = [...(result[category] || []), annotation];
-          return result;
-        }, {});
+    annotationChange() {
+      return this.selectedPlatform && this.cssComponents;
     },
     sortedCategories() {
       return Object.keys(this.groupedAnnotations).sort(); // eslint-disable-line
@@ -81,6 +67,35 @@ export default {
         ...result,
         [category]: util.toId(category),
       }), {});
+    },
+  },
+
+  watch: {
+    annotationChange: {
+      immediate: true,
+      handler() {
+        setTimeout(() => {
+          const p = this.selectedPlatform;
+          this.groupedAnnotations = this.cssComponents
+            .reduce((result, component) => {
+              const { annotation } = component;
+              const md = /Material/i.test(annotation.name);
+
+              if (p === 'All'
+                || (p === 'Android' && md)
+                || (p === 'iOS' && !md)
+              ) {
+                const { category } = annotation;
+                if (!Object.hasOwnProperty.call(result, category)) {
+                  result[category] = [];
+                }
+                result[category].push(annotation);
+              }
+
+              return result;
+            }, {});
+        }, 100);
+      },
     },
   },
 
