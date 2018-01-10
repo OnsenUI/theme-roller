@@ -161,12 +161,15 @@ export default {
           this.updateStyle();
         });
     },
-    updateStyle() {
+    updateStyle(callback) {
       return CSSProcessor
         .compile(this.preCSS)
         .then((css) => {
           this.style = css;
           this.loading = 0;
+          if (callback instanceof Function) {
+            callback();
+          }
           return css;
         });
     },

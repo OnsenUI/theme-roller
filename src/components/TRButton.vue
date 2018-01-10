@@ -1,10 +1,7 @@
 <template>
   <a
     class="tr-button"
-    :class="{
-      inverted,
-      loader: loading,
-    }"
+    :class="{ inverted, loader: loading }"
     v-on="$listeners"
   >
     <div :style="{ opacity: Number(!loading) }">

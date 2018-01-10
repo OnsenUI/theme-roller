@@ -13,7 +13,8 @@
       <TRButton
         label="Clear"
         inverted
-        @click="saveVars(null, null); currentVar = ''"
+        :loading="loading === 'clear'"
+        @click="saveVars(null); currentVar = ''"
       />
 
       <TRCloseButton @click="showCustomizer = false" />
@@ -49,7 +50,7 @@
           <TRButton
             style="margin-left: 12px;"
             label="Save changes"
-            :loading="loading === 4"
+            :loading="loading === 'savebulk'"
             @click="saveBulk()"
           />
         </div>
@@ -359,11 +360,14 @@ export default {
 
       if (!value) {
         // Clear
-        this.customTheme = this.fixedTheme;
-        this.bulkContent = this.customTheme;
-        this.compiledCustomVars = {};
-        this.compiledCustomTheme = '';
-        this.$emit('variable');
+        if (this.compiledCustomTheme) {
+          this.loading = 'clear';
+          this.customTheme = this.fixedTheme;
+          this.bulkContent = this.customTheme;
+          this.compiledCustomVars = {};
+          this.compiledCustomTheme = '';
+          this.$emit('variable');
+        }
       } else {
         // Update with new value
         const re = new RegExp(`${this.currentVar}\\s*:.*;\\n`, 'img');
@@ -399,7 +403,7 @@ export default {
     // Extract changed variables and compile
     saveBulk() {
       if (this.bulkContent !== this.customTheme) {
-        this.loading = 4;
+        this.loading = 'savebulk';
         CSSProcessor
           .compileVariables(this.bulkContent)
           .then((theme) => {
@@ -407,8 +411,7 @@ export default {
             this.compiledCustomVars = themeToVars(theme);
             this.customVars = themeToVars(this.bulkContent);
             this.customTheme = this.bulkContent;
-            this.$modal.hide('bulk');
-            this.$emit('variable');
+            this.$emit('variable', () => this.$modal.hide('bulk'));
           });
       } else {
         this.$modal.hide('bulk');
