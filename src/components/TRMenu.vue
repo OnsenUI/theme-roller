@@ -148,7 +148,7 @@ export default {
 <style scoped>
 .tr-menu {
   padding-left: var(--content-padding);
-  padding-right: var(--content-padding);
+  padding-right: calc(var(--content-padding) / 4);
 
   & li:hover {
     background-color: var(--list-item-hover);
