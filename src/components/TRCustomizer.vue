@@ -425,7 +425,7 @@ export default {
     },
     getVariableTypeColor(key) {
       const type = this.getVariableType(key);
-      if ( type === 'Modified') {
+      if (type === 'Modified') {
         return '#999';
       }
       return type === 'Normal' ? '#ebebeb' : '#ccc';
