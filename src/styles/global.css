@@ -14,7 +14,7 @@ a {
 /* SCROLL */
 .scrollable {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   height: calc(100% - var(--scroll-extra));
