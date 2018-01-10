@@ -263,46 +263,43 @@ export default {
     visibleVars() {
       return this.commonVars.concat(this.filteredVars);
     },
-
-    // Run watcher for 2 variables
-    splitVars() {
-      return Object.keys(this.compiledOriginalVars).length > 0
-        && this.categories.length > 0;
-    },
   },
 
   watch: {
     // Split unfilterable and filterable variables
-    splitVars(flag) {
-      if (!flag) {
-        return;
-      }
+    compiledOriginalVars: {
+      immediate: true,
+      handler() {
+        if (Object.keys(this.compiledOriginalVars).length === 0 || this.categories.length === 0) {
+          return;
+        }
 
-      const common = [];
-      const other = [];
+        const common = [];
+        const other = [];
 
-      Object.keys(this.compiledOriginalVars)
-        .forEach((v) => {
-          const isShared = !this.categories
-            .some(c => v.indexOf(c.toLowerCase()) !== -1);
+        Object.keys(this.compiledOriginalVars)
+          .forEach((v) => {
+            const isShared = !this.categories
+              .some(c => v.indexOf(c.toLowerCase()) !== -1);
 
-          (isShared ? common : other)
-            .push(v);
-        });
+            (isShared ? common : other)
+              .push(v);
+          });
 
-      const sort = (arr) => {
-        const raw = v => /material-/.test(v)
-          ? `${v.replace('material-', '')}-`
-          : v;
+        const sort = (arr) => {
+          const raw = v => /material-/.test(v)
+            ? `${v.replace('material-', '')}-`
+            : v;
 
-        return arr
-          .map(v => [v, raw(v)])
-          .sort((a, b) => a[1].localeCompare(b[1]))
-          .map(i => i[0]);
-      };
+          return arr
+            .map(v => [v, raw(v)])
+            .sort((a, b) => a[1].localeCompare(b[1]))
+            .map(i => i[0]);
+        };
 
-      this.commonVars = sort(common); // Unfilterable
-      this.componentsVars = sort(other); // Filterable
+        this.commonVars = sort(common); // Unfilterable
+        this.componentsVars = sort(other); // Filterable
+      },
     },
 
     // Selected variable showing color picker
@@ -410,7 +407,7 @@ export default {
     },
 
     isLinkedVar(key) {
-      return (this.customVars[key] || this.originalVars[key])
+      return (this.customVars[key] || this.originalVars[key] || '')
         .indexOf('var') === -1;
     },
   },
