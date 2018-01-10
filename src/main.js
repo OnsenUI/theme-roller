@@ -17,5 +17,13 @@ Vue.prototype.$log = (...args) => console.log(...args); // eslint-disable-line n
 new Vue({
   el: '#app',
   store,
+  beforeCreate() {
+    if (window.location.search.match(/customize/i)) {
+      store.commit('showCustomizer', true);
+      if (window.location.origin) {
+        window.history.replaceState({}, document.title, window.location.origin);
+      }
+    }
+  },
   render: h => h(App),
 });
