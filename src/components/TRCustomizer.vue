@@ -226,10 +226,6 @@ export default {
 
     // Filter step 1: categories
     categoryFilteredVars() {
-      if (this.selectedCategory === 'All') {
-        return this.componentsVars;
-      }
-
       let category = this.selectedCategory
         .trim().toLowerCase().replace(/\s+/, '-');
 
