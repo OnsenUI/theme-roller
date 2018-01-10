@@ -127,10 +127,12 @@
         ref="picker"
         name="picker"
         style="width: inherit"
+        class="tr-customizer__popover"
+        :class="{ loader: loading === 'picker' }"
       >
         <color-picker
           v-model="colors"
-          @input="changeColors"
+          @input="loading = 'picker'; changeColors($event)"
         />
       </popover>
     </portal>
@@ -586,6 +588,15 @@ export default {
     padding: 12px;
     box-sizing: border-box;
     border: 0;
+  }
+}
+
+.tr-customizer__popover {
+  &:after {
+    position: absolute;
+    pointer-events: none;
+    top: 10px;
+    right: 10px;
   }
 }
 </style>
