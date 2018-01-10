@@ -14,6 +14,7 @@
         label="Clear"
         inverted
         :loading="loading === 'clear'"
+        :disabled="!compiledCustomTheme"
         @click="saveVars(null); currentVar = ''"
       />
 

@@ -91,6 +91,12 @@ export default {
     top: calc(50% - var(--loader-size) / 2 - 1px);
     left: calc(50% - var(--loader-size) / 2 - 1px);
   }
+
+  &[disabled] {
+    opacity: 0.8;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .tr-button__label {
