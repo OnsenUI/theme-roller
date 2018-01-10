@@ -280,7 +280,8 @@ export default {
     // Selected variable showing color picker
     currentVar(variable) {
       this.colors = this.compiledCustomVars[variable]
-        || this.compiledOriginalVars[variable];
+        || this.compiledOriginalVars[variable]
+        || '';
     },
 
     // On theme preset change, compile and update
