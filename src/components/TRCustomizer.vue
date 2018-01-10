@@ -425,7 +425,10 @@ export default {
     },
     getVariableTypeColor(key) {
       const type = this.getVariableType(key);
-      return type === 'Normal' ? '#ebebeb' : (type === 'Modified' ? '#999' : '#ccc');
+      if ( type === 'Modified') {
+        return '#999';
+      }
+      return type === 'Normal' ? '#ebebeb' : '#ccc';
     },
   },
 };
