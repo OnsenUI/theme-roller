@@ -165,6 +165,7 @@ export default {
 .tr-menu__subtitle {
   @apply --list-title;
   margin-top: 16px;
+  line-height: 18px;
 
   & span {
     text-transform: none;
