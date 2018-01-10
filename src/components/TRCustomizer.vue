@@ -267,39 +267,11 @@ export default {
 
   watch: {
     // Split unfilterable and filterable variables
-    compiledOriginalVars: {
-      immediate: true,
-      handler() {
-        if (Object.keys(this.compiledOriginalVars).length === 0 || this.categories.length === 0) {
-          return;
-        }
-
-        const common = [];
-        const other = [];
-
-        Object.keys(this.compiledOriginalVars)
-          .forEach((v) => {
-            const isShared = !this.categories
-              .some(c => v.indexOf(c.toLowerCase()) !== -1);
-
-            (isShared ? common : other)
-              .push(v);
-          });
-
-        const sort = (arr) => {
-          const raw = v => /material-/.test(v)
-            ? `${v.replace('material-', '')}-`
-            : v;
-
-          return arr
-            .map(v => [v, raw(v)])
-            .sort((a, b) => a[1].localeCompare(b[1]))
-            .map(i => i[0]);
-        };
-
-        this.commonVars = sort(common); // Unfilterable
-        this.componentsVars = sort(other); // Filterable
-      },
+    compiledOriginalVars() {
+      this.splitVars();
+    },
+    categories() {
+      this.splitVars();
     },
 
     // Selected variable showing color picker
@@ -324,6 +296,38 @@ export default {
   },
 
   methods: {
+    splitVars() {
+      if (Object.keys(this.compiledOriginalVars).length === 0 || this.categories.length === 0) {
+        return; // Initial perf
+      }
+
+      const common = [];
+      const other = [];
+
+      Object.keys(this.compiledOriginalVars)
+        .forEach((v) => {
+          const isShared = !this.categories
+            .some(c => v.indexOf(c.toLowerCase()) !== -1);
+
+          (isShared ? common : other)
+            .push(v);
+        });
+
+      const sort = (arr) => {
+        const raw = v => /material-/.test(v)
+          ? `${v.replace('material-', '')}-`
+          : v;
+
+        return arr
+          .map(v => [v, raw(v)])
+          .sort((a, b) => a[1].localeCompare(b[1]))
+          .map(i => i[0]);
+      };
+
+      this.commonVars = sort(common); // Unfilterable
+      this.componentsVars = sort(other); // Filterable
+    },
+
     // Parse picker color
     changeColors(color) {
       const source = /hsv/i.test(color.source)
