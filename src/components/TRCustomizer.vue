@@ -15,7 +15,7 @@
         inverted
         :loading="loading === 'clear'"
         :disabled="!compiledCustomTheme"
-        @click="saveVars(null); currentVar = ''"
+        @click="clearVars"
       />
 
       <TRCloseButton @click="showCustomizer = false" />
@@ -142,6 +142,7 @@ import TRButton from '@/components/TRButton';
 import TRCloseButton from '@/components/TRCloseButton';
 import colorPicker from 'vue-color/src/components/Chrome';
 import CSSProcessor from '@/css-processor';
+import cache from '@/api/cache';
 import util from '@/util';
 
 const get = (re, s) => re.exec(s)[1].trim();
@@ -286,12 +287,20 @@ export default {
     theme: {
       immediate: true,
       handler() {
-        this.customTheme = this.fixedTheme;
-        this.bulkContent = this.fixedTheme;
+        let theme = this.fixedTheme;
+        Object.keys(this.customVars)
+          .forEach((v) => {
+            const re = new RegExp(`${v}\\s*:.*;\\n`, 'img');
+            theme = theme.replace(re, `${v}: ${this.customVars[v]};\n`);
+          });
+
+        this.customTheme = theme;
+        this.bulkContent = theme;
+
         CSSProcessor
-          .compileVariables(this.fixedTheme)
-          .then((theme) => {
-            this.compiledTheme = theme;
+          .compileVariables(this.customTheme)
+          .then((compiledTheme) => {
+            this.compiledTheme = compiledTheme;
           });
       },
     },
@@ -357,40 +366,42 @@ export default {
         this.customVars = value || {};
       }
 
-      if (!value) {
-        // Clear
-        if (this.compiledCustomTheme) {
-          this.loading = 'clear';
-          this.customTheme = this.fixedTheme;
+      // Update with new value
+      const re = new RegExp(`${this.currentVar}\\s*:.*;\\n`, 'img');
+      this.customTheme = (this.customTheme || this.fixedTheme)
+        .replace(re, `${this.currentVar}: ${value};\n`);
+
+      CSSProcessor
+        .compileVariables(this.customTheme)
+        .then((theme) => {
+          this.compiledCustomTheme = theme;
+
+          const compiledVars = themeToVars(theme);
+          const vars = {};
+          Object.keys(compiledVars)
+            .forEach((v) => {
+              if (compiledVars[v] !== this.compiledOriginalVars[v]) {
+                vars[v] = compiledVars[v];
+              }
+            });
+          this.compiledCustomVars = vars;
+
           this.bulkContent = this.customTheme;
-          this.compiledCustomVars = {};
-          this.compiledCustomTheme = '';
           this.$emit('variable');
-        }
-      } else {
-        // Update with new value
-        const re = new RegExp(`${this.currentVar}\\s*:.*;\\n`, 'img');
-        this.customTheme = (this.customTheme || this.fixedTheme)
-          .replace(re, `${this.currentVar}: ${value};\n`);
+        });
+    },
 
-        CSSProcessor
-          .compileVariables(this.customTheme)
-          .then((theme) => {
-            this.compiledCustomTheme = theme;
-            const compiledVars = themeToVars(theme);
-            const vars = {};
-
-            Object.keys(compiledVars)
-              .forEach((v) => {
-                if (compiledVars[v] !== this.compiledOriginalVars[v]) {
-                  vars[v] = compiledVars[v];
-                }
-              });
-
-            this.compiledCustomVars = vars;
-            this.bulkContent = this.customTheme;
-            this.$emit('variable');
-          });
+    // Clear all
+    clearVars() {
+      this.customVars = {};
+      if (this.compiledCustomTheme !== '') {
+        this.loading = 'clear';
+        this.customTheme = this.fixedTheme;
+        this.bulkContent = this.customTheme;
+        this.compiledCustomVars = {};
+        this.compiledCustomTheme = '';
+        this.currentVar = '';
+        this.$emit('variable');
       }
     },
 
@@ -407,8 +418,24 @@ export default {
           .compileVariables(this.bulkContent)
           .then((theme) => {
             this.compiledCustomTheme = theme;
-            this.compiledCustomVars = themeToVars(theme);
-            this.customVars = themeToVars(this.bulkContent);
+
+            const bulkVars = themeToVars(this.bulkContent);
+            const compiledVars = themeToVars(theme);
+            const diffBulkVars = {};
+            const diffCompiledVars = {};
+
+            Object.keys(bulkVars).forEach((v) => {
+              // Store only modified values.
+              // Otherwise, square previews would not fallback to original theme values.
+              if (bulkVars[v] !== this.originalVars[v]) {
+                diffBulkVars[v] = bulkVars[v];
+                diffCompiledVars[v] = compiledVars[v];
+              }
+            });
+
+            this.customVars = diffBulkVars; // Real theme variables
+            this.compiledCustomVars = diffCompiledVars; // Compiled values for square preview
+
             this.customTheme = this.bulkContent;
             this.$emit('variable', () => this.$modal.hide('bulk'));
           });
