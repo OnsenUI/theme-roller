@@ -306,6 +306,14 @@ export default {
     },
   },
 
+  created() {
+    this.bulkContent = cache.get('bulk-content');
+    if (this.bulkContent !== '') {
+      this.$log('Found a custom theme cached.');
+      this.saveBulk();
+    }
+  },
+
   methods: {
     splitVars() {
       if (Object.keys(this.compiledOriginalVars).length === 0 || this.categories.length === 0) {
@@ -387,6 +395,7 @@ export default {
           this.compiledCustomVars = vars;
 
           this.bulkContent = this.customTheme;
+          cache.set('bulk-content', this.bulkContent, true);
           this.$emit('variable');
         });
     },
@@ -401,6 +410,7 @@ export default {
         this.compiledCustomVars = {};
         this.compiledCustomTheme = '';
         this.currentVar = '';
+        cache.remove('bulk-content');
         this.$emit('variable');
       }
     },
@@ -437,6 +447,7 @@ export default {
             this.compiledCustomVars = diffCompiledVars; // Compiled values for square preview
 
             this.customTheme = this.bulkContent;
+            cache.set('bulk-content', this.bulkContent, true);
             this.$emit('variable', () => this.$modal.hide('bulk'));
           });
       } else {
