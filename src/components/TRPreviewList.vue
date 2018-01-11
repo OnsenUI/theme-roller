@@ -1,5 +1,20 @@
 <template>
   <div class="tr-preview-list" @scroll="onScroll">
+    <section v-if="sortedCategories.length === 0">
+      <a class="tr-preview-list__header-link">
+        <h3 class="tr-preview-list__title">
+          <span>Loading</span>
+        </h3>
+      </a>
+
+      <div class="tr-preview-list__category">
+        <TRPreviewPlaceholder
+          v-for="n in 10"
+          :key="n"
+        />
+      </div>
+    </section>
+
     <section
       v-for="category in sortedCategories"
       :key="category"
@@ -36,12 +51,14 @@
 <script>
 import { mapMutationState } from '@/store';
 import TRPreviewItem from '@/components/TRPreviewItem';
+import TRPreviewPlaceholder from '@/components/TRPreviewPlaceholder';
 import util from '@/util';
 
 export default {
   name: 'TRPreviewList',
   components: {
     TRPreviewItem,
+    TRPreviewPlaceholder,
   },
 
   data() {
@@ -140,6 +157,10 @@ export default {
   @media (--smallscreen) {
     display: block;
   }
+
+  & svg {
+    width: 350px;
+  }
 }
 
 .tr-preview-list__header-link {
@@ -149,6 +170,7 @@ export default {
   text-decoration: none;
 
   & .tr-preview-list__title {
+    font-size: 24px;
     padding-left: var(--content-padding);
     margin-top: 10px;
 

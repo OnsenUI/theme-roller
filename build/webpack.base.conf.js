@@ -27,6 +27,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
+      'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       // FIX: pffsu is not browserifiable
       'postcss-font-family-system-ui$': resolve('build/pffsu-monkeypatch.js'),

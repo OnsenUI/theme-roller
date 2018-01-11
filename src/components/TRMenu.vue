@@ -76,6 +76,21 @@
     </div>
 
     <ul class="tr-menu__list categories">
+      <template v-if="categories.length === 0">
+        <li v-for="n in 10">
+          <label><a>
+              <vue-content-loading
+                :width="26"
+                :height="2"
+                :speed="2"
+                primary="#f3f3f3"
+                secondary="#ecebeb"
+              >
+                <rect x="0" y="0" rx="1" ry="1" width="16" height="2" />
+              </vue-content-loading>
+          </a></label>
+        </li>
+      </template>
       <li
         v-for="category in categories"
         :key="`${version}-${category}`"
@@ -101,6 +116,7 @@ import TRCheckbox from '@/components/TRCheckbox';
 import TRRadio from '@/components/TRRadio';
 import TRSelect from '@/components/TRSelect';
 import { mapMutationState } from '@/store';
+import VueContentLoading from 'vue-content-loading';
 
 export default {
   name: 'TRMenu',
@@ -108,6 +124,7 @@ export default {
     TRCheckbox,
     TRRadio,
     TRSelect,
+    VueContentLoading,
   },
 
   data() {
