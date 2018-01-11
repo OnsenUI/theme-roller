@@ -77,8 +77,9 @@
 
     <ul class="tr-menu__list categories">
       <template v-if="categories.length === 0">
-        <li v-for="n in 10">
-          <label><a>
+        <li v-for="n in 10" :key="n">
+          <label>
+            <a>
               <vue-content-loading
                 :width="26"
                 :height="2"
@@ -86,9 +87,17 @@
                 primary="#f3f3f3"
                 secondary="#ecebeb"
               >
-                <rect x="0" y="0" rx="1" ry="1" width="16" height="2" />
+                <rect
+                  x="0"
+                  y="0"
+                  rx="1"
+                  ry="1"
+                  width="16"
+                  height="2"
+                />
               </vue-content-loading>
-          </a></label>
+            </a>
+          </label>
         </li>
       </template>
       <li
