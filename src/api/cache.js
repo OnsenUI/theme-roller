@@ -3,6 +3,10 @@ class Cache {
     this.cache = {};
   }
 
+  has(id) {
+    return Object.hasOwnProperty.call(this.cache, id);
+  }
+
   get(id) {
     return this.cache[id];
   }

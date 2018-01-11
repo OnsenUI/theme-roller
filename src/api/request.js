@@ -16,9 +16,11 @@ export default function request(uri, {
   filter = res => res,
   headers = { 'Content-Type': 'application/json' },
 } = {}) {
-  if (cache.get(uri)) {
+  if (cache.has(uri)) {
+    console.log('yes')
     return Promise.resolve(cache.get(uri));
   }
+    console.log('no')
 
   return axios.get(uri, { headers })
     .then(res => cache.set(uri, filter(res.data)));
