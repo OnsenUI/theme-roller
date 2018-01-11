@@ -307,7 +307,7 @@ export default {
   },
 
   created() {
-    this.bulkContent = cache.get('bulk-content');
+    this.bulkContent = cache.get('bulk-content') || '';
     if (this.bulkContent !== '') {
       this.$log('Found a custom theme cached.');
       this.saveBulk();
