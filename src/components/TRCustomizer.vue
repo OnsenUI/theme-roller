@@ -405,9 +405,7 @@ export default {
     // Clear all
     clearVars() {
       this.customVars = {};
-      this.$log('cleaning?')
       if (this.compiledCustomTheme !== '') {
-        this.$log('jio')
         this.loading = 'clear';
         this.customTheme = this.fixedTheme;
         this.bulkContent = this.customTheme;
