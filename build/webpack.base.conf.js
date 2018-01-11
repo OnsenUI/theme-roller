@@ -116,6 +116,7 @@ module.exports = {
       {
         // FIX: Remove sourcemaps from css parse bugged in browser
         test: /source-map/,
+        exclude: /clean-css/,
         loader: 'null-loader'
       }
     ]

@@ -1,8 +1,11 @@
 import postcss from 'postcss';
 import postcssCssnext from 'postcss-cssnext';
 import postcssUrlResolver from 'postcss-url-resolver';
+import CleanCSS from 'clean-css';
 import api from '@/api';
 import store from '@/store';
+
+const delay = fn => new Promise(resolve => setTimeout(() => resolve(fn()), 300));
 
 const run = ({
   from = '',
@@ -26,12 +29,9 @@ const run = ({
   }
 
   // Postcss is synchronous...
-  return new Promise((resolve) => {
-    setTimeout(() =>
-      resolve(postcss(plugins)
-        .process(css, { from })
-        .then(result => result.css)), 300);
-  });
+  return delay(() => postcss(plugins)
+    .process(css, { from })
+    .then(result => result.css));
 };
 
 export default {
@@ -73,5 +73,9 @@ export default {
     return css
       .replace(/^(\s*@import.+theme\.css.+\n)/m, theme)
       .replace(/^(\s*@import.+components\/index\.css.+)$/m, index);
+  },
+
+  minify(css) {
+    return delay(() => new CleanCSS().minify(css).styles);
   },
 };
