@@ -421,7 +421,9 @@ export default {
       if ((this.customVars[key] || this.originalVars[key] || '').indexOf('var') !== -1) {
         return 'Reference';
       }
-      return this.customVars[key] ? 'Modified' : 'Normal';
+      return (this.customVars[key] && this.customVars[key] !== this.originalVars[key])
+        ? 'Modified'
+        : 'Normal';
     },
     getVariableTypeColor(key) {
       const type = this.getVariableType(key);
