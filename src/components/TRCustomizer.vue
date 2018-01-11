@@ -178,10 +178,10 @@ export default {
       customTheme: '',
       compiledCustomVars: { },
       compiledCustomTheme: '',
+      compiledTheme: '',
       componentsVars: [],
       commonVars: [],
       currentVar: '',
-      compiledTheme: '',
       colors: '#fff',
     };
   },
@@ -287,6 +287,7 @@ export default {
     theme: {
       immediate: true,
       handler() {
+        // Custom theme
         let theme = this.fixedTheme;
         Object.keys(this.customVars)
           .forEach((v) => {
@@ -297,8 +298,9 @@ export default {
         this.customTheme = theme;
         this.bulkContent = theme;
 
+        // Preset theme
         CSSProcessor
-          .compileVariables(this.customTheme)
+          .compileVariables(this.fixedTheme)
           .then((compiledTheme) => {
             this.compiledTheme = compiledTheme;
           });
@@ -403,7 +405,9 @@ export default {
     // Clear all
     clearVars() {
       this.customVars = {};
+      this.$log('cleaning?')
       if (this.compiledCustomTheme !== '') {
+        this.$log('jio')
         this.loading = 'clear';
         this.customTheme = this.fixedTheme;
         this.bulkContent = this.customTheme;
