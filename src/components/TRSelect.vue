@@ -4,7 +4,9 @@
 
     <div class="tr-select__input">
       <select
-        v-on="$listeners"
+        @change="$emit('change', $event)"
+        @input="$emit('input', $event.target.value)"
+        ref="select"
       >
         <option
           v-if="options.length === 0"
@@ -29,6 +31,10 @@
 <script>
 export default {
   name: 'TRSelect',
+  model: {
+    event: 'input',
+    prop: 'model',
+  },
 
   props: {
     label: {
@@ -44,6 +50,16 @@ export default {
     keyPrefix: {
       type: String,
       default: '',
+    },
+    model: {
+      type: [Number, String],
+      default: undefined,
+    },
+  },
+
+  watch: {
+    model() {
+      setTimeout(() => { this.$refs.select.value = this.model; }, 0);
     },
   },
 };

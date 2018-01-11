@@ -50,6 +50,7 @@ import TRGenerator from '@/components/TRGenerator';
 import TRCloseButton from '@/components/TRCloseButton';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
+import cache from '@/api/cache';
 
 export default {
   name: 'App',
@@ -79,6 +80,7 @@ export default {
       'theme',
       'themes',
       'version',
+      'versionIndex',
       'versions',
     ]),
     style: {
@@ -104,7 +106,11 @@ export default {
       .then(([versions, browserslist]) => {
         this.versions = versions;
         this.browserslist = browserslist;
-        return this.updateAllContent(versions[0]);
+        this.versionIndex = cache.has('selected-version')
+          ? versions.length - Number(cache.get('selected-version'))
+          : 0;
+
+        return this.updateAllContent(versions[this.versionIndex]);
       })
       .then(() => {
         if (window.location.hash) {
@@ -130,7 +136,8 @@ export default {
     fetchThemes(version) {
       return api.getThemes(version).then((themes) => {
         this.themes = themes;
-        return api.getThemeCSS(version, themes[0].theme.name);
+        return api
+          .getThemeCSS(version, themes[Number(cache.get('selected-theme')) || 0].theme.name);
       });
     },
     fetchComponentsIndex(version) {

@@ -8,6 +8,7 @@
       :options="versions"
       @change="loading = 'version'; versionChange($event)"
       class="tr-menu__version"
+      v-model="versionIndex"
     />
 
     <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'theme' }">
@@ -95,6 +96,7 @@
 
 <script>
 import util from '@/util';
+import cache from '@/api/cache';
 import TRCheckbox from '@/components/TRCheckbox';
 import TRRadio from '@/components/TRRadio';
 import TRSelect from '@/components/TRSelect';
@@ -111,7 +113,7 @@ export default {
   data() {
     return {
       platforms: ['All', 'iOS', 'Android'],
-      selectedTheme: 0,
+      selectedTheme: Number(cache.get('selected-theme')) || 0,
     };
   },
   computed: {
@@ -122,6 +124,7 @@ export default {
       'selectedPlatform',
       'showCustomizer',
       'version',
+      'versionIndex',
       'versions',
       'themes',
     ]),
@@ -132,12 +135,19 @@ export default {
 
   methods: {
     versionChange(event) {
+      const { value } = event.target;
+
       this.selectedTheme = 0;
-      this.$emit('version', this.versions[event.target.value] || '');
+      cache.set('selected-theme', 0, true);
+
+      cache.set('selected-version', this.versions.length - value, true);
+      this.$emit('version', this.versions[value] || '');
     },
     themeChange(event) {
       if (event.target.type === 'radio') {
-        this.$emit('theme', this.themes[event.target.value].theme.name);
+        const { value } = event.target;
+        cache.set('selected-theme', value, true);
+        this.$emit('theme', this.themes[value].theme.name);
       }
     },
     toId(string) {

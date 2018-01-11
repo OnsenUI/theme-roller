@@ -16,6 +16,7 @@ const stateLike = {
   theme: '',
   themes: [],
   version: '',
+  versionIndex: 0,
   versions: [],
 };
 
