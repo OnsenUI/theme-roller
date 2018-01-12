@@ -629,9 +629,10 @@ export default {
     max-width: 100%;
     height: 100%;
     color: #333;
+    background-color: #fff;
     line-height: 22px;
     font-family: monospace;
-    white-space: nowrap;
+    white-space: pre-wrap;
     padding: 12px;
     box-sizing: border-box;
     border: 0;
