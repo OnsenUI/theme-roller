@@ -264,7 +264,7 @@ export default {
       display: block;
       border-top: 4px solid var(--primary);
       border-right: 4px solid var(--primary);
-      transform: rotate(-45deg) translate3d(-3px, 4px, 0);
+      transform: rotate(-45deg) translate3d(-4px, 4px, 0);
     }
   }
 }
