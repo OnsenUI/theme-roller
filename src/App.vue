@@ -15,6 +15,9 @@
           ref="main"
           class="scrollable"
         />
+        <a class="tr-app__content--gotop" @click="$refs.main.$el.scrollTop = 0">
+          <span />
+        </a>
       </div>
     </div>
 
@@ -233,6 +236,37 @@ export default {
 
 .tr-app__content {
   height: 100vh;
+  position: relative;
+
+  & .tr-app__content--gotop {
+    background-color: #fff;
+    color: var(--primary);
+    position: absolute;
+    bottom: 16px;
+    right: 24px;
+    opacity: .6;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    & span {
+      width: 16px;
+      height: 16px;
+      display: block;
+      border-top: 4px solid var(--primary);
+      border-right: 4px solid var(--primary);
+      transform: rotate(-45deg) translate3d(-3px, 4px, 0);
+    }
+  }
 }
 
 .tr-app__generator {
