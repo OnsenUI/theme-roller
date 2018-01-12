@@ -99,7 +99,7 @@ export default {
 
   methods: {
     updateAnnotations() {
-      setTimeout(() => {
+      const update = () => {
         const p = this.selectedPlatform;
         this.groupedAnnotations = this.cssComponents
           .reduce((result, component) => {
@@ -121,7 +121,13 @@ export default {
           }, {});
 
         this.loading = false;
-      }, 100);
+      };
+
+      if (this.loading) {
+        setTimeout(update, 100); // Asynchronous on UI click
+      } else {
+        update(); // Synchronous on initial load
+      }
     },
 
     onScroll() {

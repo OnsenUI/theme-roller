@@ -21,7 +21,8 @@ new Vue({
     if (window.location.search.match(/customize/i)) {
       store.commit('showCustomizer', true);
       if (window.location.origin) {
-        window.history.replaceState({}, document.title, window.location.origin);
+        window.history
+          .replaceState({}, document.title, window.location.origin + window.location.hash);
       }
     }
   },
