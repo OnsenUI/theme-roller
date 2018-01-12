@@ -620,7 +620,7 @@ export default {
 
 .tr-customizer__bulk--editor {
   padding: var(--scroll-margin);
-  height: 400px;
+  height: 330px;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 
@@ -628,6 +628,7 @@ export default {
     width: 100%;
     max-width: 100%;
     height: 100%;
+    resize: none;
     color: #333;
     background-color: #fff;
     line-height: 22px;
