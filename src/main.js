@@ -18,12 +18,11 @@ new Vue({
   el: '#app',
   store,
   beforeCreate() {
-    if (window.location.search.match(/customize/i)) {
+    const wl = window.location;
+    if (wl.search.match(/customize/i)) {
       store.commit('showCustomizer', true);
-      if (window.location.origin) {
-        window.history
-          .replaceState({}, document.title, window.location.origin + window.location.hash);
-      }
+      window.history
+        .replaceState({}, document.title, `${wl.protocol}//${wl.host}${wl.pathname}${wl.hash}`);
     }
   },
   render: h => h(App),
