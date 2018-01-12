@@ -6,10 +6,12 @@
 
     <TRSelect
       :options="versions"
-      @change="loading = 'version'; versionChange($event)"
+      @change="versionChange"
       class="tr-menu__version"
       v-model="versionIndex"
-    />
+    >
+      <option slot="after-options" value="-2">&lt;= 2.1.0</option>
+    </TRSelect>
 
     <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'theme' }">
       Theme Preset
@@ -161,13 +163,18 @@ export default {
 
   methods: {
     versionChange(event) {
-      const { value } = event.target;
+      const value = Number(event.target.value);
+      if (value === -2) { // Redirect to Theme Roller for <= 2.1.0
+        window.location.replace('http://components.onsen.io/');
+      } else {
+        this.loading = 'version';
 
-      this.selectedTheme = 0;
-      cache.set('selected-theme', 0, true);
+        this.selectedTheme = 0;
+        cache.set('selected-theme', 0, true);
 
-      cache.set('selected-version', this.versions.length - value, true);
-      this.$emit('version', this.versions[value] || '');
+        cache.set('selected-version', this.versions.length - value, true);
+        this.$emit('version', this.versions[value] || '');
+      }
     },
     themeChange(event) {
       if (event.target.type === 'radio') {

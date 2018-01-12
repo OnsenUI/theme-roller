@@ -23,6 +23,8 @@
         >
           {{ option }}
         </option>
+
+        <slot name="after-options" />
       </select>
     </div>
   </label>
