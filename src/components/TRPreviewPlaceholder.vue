@@ -1,7 +1,7 @@
 <template>
   <div class="tr-preview-placeholder">
     <vue-content-loading
-      :width="350"
+      :width="280"
       :height="236"
       :speed="2"
       primary="#f3f3f3"
@@ -9,13 +9,13 @@
     >
 
       <circle
-        cx="328"
-        cy="223"
+        cx="270"
+        cy="225"
         r="6.6"
       />
       <rect
         x="12"
-        y="219"
+        y="221"
         rx="4"
         ry="4"
         width="144.5"
@@ -26,7 +26,7 @@
         y="6"
         rx="5"
         ry="5"
-        width="350"
+        width="280"
         height="201"
       />
 
@@ -48,7 +48,7 @@ export default {
 <style scoped>
 .tr-preview-placeholder {
   display: block;
-  width: 350px;
+  width: 280px;
   box-sizing: border-box;
   margin: 0px 16px 26px;
 }

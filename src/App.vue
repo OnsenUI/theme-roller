@@ -3,7 +3,7 @@
 
     <div class="tr-app__side-left">
       <TRMenu
-        class="scrollable"
+        class="scrollable tr-app__offset-top"
         @version="updateAllContent"
         @theme="updateOnlyTheme"
       />
@@ -13,7 +13,7 @@
       <div class="tr-app__content">
         <TRPreviewList
           ref="main"
-          class="scrollable"
+          class="scrollable tr-app__offset-top"
         />
         <a class="tr-app__content--gotop" @click="$refs.main.$el.scrollTop = 0">
           <span />
@@ -199,9 +199,8 @@ export default {
   position: static;
 }
 
-.tr-app__title {
-  position: fixed;
-  margin: var(--content-padding);
+.tr-app__offset-top {
+  padding-top: var(--top-offset);
 }
 
 .tr-app__side-left {

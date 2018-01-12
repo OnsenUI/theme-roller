@@ -140,7 +140,7 @@ export default {
 <style scoped>
 .tr-preview-item {
   display: block;
-  width: 350px;
+  width: 280px;
   box-sizing: border-box;
   margin: 0px 16px 26px;
 
@@ -158,7 +158,7 @@ export default {
   font-weight: 500;
   line-height: 1.4;
   text-decoration: none;
-  margin: 12px 0 4px 0;
+  margin: 14px 0 4px 0;
   display: inline-block;
   padding: 0 10px;
   display: block;
@@ -180,7 +180,7 @@ export default {
   align-items: center;
   text-align: center;
   border-radius: 3px;
-  width: 350px;
+  width: 280px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.18);

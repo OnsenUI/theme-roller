@@ -2,8 +2,9 @@
   --background-color: #fff;
   --border-color: #dbdbdb;
   --content-padding: 20px;
+  --top-offset: 44px;
   --toolbar-height: 60px;
-  --left-side-width: 230px;
+  --left-side-width: 280px;
   --right-side-width: 300px;
   --list-item-color: #777;
   --list-item-padding: 6px 16px;

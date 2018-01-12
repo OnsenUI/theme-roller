@@ -17,7 +17,7 @@ a {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
-  height: calc(100% - var(--scroll-extra));
+  height: calc(100% - var(--scroll-extra) - var(--top-offset));
   padding-bottom: var(--scroll-extra);
   margin: var(--scroll-margin);
 }

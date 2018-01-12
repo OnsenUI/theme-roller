@@ -152,7 +152,12 @@ export default {
 
 <style scoped>
 .tr-preview-list {
+  padding-left: 29px;
+  padding-right: 12px;
 
+  & section {
+    padding-bottom: 20px;
+  }
 }
 
 .tr-preview-list__category {
@@ -177,14 +182,14 @@ export default {
 
   & .tr-preview-list__title {
     font-size: 24px;
-    padding-left: var(--content-padding);
-    margin-top: 10px;
+    padding-left: 16px;
+    margin-top: 0;
 
     &:before {
       content: '';
       display: block;
-      margin-top: -30px;
-      height: 30px;
+      margin-top: calc(var(--top-offset) * -1);
+      height: var(--top-offset);
       visibility: hidden;
     }
 

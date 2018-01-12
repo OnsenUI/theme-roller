@@ -192,8 +192,8 @@ export default {
 
 <style scoped>
 .tr-menu {
-  padding-left: var(--content-padding);
-  padding-right: calc(var(--content-padding) / 4);
+  padding-left: 62px;
+  padding-right: 6px;
 
   & li:hover {
     background-color: var(--list-item-hover);
@@ -207,8 +207,11 @@ export default {
 
 .tr-menu__subtitle {
   @apply --list-title;
-  margin-top: 16px;
   line-height: 18px;
+
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
 
   & span {
     text-transform: none;
@@ -219,15 +222,6 @@ export default {
     float: right;
     margin-right: 16px;
   }
-}
-
-.tr-menu__button {
-  margin: 10px var(--content-padding);
-}
-
-.tr-menu__button button {
-  width: 100%;
-  text-align: center;
 }
 
 .tr-menu__list {
