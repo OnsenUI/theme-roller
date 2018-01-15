@@ -128,7 +128,7 @@
       >
         <color-picker
           v-model="colors"
-          @input="loading = 'picker'; changeColors($event)"
+          @input="delayChangeColors($event)"
         />
       </popover>
     </portal>
@@ -349,8 +349,14 @@ export default {
       this.componentsVars = sort(other); // Filterable
     },
 
+    delayChangeColors(color) {
+      clearTimeout(this.pickerTimeout);
+      this.pickerTimeout = setTimeout(() => this.changeColors(color), 300);
+    },
+
     // Parse picker color
     changeColors(color) {
+      this.loading = 'picker';
       const source = /hsv/i.test(color.source)
         ? 'rgba'
         : color.source;
