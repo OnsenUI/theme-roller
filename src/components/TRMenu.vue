@@ -165,7 +165,7 @@ export default {
     versionChange(event) {
       const value = Number(event.target.value);
       if (value === -2) { // Redirect to Theme Roller for <= 2.1.0
-        window.location.replace('http://components.onsen.io/');
+        window.location.replace('https://components.onsen.io/old-theme-roller.html');
       } else {
         this.loading = 'version';
 
