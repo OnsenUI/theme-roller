@@ -200,7 +200,6 @@ export default {
     transition: opacity .2s ease;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
     z-index: 2147483647; /* Maximum */
-
     position: absolute;
     bottom: 0;
     left: 0;
@@ -208,6 +207,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     background-color: #fff;
     height: 30px;
 
