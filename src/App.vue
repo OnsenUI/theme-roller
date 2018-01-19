@@ -241,7 +241,7 @@ export default {
     width: 15px;
     height: 60px;
     position: absolute;
-    top: 0;
+    top: 5px;
     right: -15px;
     background-color: var(--primary);
     display: none;

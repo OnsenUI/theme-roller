@@ -184,6 +184,7 @@ export default {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.18);
+  overflow: visible;
 
   & .tr-preview-item__links {
     opacity: 0;
@@ -197,7 +198,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     background-color: #fff;
     height: 30px;
 
