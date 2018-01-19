@@ -253,6 +253,10 @@ export default {
       & span {
         padding-left: var(--checkbox-padding);
       }
+
+      @media(--mobile) {
+        display: none;
+      }
     }
   }
 

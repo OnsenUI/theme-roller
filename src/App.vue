@@ -1,7 +1,13 @@
 <template>
   <div class="tr-app">
+    <div
+      class="tr-app__mask"
+      :class="{ hidden: !menuOpen }"
+      @click="menuOpen = false"
+    />
 
-    <div class="tr-app__side-left">
+    <div class="tr-app__side-left" :class="{ open: menuOpen }">
+      <a @click="menuOpen = !menuOpen" class="tr-app__side-left__menu-button" />
       <TRMenu
         class="scrollable tr-app__offset-top"
         @version="updateAllContent"
@@ -69,6 +75,7 @@ export default {
   data() {
     return {
       styleElement: document.createElement('style'),
+      menuOpen: false,
     };
   },
 
@@ -199,6 +206,23 @@ export default {
   position: static;
 }
 
+.tr-app__mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2000;
+  transition: opacity 0.2s ease;
+  background-color: #000;
+  opacity: 0.2;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
 .tr-app__offset-top {
   padding-top: var(--top-offset);
 }
@@ -210,6 +234,31 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 8;
+  background-color: var(--background-color);
+  transition: transform .2s ease;
+
+  & .tr-app__side-left__menu-button {
+    width: 15px;
+    height: 60px;
+    position: absolute;
+    top: 0;
+    right: -15px;
+    background-color: var(--primary);
+    display: none;
+  }
+
+  @media (--mobile) {
+    z-index: 3000;
+    transform: translate3d(-100%, 0, 0);
+
+    & .tr-app__side-left__menu-button {
+      display: block;
+    }
+
+    &.open {
+      transform: translate3d(0, 0, 0);
+    }
+  }
 }
 
 .tr-app__side-right {
@@ -221,6 +270,10 @@ export default {
   right: 0;
   z-index: 10;
   background-color: var(--background-color);
+
+  @media (--smallscreen) {
+    display: none;
+  }
 }
 
 .tr-app__main {
@@ -230,6 +283,12 @@ export default {
 
   &.customizer {
     margin-right: var(--right-side-width);
+  }
+
+
+  @media (--mobile) {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

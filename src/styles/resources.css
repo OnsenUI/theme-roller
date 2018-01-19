@@ -36,4 +36,5 @@
   }
 
   @custom-media --smallscreen (max-width: 480px);
+  @custom-media --mobile (max-width: 768px);
 }

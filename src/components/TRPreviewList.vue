@@ -158,6 +158,10 @@ export default {
   & section {
     padding-bottom: 20px;
   }
+
+  @media (--mobile) {
+    padding-left: 16px;
+  }
 }
 
 .tr-preview-list__category {
@@ -167,6 +171,8 @@ export default {
 
   @media (--smallscreen) {
     display: block;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   & svg {

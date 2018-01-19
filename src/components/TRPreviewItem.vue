@@ -185,16 +185,6 @@ export default {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.18);
 
-
-  @media (--smallscreen) {
-    width: auto;
-    border-radius: 0;
-    margin-right: -10px;
-    margin-left: -10px;
-    box-shadow: none;
-  }
-
-
   & .tr-preview-item__links {
     opacity: 0;
     transition: opacity .2s ease;
@@ -230,6 +220,18 @@ export default {
 
   &:hover .tr-preview-item__links {
     opacity: 1;
+  }
+
+  @media (--smallscreen) {
+    width: auto;
+    border-radius: 0;
+    margin-right: -10px;
+    margin-left: -10px;
+    box-shadow: none;
+
+    &:focus .tr-preview-item__links {
+      opacity: 1;
+    }
   }
 }
 </style>
