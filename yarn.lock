@@ -54,6 +54,10 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@kazupon/vue-i18n-loader@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@kazupon/vue-i18n-loader/-/vue-i18n-loader-0.2.1.tgz#a19c363ac4b30a1487cb5ab52f977506d7658994"
+
 "@std/esm@^0.16.0":
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/@std/esm/-/esm-0.16.0.tgz#2a7a33ecb7f1701cebd4c87df6d0d945ed51f730"
@@ -4228,7 +4232,7 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@^3.2.5, js-yaml@^3.4.3, js-yaml@^3.7.0, js-yaml@^3.9.1:
+js-yaml@^3.2.5, js-yaml@^3.4.3, js-yaml@^3.5.2, js-yaml@^3.7.0, js-yaml@^3.9.1:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.10.0.tgz#2e78441646bd4682e963f22b6e92823c309c62dc"
   dependencies:
@@ -7541,6 +7545,10 @@ vue-hot-reload-api@^2.2.0:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.2.4.tgz#683bd1d026c0d3b3c937d5875679e9a87ec6cd8f"
 
+vue-i18n@^7.4.2:
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-7.4.2.tgz#ef954f80898bb3609f132f77d51a7053379e03b2"
+
 vue-jest@^1.0.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/vue-jest/-/vue-jest-1.2.0.tgz#4f7dafbe5288e98db36f5d86964b42231a435131"
@@ -7881,6 +7889,12 @@ y18n@^3.2.1:
 yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
+
+yaml-loader@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/yaml-loader/-/yaml-loader-0.5.0.tgz#86b1982d84a8e429e6647d93de9a0169e1c15827"
+  dependencies:
+    js-yaml "^3.5.2"
 
 yargs-parser@^4.2.0:
   version "4.2.1"

@@ -1,9 +1,20 @@
+<i18n>
+en:
+  generate: "Generate and Download"
+  description: >
+    You can also remove components you don't need
+    rom your custom CSS file. What should be included?
+ja:
+  generate: "生成 & ダウンロード"
+  description: >
+    カスタム CSS ファイルに含めるコンポーネントを選択してください。
+    不要なコンポーネントは除外することができます。
+</i18n>
+
 <template>
   <div class="tr-generator">
     <div class="tr-generator__message">
-      You can also remove components you don't
-      need from your custom CSS stylesheet.
-      What should be included?
+      {{ $t('description') }}
     </div>
 
     <div class="tr-generator__components">
@@ -28,7 +39,7 @@
     <div class="tr-generator__toolbar">
       <TRButton
         icon="download"
-        label="Generate and Download"
+        :label="$t('generate')"
         :loading="loading === 'generator'"
         @click="loading = 'generator'; generate()"
       />

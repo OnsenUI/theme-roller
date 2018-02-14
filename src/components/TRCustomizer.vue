@@ -1,3 +1,24 @@
+<i18n>
+en:
+  bulk: "Bulk Edit"
+  clear: "Clear"
+  componentvars: "Component Variables"
+  cssnext: "Any {0} color feature can be used here."
+  download: "Download"
+  generalvars: "General Variables"
+  restore: "Restore"
+  save: "Save changes"
+ja:
+  bulk: "編集"
+  clear: "クリア"
+  componentvars: "コンポーネント変数"
+  cssnext: "{0} で使える任意の色が利用できます。"
+  download: "ダウンロード"
+  generalvars: "共通変数"
+  restore: "もとに戻す"
+  save: "保存"
+</i18n>
+
 <template>
   <div
     class="tr-customizer"
@@ -6,12 +27,12 @@
     <div class="tr-customizer__toolbar top">
       <TRButton
         icon="pencil"
-        label="Bulk Edit"
+        :label="$t('bulk')"
         @click="$modal.show('bulk')"
       />
 
       <TRButton
-        label="Clear"
+        :label="$t('clear')"
         inverted
         :loading="loading === 'clear'"
         :disabled="!compiledCustomTheme"
@@ -38,19 +59,19 @@
         </div>
 
         <div class="tr-customizer__toolbar">
-          <span>
-            Any <a href="http://cssnext.io/features/" target="_blank">cssnext</a> color feature can be used here.
-          </span>
+          <i18n path="cssnext" tag="span">
+            <a href="http://cssnext.io/features/" target="_blank">cssnext</a>
+          </i18n>
 
           <TRButton
-            label="Restore"
+            :label="$t('restore')"
             inverted
             @click="restoreBulk"
           />
 
           <TRButton
             style="margin-left: 12px;"
-            label="Save changes"
+            :label="$t('save')"
             :loading="loading === 'savebulk'"
             @click="saveBulk()"
           />
@@ -65,10 +86,11 @@
         <li
           v-for="(key, index) in visibleVars"
           :key="`${version}-${key}`"
-          :class="{
-            'separator-first': index === 0,
-            'separator-components': index === commonVars.length
-          }"
+          :class="{ 'first': index === 0 }"
+          :separator="index === 0
+            ? $t('generalvars')
+            : (index === commonVars.length && $t('componentvars') || false)
+          "
         >
           <label>
             <a>
@@ -112,7 +134,7 @@
       <TRButton
 
         icon="download"
-        label="Download"
+        :label="$t('download')"
         class="tr-customizer__download"
         @click="$emit('generator')"
       />
@@ -528,28 +550,20 @@ export default {
     position: relative;
   }
 
-  & .separator-first,
-  & .separator-components {
+  & [separator] {
     margin-top: 60px;
     position: relative;
 
     &:before {
+      content: attr(separator);
       position: absolute;
       top: -30px;
       @apply --list-title;
     }
-  }
 
-  & .separator-first {
-    margin-top: 30px;
-  }
-
-  & .separator-first:before {
-    content: 'General variables';
-  }
-
-  & .separator-components:before {
-    content: 'Component variables';
+    &.first {
+      margin-top: 30px;
+    }
   }
 }
 

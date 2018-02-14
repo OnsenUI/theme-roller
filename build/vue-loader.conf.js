@@ -8,10 +8,17 @@ const sourceMapEnabled = isProduction
 
 
 module.exports = {
-  loaders: utils.cssLoaders({
-    sourceMap: sourceMapEnabled,
-    extract: isProduction
-  }),
+  preLoaders: {
+    i18n: 'yaml-loader'
+  },
+  loaders: Object.assign(
+    {},
+    utils.cssLoaders({
+      sourceMap: sourceMapEnabled,
+      extract: isProduction
+    }),
+    { i18n: '@kazupon/vue-i18n-loader' }
+  ),
   cssSourceMap: sourceMapEnabled,
   cacheBusting: config.dev.cacheBusting,
   transformToRequire: {

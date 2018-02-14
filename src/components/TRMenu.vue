@@ -1,7 +1,22 @@
+<i18n>
+en:
+  version: "Version"
+  theme: "Theme Preset"
+  platforms: "Platforms"
+  categories: "Categories"
+  customize: "Customize"
+ja:
+  version: "バージョン"
+  theme: "テーマプリセット"
+  platforms: "プラットフォーム"
+  categories: "カテゴリー"
+  customize: "カスタマイズ"
+</i18n>
+
 <template>
   <div class="tr-menu">
     <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'version' }">
-      <span>Onsen UI</span> version
+      <span>Onsen UI</span> {{ $t('version') }}
     </div>
 
     <TRSelect
@@ -14,7 +29,7 @@
     </TRSelect>
 
     <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'theme' }">
-      Theme Preset
+      {{ $t('theme') }}
     </div>
 
     <ul
@@ -44,14 +59,14 @@
               v-model="showCustomizer"
               class="input"
             />
-            <span>Customize</span>
+            <span>{{ $t('customize') }}</span>
           </a>
         </label>
       </li>
     </ul>
 
     <div class="tr-menu__subtitle inverted" :class="{ loader: loading === 'platform' }">
-      Platforms
+      {{ $t('platforms') }}
     </div>
 
     <ul class="tr-menu__list platforms">
@@ -74,7 +89,7 @@
     </ul>
 
     <div class="tr-menu__subtitle">
-      Categories
+      {{ $t('categories') }}
     </div>
 
     <ul class="tr-menu__list categories">
