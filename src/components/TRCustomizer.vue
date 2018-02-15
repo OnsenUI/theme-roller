@@ -2,21 +2,27 @@
 en:
   bulk: "Bulk Edit"
   clear: "Clear"
-  componentvars: "Component Variables"
   cssnext: "Any {0} color feature can be used here."
   download: "Download"
-  generalvars: "General Variables"
   restore: "Restore"
   save: "Save changes"
+  varcomponent: "Component Variables"
+  vargeneral: "General Variables"
+  varmodified: "Modified variable"
+  varnormal: "Normal variable"
+  varreference: "Reference variable"
 ja:
   bulk: "編集"
   clear: "クリア"
-  componentvars: "コンポーネント変数"
   cssnext: "{0} で使える任意の色が利用できます。"
   download: "ダウンロード"
-  generalvars: "共通変数"
   restore: "もとに戻す"
   save: "保存"
+  varcomponent: "コンポーネント変数"
+  vargeneral: "共通変数"
+  varmodified: "変更済み"
+  varnormal: "未変更"
+  varreference: "他の変数に依存"
 </i18n>
 
 <template>
@@ -88,8 +94,8 @@ ja:
           :key="`${version}-${key}`"
           :class="{ 'first': index === 0 }"
           :separator="index === 0
-            ? $t('generalvars')
-            : (index === commonVars.length && $t('componentvars') || false)
+            ? $t('vargeneral')
+            : (index === commonVars.length && $t('varcomponent') || false)
           "
         >
           <label>
@@ -121,7 +127,7 @@ ja:
               <span
                 class="tr-customizer__indicator tooltip-left"
                 :style="{ backgroundColor: getVariableTypeColor(key) }"
-                :data-tooltip="`${getVariableType(key)} variable`"
+                :data-tooltip="$t(getVariableType(key))"
               />
             </a>
           </label>
@@ -487,18 +493,18 @@ export default {
 
     getVariableType(key) {
       if ((this.customVars[key] || this.originalVars[key] || '').indexOf('var') !== -1) {
-        return 'Reference';
+        return 'varreference';
       }
       return (this.customVars[key] && this.customVars[key] !== this.originalVars[key])
-        ? 'Modified'
-        : 'Normal';
+        ? 'varmodified'
+        : 'varnormal';
     },
     getVariableTypeColor(key) {
       const type = this.getVariableType(key);
-      if (type === 'Modified') {
+      if (type === 'varmodified') {
         return '#999';
       }
-      return type === 'Normal' ? '#ebebeb' : '#ccc';
+      return type === 'varnormal' ? '#ebebeb' : '#ccc';
     },
   },
 };

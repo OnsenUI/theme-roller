@@ -25,6 +25,7 @@ const hostPrefix = ((window.location.hostname.split('.')[0] === 'ja') ? 'ja' : n
 
 const i18n = new VueI18n({
   locale: qs.lang || hostPrefix || 'en',
+  fallbackLocale: 'en',
 });
 
 /* eslint-disable no-new */
