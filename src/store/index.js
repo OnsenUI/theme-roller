@@ -14,6 +14,7 @@ const stateLike = {
   selectedPlatform: 'All',
   showCustomizer: false,
   theme: '',
+  customTheme: '',
   themes: [],
   version: '',
   versionIndex: 0,

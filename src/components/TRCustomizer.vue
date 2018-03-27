@@ -203,7 +203,6 @@ export default {
   data() {
     return {
       bulkContent: '',
-      customTheme: '',
       compiledCustomVars: { },
       compiledCustomTheme: '',
       compiledTheme: '',
@@ -216,6 +215,7 @@ export default {
 
   computed: {
     ...mapMutationState([
+      'customTheme',
       'customVars',
       'loading',
       'selectedCategory',

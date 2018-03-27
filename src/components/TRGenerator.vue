@@ -3,7 +3,7 @@ en:
   generate: "Generate and Download"
   description: >
     You can also remove components you don't need
-    rom your custom CSS file. What should be included?
+    from your custom CSS file. What should be included?
 ja:
   generate: "生成 & ダウンロード"
   description: >
@@ -77,6 +77,7 @@ export default {
   },
   computed: {
     ...mapMutationState([
+      'customTheme',
       'fullComponentsIndex',
       'loading',
       'rootCSS',
@@ -129,7 +130,7 @@ export default {
           const banner = `/* Custom Theme for Onsen UI ${this.version} */\n\n`;
 
           zip.file('onsen-css-components.css', banner + css);
-          zip.file('theme.css', banner + this.theme);
+          zip.file('theme.css', banner + this.customTheme);
 
           CSSProcessor
             .minify(css)
