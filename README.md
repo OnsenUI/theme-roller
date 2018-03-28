@@ -27,3 +27,9 @@ yarn run e2e
 yarn test
 ```
 
+## Release
+The `gh-pages` branch is used to serve on production, pulled in automatically to the `onsen.io` build process. To build into this branch, run from `master`:
+
+```
+yarn run deploy
+```
