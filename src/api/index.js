@@ -27,10 +27,28 @@ export default {
   getVersions() {
     const url = `${repo}releases`;
     const filter = items => items
-      .map(i => i.tag_name)
-      .filter(i => i >= '2.6.0')
-      .sort()
-      .reverse();
+      // split version string into [major, minor, patch] array
+      .map(i => i.tag_name.split('.', 3).map(x => parseInt(x, 10)))
+      .filter((version) => {
+        // true iff version is >= 2.6.0
+        const minimum = [2, 6, 0];
+        return version.length === 3 &&
+          (version[0] > minimum[0] ||
+            (version[0] === minimum[0] && version[1] >= minimum[1]));
+      })
+      // sort by newest version first
+      .sort((a, b) => {
+        for (let i = 0; i < 3; i++) {
+          if (a[i] < b[i]) {
+            return 1;
+          } else if (a[i] > b[i]) {
+            return -1;
+          }
+        }
+        return 0; // versions are equal
+      })
+      // concat version arrays back into version strings
+      .map(version => version.join('.'));
 
     return request(url, { filter });
   },
