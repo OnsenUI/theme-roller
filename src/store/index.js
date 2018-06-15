@@ -19,6 +19,7 @@ const stateLike = {
   version: '',
   versionIndex: 0,
   versions: [],
+  extraExamples: [],
 };
 
 const createMutations = () =>
@@ -36,7 +37,9 @@ const store = new Vuex.Store({
   getters: {
     categories(state) {
       return state.cssComponents
-        .map(c => c.annotation.category)
+        .map(c => c.annotation)
+        .concat(state.extraExamples)
+        .map(a => a.category)
         .sort()
         .filter((el, i, arr) => el !== arr[i - 1]);
     },

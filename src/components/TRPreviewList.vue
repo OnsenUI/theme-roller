@@ -73,6 +73,7 @@ export default {
       'loading',
       'selectedCategory',
       'selectedPlatform',
+      'extraExamples',
     ]),
     sortedCategories() {
       return Object.keys(this.groupedAnnotations).sort(); // eslint-disable-line
@@ -102,8 +103,9 @@ export default {
       const update = () => {
         const p = this.selectedPlatform;
         this.groupedAnnotations = this.cssComponents
-          .reduce((result, component) => {
-            const { annotation } = component;
+          .map(component => component.annotation)
+          .concat(this.extraExamples)
+          .reduce((result, annotation) => {
             const md = /Material/i.test(annotation.name);
 
             if (p === 'All'

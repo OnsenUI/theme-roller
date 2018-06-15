@@ -60,6 +60,7 @@ import TRCloseButton from '@/components/TRCloseButton';
 import TRPreviewList from '@/components/TRPreviewList';
 import api from '@/api';
 import cache from '@/api/cache';
+import extraExamples from '@/extra-examples/extra-examples.json';
 
 export default {
   name: 'App',
@@ -84,6 +85,7 @@ export default {
       'browserslist',
       'cssComponents',
       'loading',
+      'extraExamples',
       'fullComponentsIndex',
       'rootCSS',
       'showCustomizer',
@@ -154,6 +156,11 @@ export default {
       return api.getComponentsIndex(version);
     },
     updateAllContent(version) {
+      // Extra css component examples that aren't pulled from OnsenUI repo.
+      // Examples are added here if we release a new version of OnsenUI and
+      // forget to add new examples to the CSS.
+      this.extraExamples = extraExamples.filter(e => e.versions.includes(version));
+
       return Promise.all([
         this.fetchRootCSS(version),
         this.fetchThemes(version),
