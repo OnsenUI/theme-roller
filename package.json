@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@kazupon/vue-i18n-loader": "^0.2.1",
-    "ancss": "^0.1.5",
+    "@onsenui/ancss": "^1.0.0",
     "axios": "^0.17.1",
     "clean-css": "^4.1.9",
     "compression-webpack-plugin": "^1.1.3",

@@ -51,7 +51,7 @@
 
 <script>
 import { mapMutationState } from '@/store';
-import ancss from 'ancss';
+import ancss from '@onsenui/ancss';
 import CSSProcessor from '@/css-processor';
 import TRCustomizer from '@/components/TRCustomizer';
 import TRMenu from '@/components/TRMenu';
