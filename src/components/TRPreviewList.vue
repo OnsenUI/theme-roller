@@ -104,6 +104,13 @@ export default {
         const p = this.selectedPlatform;
         this.groupedAnnotations = this.cssComponents
           .map(component => component.annotation)
+          .filter((component) => {
+            const extraComponent = this.extraExamples.find(extra => extra.name === component.name);
+            if (!extraComponent) {
+              return true;
+            }
+            return !extraComponent.replace;
+          })
           .concat(this.extraExamples)
           .reduce((result, annotation) => {
             const md = /Material/i.test(annotation.name);
