@@ -71,8 +71,7 @@ export default {
   getBrowserslist() {
     // Use latest always
     const url = `${cdn}/package.json`;
-    const filter = pkg => pkg
-      .babel.presets[0][1].targets.browsers;
+    const filter = pkg => pkg.browserslist;
 
     return request(url, { filter });
   },
