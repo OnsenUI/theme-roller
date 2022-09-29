@@ -2,6 +2,13 @@
 
 > Onsen UI Theme Roller
 
+## Node/NPM Version
+
+``` bash
+Node: 8.17.0
+NPM: 6.13.4
+```
+
 ## Build Setup
 
 ``` bash
